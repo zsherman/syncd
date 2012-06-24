@@ -8,29 +8,48 @@
 </head>
 <body>
 
-<! -- Whole layout likely needs to be redone -->
-
-<div class="container-fluid fill">
-  <div class="sidebar left">
-    Sidebar left 
-  </div>
-  <div class="sidebar right">
-    Sidebar right
-  </div> 
-  <div class="content fixed-fixed">
-    <div class="row-fluid">  <!-- Need to look into how to properly dynamically render layout and number of songs. Thinking of using a pinterest-type reorganization here -->
-	  <div class="span3">...</div>
-	  <div class="span3">...</div>
-	  <div class="span3">...</div>
-	  <div class="span3">...</div>
-	</div> 
-	
-  </div>
+<div id="top"></div>
+<div id="mid">
+	<div id="left">
+		<section class="music">
+			<header>
+				<span>Syncd</span>
+			</header>
+			<article>Music</article>
+		</section>
+		<section class="playlists">
+			<header>
+				<span>Playlists</span>
+				<div class="options"></span>
+			</header>
+			<article class="active">
+				<span>Playlist 1</span>
+				<div class="num">3</div>
+			</article>
+			<article>
+				<span>Playlist 2</span>
+				<div class="num">23</div>
+			</article>
+			<article>
+				<span>Playlist 3</span>
+				<div class="num">5</div>
+			</article>
+		</section>
+		<section class="members">
+			<header>
+				<span>Members</span>
+				<div class="options"></span>
+			</header>
+			<article>Max</article>
+			<article>Zach</article>
+			<article>Sonny</article>
+		</section>
+	</div>
+	<div id="right"></div>
+	<div id="center"></div>
 </div>
+<div id="bottom"></div>
 
-<div id="footer">
-    Footer content goes here.
-</div>
 
 </body>
 </html>
