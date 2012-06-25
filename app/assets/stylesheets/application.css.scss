@@ -15,7 +15,7 @@
 
 @import "bootstrap";
 @import "compass";
-@import "compass/css3/box-shadow";
+@import "compass/css3";
 @import "retina";
 //@import "compass/layout/sticky-footer";
 
@@ -29,7 +29,7 @@
     @include background(linear-gradient(top, #444444, #313131));
     //@include single-box-shadow(#232323, 0, 1px, 8px, 1px);
     border-bottom: 1px solid #232323;
-    z-index: 5;
+    z-index: 6;
 }
 
 #mid {
@@ -53,21 +53,37 @@
 	bottom: 0px;
 	width: 190px;
     @include background(linear-gradient(top, #363944, #494d5b));
+    border-right: 2px solid #242839;
+    border-left: 2px solid #242839;
+    z-index: 5;
 }
 
 #left section {
 	padding-bottom: 6px;
-	border-bottom: 1px solid #1a1a1a;
+	border-bottom: 1px solid #242839;
+	
+    @include background(linear-gradient(bottom, #363944, #414551));
 }
 
 #left section header {
+	position: relative;
 	padding: 6px 0px 4px 0px;
 	width: 100%;
-	color: #5e6578;
+	color: #818aa3;
 }
 
 #left section header span {
 	padding-left: 10px;
+	@include text-shadow(0px 0px 3px rgba(255,255,255,.12));
+}
+
+#left section header .options {
+	position: absolute;
+	right: 4px;
+	top: 7px;
+	@include background-image-retina('options_icon.png');
+	height: 15px;
+	width: 15px;
 }
 
 #left section ul {
@@ -90,13 +106,16 @@
 
 
 #left section ul li .num {
+	color: #d7f4ff;
 	font-family: Arial;
-	font-size: 12px;
+	font-size: 11px;
 	position: absolute;
-	top: 3px;
+	top: 2px;
 	right: 3px;
-	padding: 0px 6px;
-	@include border-radius(2px);
+	padding: 1px 6px 0 6px;
+	@include border-radius(2px); 
+	//@include box-shadow(rgba(54, 57, 70, 1) 0px -1px 1px 1px inset);
+	@include box-shadow(rgba(255, 255, 255, 0.1) 0 1px 0, rgba(37, 39, 50, 0.8) 0 1px 1px 1px inset);
 	background: #4b5063;
 }
 
@@ -115,7 +134,7 @@
 	position: absolute;
 	@include background-image-retina('music_icon.png');
 	width: 13px;
-	height: 16px;
+	height: 17px;
 	left:11px;
 }
 
@@ -132,6 +151,9 @@
     @include background(linear-gradient(top, #363944, #494d5b));
 }
 
+
+// Center
+
 #center {
 	position: absolute;
 	left: 190px;
@@ -141,6 +163,9 @@
 	bottom: 0;
     background: #1a1a1a;
 }
+
+
+// Bottom footer
 
 #bottom {
 	position: absolute;
