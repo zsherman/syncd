@@ -16,6 +16,7 @@
 @import "bootstrap";
 @import "compass";
 @import "compass/css3/box-shadow";
+@import "retina";
 //@import "compass/layout/sticky-footer";
 
 // Layout CSS
@@ -70,6 +71,7 @@
 }
 
 #left section ul {
+	position: relative;
 	list-style: none;
 	padding: 0;
 	margin: 0;
@@ -78,11 +80,12 @@
 #left section ul li {
 	position: relative;
 	color: #93d1ea;
-	padding: 2px 0px 2px 30px;
+	padding: 3px 0px 3px 30px;
 }
 
 #left section ul li.active {
-	background: #1d1f25;
+	
+    @include background(linear-gradient(top, #292c34, #18191e));
 }
 
 
@@ -90,7 +93,7 @@
 	font-family: Arial;
 	font-size: 12px;
 	position: absolute;
-	top: 2px;
+	top: 3px;
 	right: 3px;
 	padding: 0px 6px;
 	@include border-radius(2px);
@@ -98,11 +101,23 @@
 }
 
 
+#left section.members ul li:before {
+	content: '';
+	position: absolute;
+	@include background-image-retina('member_icon.png');
+	width: 14px;
+	height: 15px;
+	left:11px;
+}
 
-
-
-
-
+#left section.music ul li:before, #left section.playlists ul li:before {
+	content: '';
+	position: absolute;
+	@include background-image-retina('music_icon.png');
+	width: 13px;
+	height: 16px;
+	left:11px;
+}
 
 // Right sidebar
 
@@ -133,5 +148,7 @@
 	width: 100%;
 	height: 45px;
 	background: #2d2e3a;
+	border-top: 1px solid #232323;
+    z-index: 5;
 }
 
