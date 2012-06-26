@@ -165,6 +165,17 @@
 }
 
 
+#center .album {
+	margin: 16px 0 0 20px;
+	float: left;
+	width: 160px;
+	height: 160px;
+	@include background-image-retina('album.png');	
+	//border: 1px solid rgba(255,255,255,0.3);
+	@include border-radius(6px); 
+}
+
+
 // Bottom footer
 
 #bottom {
@@ -177,3 +188,187 @@
     z-index: 5;
 }
 
+#bottom .now-playing {
+	position: absolute;
+	left: 6px;
+	top: 3px;
+	width: 182px;
+	height: 36px;
+	
+	@include border-radius(3px); 
+    @include background(linear-gradient(bottom, #363944, #414551));
+	@include box-shadow(rgba(255, 255, 255, 0.1) 0 1px 0, rgba(37, 39, 50, 0.8) 0 1px 1px 1px inset);
+}
+
+
+#bottom .now-playing .album {
+	position: absolute;
+	left: 6px;
+	top: 6px;
+	width: 26px;
+	height: 26px;
+	@include background-image-retina('album-small.png');
+	@include border-radius(2px); 
+}
+
+
+#bottom .info {
+	font-family: Arial;
+	position: absolute;
+	top: 4px;
+	left: 38px;
+	color: #e4e4e4;
+	font-size: 9px;
+	letter-spacing: 1px;
+}
+
+#bottom .info span {
+	display: block;
+	height: 12px;
+}
+
+#bottom .info span.artist {
+	font-weight: bold;
+}
+
+#bottom .controls {
+	position: absolute;
+	left: 192px;
+	right: 0;
+	height: 100%;
+}
+
+#bottom .controls .buttons {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 150px;
+	height: 100%;
+}
+
+#bottom .controls .buttons .rw {
+	position: absolute;
+	left: 20px;
+	top: 17px;
+	height: 11px;
+	width:9px;
+	@include background-image-retina('rw.png');
+}
+
+#bottom .controls .buttons .pause {
+	position: absolute;
+	left: 44px;
+	top: 12px;
+	height: 19px;
+	width: 11px;
+	@include background-image-retina('pause.png');
+}
+
+#bottom .controls .buttons .ff {
+	position: absolute;
+	left: 70px;
+	top: 17px;
+	height: 11px;
+	width:9px;
+	@include background-image-retina('ff.png');
+}
+
+#bottom .controls .progress-bar {
+	left: 108px;
+	right: 205px;
+	top: 0;
+	position: absolute;
+	height: 100%;
+}
+
+#bottom .controls .progress-bar .bar {
+	position: absolute;
+	left: 35px;
+	right: 35px;
+	top: 20px;
+	height: 7px;
+	background: #3c3e48;
+	@include border-radius(3px);
+}
+
+
+#bottom .controls .progress-bar .bar-filled {
+	position: absolute;
+	left: 0;
+	height: 7px;
+	width: 42%;
+    @include background(linear-gradient(top, #b3f0c9, #64d9dc));
+	@include border-radius(3px);
+}
+
+#bottom .controls .progress-bar span.current {
+	font-size: 11px;
+	position: absolute;
+	display: block;
+	left: 0;
+	top: 14px;
+	color: white;
+}
+
+#bottom .controls .progress-bar span.end {
+	font-size: 11px;
+	position: absolute;
+	display: block;
+	right: 0;
+	top: 14px;
+	color: white;
+}
+
+#bottom .controls .audio {
+	right: 0;
+	top: 0;
+	position: absolute;
+	height: 100%;
+	width: 190px;
+}
+
+#bottom .controls .audio .icon {
+	position: absolute;
+	left: 15px;
+	top: 18px;
+	width: 13px;
+	height: 10px;
+	@include background-image-retina('audio.png');
+}
+
+#bottom .controls .audio .bar {
+	position: absolute;
+	left: 35px;
+	right: 75px;
+	top: 20px;
+	height: 7px;
+	background: #3c3e48;
+	@include border-radius(3px);
+}
+
+#bottom .controls .audio .bar-filled {
+	position: absolute;
+	left: 0;
+	height: 7px;
+	width: 42%;
+    @include background(linear-gradient(top, #b5c5ce, #e4f2f9));
+	@include border-radius(3px);
+}
+
+#bottom .controls .audio .shuffle {
+	position: absolute;
+	right: 40px;
+	top: 18px;
+	height: 10px;
+	width: 13px;
+	@include background-image-retina('shuffle.png');
+}
+
+#bottom .controls .audio .repeat {
+	position: absolute;
+	right: 15px;
+	top: 16px;
+	height: 13px;
+	width: 13px;
+	@include background-image-retina('repeat.png');
+}
