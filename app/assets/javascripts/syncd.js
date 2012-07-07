@@ -5,9 +5,8 @@ window.Syncd = {
   Routers: {},
 
   initialize: function(data) {
-
   	this.playlists = new Syncd.Collections.Playlists(data.collection);
-  	new Syncd.Routers.Playlists({collection: this.playlists});
-    Backbone.history.start();
+  	router = new Syncd.Routers.Playlists({collection: this.playlists});
+    Backbone.history.start({pushState: true});
   }
 };

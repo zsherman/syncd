@@ -1,7 +1,8 @@
 Syncd.Routers.Playlists = Backbone.Router.extend({
 
   routes: {
-    '': 'index'
+    '': 'index',
+    'playlists/:name': 'viewPlaylist',
   },
   
   initialize: function(options) {
@@ -9,14 +10,21 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
   },
   
   index: function() {
-    // Set user-editable playlists
-  	var userPlaylists = new Syncd.Views.PlaylistsIndex({collection: this.collection});
+    // Event aggregator
+    var vent = _.extend({}, Backbone.Events);
+
+    // Set up user-editable playlists
+  	var userPlaylists = new Syncd.Views.PlaylistsIndex({collection: this.collection, router: this, vent: this.vent});
     $('.playlists ul').html(userPlaylists.render().$el);
+    
+    // Set up songs view
+    //var songsView = new Syncd.View.SongsIndex(this.vent);
+    //$('#center').html(songsView.render().$el);
 
-    // Set Music playlist
-    //var musicPlaylist = new Syncd.View.Playlist();
+  
+  },
 
-    // Note: Change this to a composite view to take care of setting and removing class="active"
+  viewPlaylist: function() {
   }
 
 

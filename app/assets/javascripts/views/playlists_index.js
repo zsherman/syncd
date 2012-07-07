@@ -1,8 +1,9 @@
 Syncd.Views.PlaylistsIndex = Backbone.View.extend({
-  initialize: function() {
-    _.bindAll(this, "render", "newPlaylist", "renderNewPlaylist");
-    this.collection.on("add", this.renderNewPlaylist);
-    $('#left section.playlists a').click(this.newPlaylist);
+  initialize: function(options) {
+    _.bindAll(this);
+    this.vent = options.vent;
+    this.collection.on("add", this.render);
+    $('#left section.playlists a').click(this.newPlaylist); // Outside of the view element
   },
 
   events: {
@@ -19,20 +20,28 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   renderPlaylists: function() {
     var self = this;
     this.collection.each(function(pl) {
-      var playlist = new Syncd.Views.Playlist({ model: pl });
+      var playlist = new Syncd.Views.Playlist({ model: pl, collection: self.collection });
       self.$el.append(playlist.render().el);
     });
   },
 
-  renderNewPlaylist: function(eventName) {
-    this.render();
-    $("li", this.el).last().addClass("active");
+  newPlaylist: function () {
+    var self = this;
+    var newPlaylistModel = new Syncd.Models.Playlist({name: "Untitled"});
+    newPlaylistModel.save({}, {
+        success: function(model, response) {
+                    // Add new playlist to collection
+                    self.collection.add(newPlaylistModel);
+                    // Highlight the new playlist and change the URL
+                    var LI = $("li", self.el).last();
+                    var id = LI.children().data("id");
+                    LI.addClass("active");
+                    router.navigate("playlists/" + id);
+                    var model = this.collection.get(id);
+                    this.vent.trigger("updateSongs", model);
+                    // !!! Dry this code up into setActive function
+    }});
   },
-
-  newPlaylist: function() {
-    this.collection.add({id:2, name: "Untitled"});
-  },
-
 
   setActive: function (eventName) {
     childLists = eventName.currentTarget.parentElement.children;
@@ -41,6 +50,12 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
       $(childLists[i]).removeClass('active');
     } 
     $(eventName.currentTarget).addClass('active');
+    var id = $(eventName.currentTarget).children().data("id");
+    router.navigate("playlists/" + id);
+
+    // Trigger event change for songs view
+    var model = this.collection.get(id);
+    this.vent.trigger("updateSongs", model);
   }
 
 });

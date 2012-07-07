@@ -5,7 +5,7 @@ Syncd.Views.Playlist = Backbone.View.extend({
   	"dblclick": "editPlaylist"
   },
 
-  initialize: function() {
+  initialize: function(options) {
     _.bindAll(this);
   },
 
@@ -20,7 +20,9 @@ Syncd.Views.Playlist = Backbone.View.extend({
   },
 
   saveName: function() {
-  	this.model.set("name", $("input", this.el).val());
+  	var newName = $("input", this.el).val();
+  	this.model.set("name", newName);
+  	this.model.save();
   	this.render();
   	$(document).not(document.getElementById('editPlaylistName')).unbind("click");
   }
