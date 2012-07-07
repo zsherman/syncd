@@ -27,12 +27,12 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   renderNewPlaylist: function(eventName) {
     this.render();
     $("li", this.el).last().addClass("active");
-    console.log($(this.el).last());
   },
 
   newPlaylist: function() {
     this.collection.add({id:2, name: "Untitled"});
   },
+
 
   setActive: function (eventName) {
     childLists = eventName.currentTarget.parentElement.children;
