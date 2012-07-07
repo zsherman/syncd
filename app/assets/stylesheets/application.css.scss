@@ -83,8 +83,9 @@
 	top: 7px;
 	@include background-image-retina('options_icon.png');
 	height: 15px;
-	width: 15px;
-}
+	width: 15px; 
+} 
+
 
 #left section ul {
 	position: relative;
@@ -94,6 +95,7 @@
 }
 
 #left section ul li {
+	cursor: pointer;
 	position: relative;
 	color: #93d1ea;
 	padding: 3px 0px 3px 30px;
@@ -138,6 +140,12 @@
 	left:11px;
 }
 
+#left section.playlists a {
+	display: block;
+	padding-top: 4px;
+	margin-left: 30px;
+}
+
 // Right sidebar
 
 
@@ -162,10 +170,12 @@
 	top: 0;
 	bottom: 0;
     background: #1a1a1a;
+    overflow: auto;
 }
 
 
 #center .album {
+	position: relative;
 	margin: 16px 0 0 20px;
 	float: left;
 	width: 160px;
@@ -173,6 +183,10 @@
 	@include background-image-retina('album.png');	
 	//border: 1px solid rgba(255,255,255,0.3);
 	@include border-radius(6px); 
+}
+
+#center .album footer {
+	display: none;
 }
 
 
@@ -192,7 +206,7 @@
 	position: absolute;
 	left: 6px;
 	top: 3px;
-	width: 182px;
+	width: 186px;
 	height: 36px;
 	
 	@include border-radius(3px); 
@@ -369,6 +383,11 @@
 	right: 15px;
 	top: 16px;
 	height: 13px;
-	width: 13px;
+	width: 13px; 
 	@include background-image-retina('repeat.png');
 }
+
+
+
+
+

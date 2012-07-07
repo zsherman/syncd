@@ -1,6 +1,8 @@
 Syncd::Application.routes.draw do
 
-  root :to => "home#index"
+  get "playlists/index"
+
+  root :to => "playlists#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

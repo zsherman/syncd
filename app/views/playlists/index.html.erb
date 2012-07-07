@@ -1,0 +1,12 @@
+<script type="text/json" id="bootstrap">
+  { "id":"1","name":"Playlist 2","description":"hmmm"}
+</script>
+
+<%= content_for :javascript do -%>
+  <%= javascript_tag do %>
+  	  var div = $('<div></div>');
+      div.html($('#bootstrap').text());
+      var data = JSON.parse(div.text());
+      Syncd.initialize({collection: data});
+  <% end %>
+<% end %>
