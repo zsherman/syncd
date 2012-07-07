@@ -1,7 +1,7 @@
 Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, "render", "newPlaylist");
-    this.collection.on("add", this.render);
+    _.bindAll(this, "render", "newPlaylist", "renderNewPlaylist");
+    this.collection.on("add", this.renderNewPlaylist);
     $('#left section.playlists a').click(this.newPlaylist);
   },
 
@@ -24,17 +24,23 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     });
   },
 
+  renderNewPlaylist: function(eventName) {
+    this.render();
+    $("li", this.el).last().addClass("active");
+    console.log($(this.el).last());
+  },
+
   newPlaylist: function() {
     this.collection.add({id:2, name: "Untitled"});
   },
 
   setActive: function (eventName) {
-    childLists = eventName.srcElement.parentElement.children;
+    childLists = eventName.currentTarget.parentElement.children;
     var len = childLists.length;
     for (var i = 0, len = childLists.length; i < len; i++) {  
       $(childLists[i]).removeClass('active');
     } 
-    $(eventName.srcElement).addClass('active');
+    $(eventName.currentTarget).addClass('active');
   }
 
 });

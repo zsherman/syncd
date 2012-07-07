@@ -14,7 +14,7 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
     $('.playlists ul').html(userPlaylists.render().$el);
 
     // Set Music playlist
-    var musicPlaylist = new Syncd.View.Playlist();
+    //var musicPlaylist = new Syncd.View.Playlist();
 
     // Note: Change this to a composite view to take care of setting and removing class="active"
   }
