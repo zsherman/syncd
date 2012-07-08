@@ -11,8 +11,7 @@ class PlaylistsController < ApplicationController
   end
 
   def show
-  	playlist = Playlist.find_by_id(params[:id])
-  	respond_with(playlist)
+  	@playlist = Playlist.find_by_id(params[:id])
   end
 
   def update

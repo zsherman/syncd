@@ -18,8 +18,8 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
     $('.playlists ul').html(userPlaylists.render().$el);
     
     // Set up songs view
-    //var songsView = new Syncd.View.SongsIndex(this.vent);
-    //$('#center').html(songsView.render().$el);
+    var songsView = new Syncd.Views.SongsIndex({vent: this.vent});
+    $('#center').html(songsView.render().$el);
 
   
   },

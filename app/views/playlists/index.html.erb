@@ -1,5 +1,5 @@
 <script type="text/json" id="bootstrap">
-   <%= @playlist.to_json %>
+   <%= render('show.json.rabl') %>
 </script>
 
 <%= content_for :javascript do -%>
@@ -10,3 +10,6 @@
       Syncd.initialize({collection: data});
   <% end %>
 <% end %>
+
+<%= render('show.json.rabl') %>
+<%= @playlist.to_json %>

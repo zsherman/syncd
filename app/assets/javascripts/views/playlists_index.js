@@ -3,6 +3,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     _.bindAll(this);
     this.vent = options.vent;
     this.collection.on("add", this.render);
+    this.collection.on("reset", this.render);
     $('#left section.playlists a').click(this.newPlaylist); // Outside of the view element
   },
 
@@ -59,3 +60,14 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   }
 
 });
+
+
+
+
+
+// NOTE: Can refresh the playlists (and the songs they contain) by calling
+// this.collection.fetch();
+
+
+
+

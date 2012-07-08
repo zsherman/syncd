@@ -8,6 +8,8 @@ gem 'rails', '3.2.3'
 gem 'sqlite3'
 gem 'bootstrap-sass'
 gem 'backbone-on-rails'
+gem 'rabl'
+gem 'yajl-ruby'
 
 # Gems used only for assets and not required
 # in production environments by default.
