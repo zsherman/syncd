@@ -39,7 +39,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
                     LI.addClass("active");
                     router.navigate("playlists/" + id);
                     var model = this.collection.get(id);
-                    this.vent.trigger("updateSongs", model);
+                    this.vent.trigger("updateSongs", model.songs);
                     // !!! Dry this code up into setActive function
     }});
   },
@@ -56,7 +56,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
 
     // Trigger event change for songs view
     var model = this.collection.get(id);
-    this.vent.trigger("updateSongs", model);
+    this.vent.trigger("updateSongs", model.songs);
   }
 
 });
