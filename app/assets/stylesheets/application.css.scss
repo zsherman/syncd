@@ -191,13 +191,43 @@
 	float: left;
 	width: 160px;
 	height: 160px;
-	@include background-image-retina('album.png');	
+	//@include background-image-retina('album.png');	
 	//border: 1px solid rgba(255,255,255,0.3);
 	@include border-radius(6px); 
+	border: 1px solid #6b6b6b;
 }
 
-#center .album footer {
-	display: none;
+#center .album .footer {
+	font-family: Arial;
+	font-size: 11px;
+	width: 139px;
+	margin: 0px auto;
+	padding: 3px 5px 3px 0px;
+	background: rgba(155,155,155,0.4);
+	color: rgba(225,225,225, 0.8);
+	position: absolute;
+	bottom: 8px;
+	left: 8px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	height: 20px;
+	white-space: nowrap;
+	@include border-radius(3px); 
+
+}
+
+#center .album .footer span.title {
+	color: rgba(225,225,225, 1);
+}
+
+#center .album .footer .number {
+	margin-left: 5px;
+	margin-right: 3px;
+	padding: 2px 5px 2px 5px;
+	background: rgba(190,190,190,0.4);
+	color: white;
+	opacity: 1;
+	@include border-radius(2px); 
 }
 
 

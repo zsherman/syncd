@@ -1,4 +1,5 @@
 Syncd.Views.Song = Backbone.View.extend({
+  className: "album",
 
   initialize: function(options) {
     _.bindAll(this);
