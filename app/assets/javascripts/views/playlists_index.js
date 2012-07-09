@@ -2,15 +2,16 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   initialize: function(options) {
     _.bindAll(this);
     this.vent = options.vent;
-    this.collection.on("add", this.render);
+    this.collection.on("add", this.addNewPlaylist);
     this.collection.on("reset", this.render);
-    $('#left section.playlists a').click(this.newPlaylist); // Outside of the view element
+    //this.collection.on("remove", function(model, collection, options) {console.log(options)});
+    $('#left section.playlists a.create').click(this.newPlaylist); // Outside of the view element
+    $('#left section.playlists a.delete').click(this.deletePlaylists); // Outside of the view element
   },
 
   events: {
     "click .playlists ul li": "setActive"
   },
-
 
   render: function () {
     this.$el.html("");
@@ -20,10 +21,19 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
 
   renderPlaylists: function() {
     var self = this;
-    this.collection.each(function(pl) {
-      var playlist = new Syncd.Views.Playlist({ model: pl, collection: self.collection });
-      self.$el.append(playlist.render().el);
+    this.collection.each(function(model, index) {
+      var playlist = new Syncd.Views.Playlist({ model: model, collection: self.collection, vent: self.vent });
+      self.$el.append(playlist.render().$el.addClass("index-"+index));
     });
+  },
+
+  addNewPlaylist: function(model, collection, options) {
+    var playlist = new Syncd.Views.Playlist({ model: model, collection: this.collection, vent: this.vent });
+    this.$el.append(playlist.render().$el.addClass("index-"+options.index));
+  },
+
+  deletePlaylists: function() {
+    this.vent.trigger("deletePL");
   },
 
   newPlaylist: function () {
@@ -34,6 +44,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
                     // Add new playlist to collection
                     self.collection.add(newPlaylistModel);
                     // Highlight the new playlist and change the URL
+                    $(".active").removeClass("active");
                     var LI = $("li", self.el).last();
                     var id = LI.children().data("id");
                     LI.addClass("active");
@@ -45,11 +56,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   },
 
   setActive: function (eventName) {
-    childLists = eventName.currentTarget.parentElement.children;
-    var len = childLists.length;
-    for (var i = 0, len = childLists.length; i < len; i++) {  
-      $(childLists[i]).removeClass('active');
-    } 
+    $(".active").removeClass("active");
     $(eventName.currentTarget).addClass('active');
     var id = $(eventName.currentTarget).children().data("id");
     router.navigate("playlists/" + id);

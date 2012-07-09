@@ -7,6 +7,8 @@ Syncd.Views.Playlist = Backbone.View.extend({
 
   initialize: function(options) {
     _.bindAll(this);
+    this.vent = options.vent;
+    this.vent.on("deletePL", this.deletePlaylist);
   },
 
   render: function () {
@@ -25,6 +27,13 @@ Syncd.Views.Playlist = Backbone.View.extend({
   	this.model.save();
   	this.render();
   	$(document).not(document.getElementById('editPlaylistName')).unbind("click");
+  },
+
+  deletePlaylist: function() {
+    this.$el.animate({
+      width: '140px',
+      left: '20px'
+    }, 300 );
   }
 
 
