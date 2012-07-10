@@ -81,7 +81,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     $(".active").removeClass("active");
     $(eventName.currentTarget).addClass('active');
     var id = $(eventName.currentTarget).children().data("id");
-    //router.navigate("playlists/" + id);
+    router.navigate("playlists/" + id);
 
     // Trigger event change for songs view
     var self = this;
