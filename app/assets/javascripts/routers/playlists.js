@@ -18,6 +18,7 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
     $('.playlists ul').html(userPlaylists.render().$el);
     
     // Set up songs view
+    // !!! Change this so that collection.fetch is called when setActive is called, do not load the objects with json when page is initially loaded, lazily load them instead
     var songsView = new Syncd.Views.SongsIndex({vent: vent});
     $('#center').html(songsView.render().$el);
 
@@ -28,4 +29,9 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
   }
 
 
-});
+}); 
+
+// !!! Change this so that when you click on a playlist
+//it navigates to viewPlaylist with the function being called
+//and it creates a new view (remember to use swapping router)
+//for songsindex.

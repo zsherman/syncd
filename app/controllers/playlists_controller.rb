@@ -2,7 +2,7 @@ class PlaylistsController < ApplicationController
   respond_to :json
 
   def index
-  	@playlist = Playlist.all
+    @playlist = Playlist.all
   end
 
   def create
@@ -18,6 +18,12 @@ class PlaylistsController < ApplicationController
   	playlist = Playlist.find_by_id(params[:id])
     playlist.update_attributes(:name => params[:name])
     respond_with(playlist)
+  end
+
+  def destroy
+    playlist = Playlist.find_by_id(params[:id])
+    playlist.destroy
+    respond_with("success")
   end
 
 end

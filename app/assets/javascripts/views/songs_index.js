@@ -2,7 +2,7 @@ Syncd.Views.SongsIndex = Backbone.View.extend({
   initialize: function(options) {
     _.bindAll(this);
     this.vent = options.vent;
-    this.vent.on("updateSongs", this.renderSongs);
+    this.vent.on("loadSongs", this.renderSongs);
     $(window).resize(this.resizeSongs);
   },
 
@@ -14,19 +14,20 @@ Syncd.Views.SongsIndex = Backbone.View.extend({
     return this;
   },
 
-  renderSongs: function (collection) {
+  renderSongs: function (model) {
     var self = this;
-    this.collection = collection;
     this.$el.html("");
-    this.collection.each(function(songModel) {
-      var song = new Syncd.Views.Song({model: songModel});
+    if (model) {
+      this.collection = model.get("songs");
+    }
+    this.collection.each(function(model,index) {
+      var song = new Syncd.Views.Song({model: model, index: index});
       self.$el.append(song.render().el);
     });
-
   },
 
   resizeSongs: function () {
-    this.renderSongs(this.collection);
+    this.renderSongs();
   }
 });
 

@@ -30,9 +30,13 @@ Syncd.Views.Playlist = Backbone.View.extend({
   },
 
   deletePlaylist: function() {
-    this.$el.animate({
-      width: '140px',
-      left: '20px'
+    var id = this.model.id;
+    this.$("span", this.$el).animate({
+      left: '15px'
+    }, 300 );
+    this.$el.append("<div class='delete-button' data-id='"+id+"'></div>");
+    $(".delete-button", this.$el).animate({
+      left: '6px'
     }, 300 );
   }
 

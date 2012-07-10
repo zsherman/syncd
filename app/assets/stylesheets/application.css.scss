@@ -56,6 +56,7 @@
     border-right: 2px solid #242839;
     border-left: 2px solid #242839;
     z-index: 5;
+    overflow: auto;
 }
 
 #left section {
@@ -99,6 +100,8 @@
 	position: relative;
 	color: #93d1ea;
 	padding: 3px 0px 3px 30px;
+
+    //@include background(linear-gradient(bottom, #363944, #414551));
 }
 
 #left section ul li.active {
@@ -121,6 +124,10 @@
 	background: #4b5063;
 }
 
+#left section ul li span {
+	position: relative;
+}
+
 
 #left section.members ul li:before {
 	content: '';
@@ -131,13 +138,13 @@
 	left:11px;
 }
 
-#left section.music ul li:before, #left section.playlists ul li:before {
+#left section.music ul li span:before, #left section.playlists ul li span:before {
 	content: '';
 	position: absolute;
 	@include background-image-retina('music_icon.png');
 	width: 13px;
 	height: 17px;
-	left:11px;
+	left:-18px;
 }
 
 #left section.playlists a {
@@ -153,6 +160,15 @@
 	height: 15px;
 	padding: 0;
 	margin: 0;
+}
+
+#left section .delete-button {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	@include background-image-retina('delete.png');
+	top: 4px;
+	left: -10px;
 }
 
 // Right sidebar
@@ -195,6 +211,7 @@
 	//border: 1px solid rgba(255,255,255,0.3);
 	@include border-radius(6px); 
 	border: 1px solid #6b6b6b;
+	overflow: hidden;
 }
 
 #center .album .footer {
@@ -203,7 +220,7 @@
 	width: 139px;
 	margin: 0px auto;
 	padding: 3px 5px 3px 0px;
-	background: rgba(155,155,155,0.4);
+	background: rgba(60, 60, 60, .9);
 	color: rgba(225,225,225, 0.8);
 	position: absolute;
 	bottom: 8px;
@@ -214,6 +231,20 @@
 	white-space: nowrap;
 	@include border-radius(3px); 
 
+}
+
+#center .album .loading {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	left: 70px;
+	top: 60px;
+	@include background-image-retina('ajax-loader.gif');
+}
+
+#center .album img {
+
+	@include border-radius(6px); 
 }
 
 #center .album .footer span.title {
