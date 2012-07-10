@@ -12,7 +12,11 @@ Syncd.Views.Song = Backbone.View.extend({
     if (width < 565) {
       this.$el.addClass('album2').html(JST["songs/songlist"]({song: this.model, index: this.indexid}));
     } else {
-      this.$el.addClass('album').html(JST["songs/song"]({song: this.model, index: this.indexid}));
+      this.$el.addClass('album').html(JST["songs/song"]({song: this.model, index: this.indexid})).draggable({ revert: "invalid", helper: function(){
+                $copy = self.$el.clone();
+                return $copy;},
+            appendTo: 'body',
+            scroll: false, zIndex: 1000 });
       this.$el.append("<div class='loading'></div>");
       $('<img />')
         .attr('src', this.model.get("image"))
