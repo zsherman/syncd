@@ -56,6 +56,7 @@
     border-right: 2px solid #242839;
     border-left: 2px solid #242839;
     z-index: 5;
+    overflow: auto;
 }
 
 #left section {
@@ -83,8 +84,9 @@
 	top: 7px;
 	@include background-image-retina('options_icon.png');
 	height: 15px;
-	width: 15px;
-}
+	width: 15px; 
+} 
+
 
 #left section ul {
 	position: relative;
@@ -94,9 +96,12 @@
 }
 
 #left section ul li {
+	cursor: pointer;
 	position: relative;
 	color: #93d1ea;
 	padding: 3px 0px 3px 30px;
+
+    //@include background(linear-gradient(bottom, #363944, #414551));
 }
 
 #left section ul li.active {
@@ -119,6 +124,10 @@
 	background: #4b5063;
 }
 
+#left section ul li span {
+	position: relative;
+}
+
 
 #left section.members ul li:before {
 	content: '';
@@ -129,13 +138,37 @@
 	left:11px;
 }
 
-#left section.music ul li:before, #left section.playlists ul li:before {
+#left section.music ul li span:before, #left section.playlists ul li span:before {
 	content: '';
 	position: absolute;
 	@include background-image-retina('music_icon.png');
 	width: 13px;
 	height: 17px;
-	left:11px;
+	left:-18px;
+}
+
+#left section.playlists a {
+	display: block;
+	padding-top: 4px;
+	margin-left: 30px;
+}
+
+#left section.playlists input {
+	position: relative;
+	top: -1px;
+	width: 100px;
+	height: 15px;
+	padding: 0;
+	margin: 0;
+}
+
+#left section .delete-button {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	@include background-image-retina('delete.png');
+	top: 4px;
+	left: -10px;
 }
 
 // Right sidebar
@@ -156,23 +189,94 @@
 
 #center {
 	position: absolute;
+	color: white;
 	left: 190px;
 	right: 190px;
 	min-width: 300px;
 	top: 0;
 	bottom: 0;
     background: #1a1a1a;
+    overflow: auto;
+    padding: 10px;
 }
 
 
 #center .album {
+	position: relative;
 	margin: 16px 0 0 20px;
 	float: left;
 	width: 160px;
 	height: 160px;
-	@include background-image-retina('album.png');	
+	//@include background-image-retina('album.png');	
 	//border: 1px solid rgba(255,255,255,0.3);
 	@include border-radius(6px); 
+	border: 1px solid #6b6b6b;
+	overflow: hidden;
+}
+
+#center .album .footer {
+	font-family: Arial;
+	font-size: 11px;
+	width: 139px;
+	margin: 0px auto;
+	padding: 3px 5px 3px 0px;
+	background: rgba(60, 60, 60, .9);
+	color: rgba(225,225,225, 0.8);
+	position: absolute;
+	bottom: 8px;
+	left: 8px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	height: 20px;
+	white-space: nowrap;
+	@include border-radius(3px); 
+
+}
+
+#center .album .loading {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	left: 70px;
+	top: 60px;
+	@include background-image-retina('ajax-loader.gif');
+}
+
+#center .album img {
+
+	@include border-radius(6px); 
+}
+
+#center .album .play {
+	position: absolute;
+	top: 35px;
+	left: 45px;
+	width: 65px;
+	height: 65px;
+	@include background-image-retina('play.png');
+}
+
+#center .album .stop {
+	position: absolute;
+	top: 35px;
+	left: 45px;
+	width: 65px;
+	height: 65px;
+	@include background-image-retina('stop.png');
+}
+
+#center .album .footer span.title {
+	color: rgba(225,225,225, 1);
+}
+
+#center .album .footer .number {
+	margin-left: 5px;
+	margin-right: 3px;
+	padding: 2px 5px 2px 5px;
+	background: rgba(190,190,190,0.4);
+	color: white;
+	opacity: 1;
+	@include border-radius(2px); 
 }
 
 
@@ -192,7 +296,7 @@
 	position: absolute;
 	left: 6px;
 	top: 3px;
-	width: 182px;
+	width: 186px;
 	height: 36px;
 	
 	@include border-radius(3px); 
@@ -369,6 +473,11 @@
 	right: 15px;
 	top: 16px;
 	height: 13px;
-	width: 13px;
+	width: 13px; 
 	@include background-image-retina('repeat.png');
 }
+
+
+
+
+

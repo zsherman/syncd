@@ -3,7 +3,6 @@
 <head>
   <title>Syncd</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -27,19 +26,9 @@
 				<span>Playlists</span>
 				<div class="options"></span>
 			</header>
-			<ul>
-				<li class="active">
-					<span>Playlist 1</span>
-					<div class="num">3</div>
-				</li>
-				<li>
-					<span>Playlist 2</span>
-					<div class="num">23</div>
-				</li>
-				<li>
-					<span>Playlist 3</span>
-					<div class="num">5</div>
-				</li>
+			<ul></ul>
+			<a href="#" class="create">Create playlist</a>
+			<a href="#" class="delete">Delete playlist</a>
 		</section>
 		<section class="members">
 			<header>
@@ -55,7 +44,17 @@
 	</div>
 	<div id="right"></div>
 	<div id="center">
-		<div class="album"></div>
+
+		<%= yield %>
+<!-- 		<div class="album">
+			<footer>1</footer>
+		</div>
+		<div class="album">
+			<footer>2</footer>
+		</div>
+		<div class="album">
+			<footer>3</footer>
+		</div> -->
 	</div>
 </div>
 <div id="bottom">
@@ -77,7 +76,7 @@
 			<div class="bar">
 				<div class="bar-filled"></div>
 			</div>
-			<span class="end">3:42</span>
+			<span class="end">3:11</span>
 		</div>
 		<div class="audio">
 			<div class="icon"></div>
@@ -91,7 +90,7 @@
 </div>
 
   <%= javascript_include_tag "retina" %>
+  <%= javascript_include_tag "application" %>
+  <%= yield :javascript %>
 </body>
 </html>
-
-<%= yield %>
