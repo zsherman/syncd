@@ -71,8 +71,12 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
                     var id = LI.children().data("id");
                     LI.addClass("active");
                     router.navigate("playlists/" + id);
-                    var model = this.collection.get(id);
-                    this.vent.trigger("updateSongs", model);
+                    // Trigger event change for songs view
+                    var model = self.collection.get(id);
+                    model.fetch({success: function(model) {
+                      self.vent.trigger("loadSongs", model);
+                      }
+                    });
                     // !!! Dry this code up into setActive function
     }});
   },

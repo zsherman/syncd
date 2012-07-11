@@ -21,7 +21,7 @@ Syncd.Views.SongsIndex = Backbone.View.extend({
       this.collection = model.get("songs");
     }
     this.collection.each(function(model,index) {
-      var song = new Syncd.Views.Song({model: model, index: index});
+      var song = new Syncd.Views.Song({model: model, index: index, vent: self.vent});
       self.$el.append(song.render().el);
     });
   },

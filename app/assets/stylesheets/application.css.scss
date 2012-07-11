@@ -247,6 +247,24 @@
 	@include border-radius(6px); 
 }
 
+#center .album .play {
+	position: absolute;
+	top: 35px;
+	left: 45px;
+	width: 65px;
+	height: 65px;
+	@include background-image-retina('play.png');
+}
+
+#center .album .stop {
+	position: absolute;
+	top: 35px;
+	left: 45px;
+	width: 65px;
+	height: 65px;
+	@include background-image-retina('stop.png');
+}
+
 #center .album .footer span.title {
 	color: rgba(225,225,225, 1);
 }
