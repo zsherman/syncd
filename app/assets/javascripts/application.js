@@ -25,3 +25,10 @@
 //= require_tree ../templates
 //= require_tree .
 
+
+soundManager.setup({
+  url: '/swf',
+  flashVersion: 9, // optional: shiny features (default = 8)
+  useFlashBlock: false, 
+  onready: function() { }
+});

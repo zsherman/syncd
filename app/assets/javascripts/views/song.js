@@ -2,8 +2,10 @@ Syncd.Views.Song = Backbone.View.extend({
 
   initialize: function(options) {
     _.bindAll(this);
+    this.model.initSongs();
     this.indexid = options.index;
     this.vent = options.vent;
+    this.state = options.state;
     this.vent.on("switchSongs", this.switchSongs);
   },
 
@@ -14,8 +16,9 @@ Syncd.Views.Song = Backbone.View.extend({
   },
 
   render: function () {
-    //console.log(this.model.get("image"));
     var self = this;
+
+    // Check to see if album view or list view should be rendered
     var width = $("#center").width();
     if (width < 565) {
       this.$el.addClass('album2').html(JST["songs/songlist"]({song: this.model, index: this.indexid}));
@@ -35,7 +38,25 @@ Syncd.Views.Song = Backbone.View.extend({
             $(".loading", self.$el).remove();
             self.$el.append( $(this) );
         });
-      }
+    }
+
+    // Check state object to see if song is currently being played
+    // If so, display "stop" button, remove all current events, and 
+    // add new onclick event 
+    if (this.state.id === this.model.id) {
+      this.$el.off();
+      this.$el.append("<div class='stop'></div>");
+      $(".stop", this.el).on("click", function() {
+        // Stop playing sound
+        soundManager.pause(self.model.id);
+        $(this).removeClass("stop").queue(function() {
+          var that = this;
+          self.$el.on("mouseenter", self.showPlay);
+          self.$el.on("mouseleave", self.hidePlay);
+          self.$el.on("click", "div.play", self.play);
+        });
+      });
+    }
     return this;
   },
 
@@ -48,6 +69,8 @@ Syncd.Views.Song = Backbone.View.extend({
   },
 
   play: function() {
+    soundManager.play(this.model.id);
+    this.state.id = this.model.id;
     var self = this;
     $(".play", this.el).removeClass().addClass("stop");
     this.$el.off();
@@ -55,6 +78,9 @@ Syncd.Views.Song = Backbone.View.extend({
 
     // New event handlers
     $(".stop", this.el).on("click", function() {
+      // Stop playing sound
+      soundManager.pause(self.model.id);
+
       $(this).removeClass().queue(function() {
         var that = this;
         self.$el.on("mouseenter", self.showPlay);
@@ -66,7 +92,8 @@ Syncd.Views.Song = Backbone.View.extend({
 
   switchSongs: function(model) {
     var id = model.id;
-    if (id != this.model.id && $('.stop', this.el)) {
+    if ((id !== this.model.id) && $(".stop", this.el).length !== 0) {
+      soundManager.stop(this.model.id);
       $(".stop", this.el).remove();
       this.$el.on("mouseenter", this.showPlay);
       this.$el.on("mouseleave", this.hidePlay);

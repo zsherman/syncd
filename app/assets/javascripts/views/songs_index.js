@@ -1,6 +1,7 @@
 Syncd.Views.SongsIndex = Backbone.View.extend({
   initialize: function(options) {
     _.bindAll(this);
+    this.state = _.extend({}, Backbone.Events);;
     this.vent = options.vent;
     this.vent.on("loadSongs", this.renderSongs);
     $(window).resize(this.resizeSongs);
@@ -21,7 +22,7 @@ Syncd.Views.SongsIndex = Backbone.View.extend({
       this.collection = model.get("songs");
     }
     this.collection.each(function(model,index) {
-      var song = new Syncd.Views.Song({model: model, index: index, vent: self.vent});
+      var song = new Syncd.Views.Song({model: model, index: index, vent: self.vent, state: self.state});
       self.$el.append(song.render().el);
     });
   },
