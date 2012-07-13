@@ -1,7 +1,7 @@
 Syncd.Models.Song = Backbone.Model.extend({
 
   initialize: function() {
-  },
+   },
 
   initSongs: function() {
   	var self = this;
@@ -14,9 +14,9 @@ Syncd.Models.Song = Backbone.Model.extend({
     onload: function() {
     },
     onplay: function() {
-      //alert(this.durationEstimate);
     },
     onresume: function() {
+      self.trigger("resumed", self);
     },
     whileloading: function() {
       //console.log(this.durationEstimate);
@@ -24,16 +24,46 @@ Syncd.Models.Song = Backbone.Model.extend({
     onfinish: function() {
       self.nextSong();
   	},
+    onstop: function() {
+      self.trigger("stop");
+    },
+    onpause: function() {
+      self.trigger("stop");
+    },
     volume: 50
     });
   },
 
   nextSong: function() {
     var index = this.collection.indexOf(this);
-    var modelAbove = this.collection.at(index+1);
-    var id = this.id;
-    soundManager.stop(id.toString());
-    modelAbove.trigger("nextSong", this);
+    var nextModel = this.collection.at(index+1);
+    var nextModelid = nextModel.id.toString();
+    var currentModel = this; 
+    var currentModelid = currentModel.id.toString();
+
+    // Play upcoming song
+    soundManager.getSoundById(nextModelid).play();
+
+    // Remove play view for previous song
+    this.trigger("stop");
+
+    // Trigger upcoming song to play view
+    nextModel.trigger("play");
+
+    // Update state
+    //console.log(window);
+    //window.Syncd.playlists.trigger("stateChange",nextModelid);
+    //this.collection.trigger("stateChange", nextModelid);
+  }, 
+
+  play: function() {
+    soundManager.pauseAll();
+    soundManager.play(this.id.toString());
+    this.trigger("play");
+  },
+
+  stop: function() {
+    soundManager.pause(this.id.toString());
   }
 
 });

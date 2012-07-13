@@ -4,19 +4,20 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     _.bindAll(this);
 
     this.model.initSongs();
-
     this.index = this.model.collection.indexOf(this.model);
-    this.state = options.state;
-    this.vent = options.vent;
+    
+    this.bindTo(this.model, "stop", this.stop);
+    this.bindTo(this.model, "play", this.play);
 
-    this.bindTo(this.model, "nextSong", this.nextSong);
-    this.bindTo(this.vent, "switchSongs", this.switchSongs); // Change this so that it only binds once to every item view
+    this.state = options.state;
+    // this.vent = options.vent;
+
   },
 
   events: {
-    "mouseenter": "showPlay",
+    "hover": "showPlay",
     "mouseleave": "hidePlay",
-    "click .album .play": "play"
+    "click .album .play": "clickPlay"
   },
 
   render: function () {
@@ -49,17 +50,8 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     // add new onclick event 
     if (this.state.id === this.model.id) {
       this.$el.off();
+      this.$el.on("click .album .stop", this.clickStop);
       this.$el.append("<div class='stop'></div>");
-      $(".stop", this.el).on("click", function() {
-        // Stop playing sound
-        soundManager.pause(self.model.id);
-        $(this).removeClass("stop").queue(function() {
-          var that = this;
-          self.$el.on("mouseenter", self.showPlay);
-          self.$el.on("mouseleave", self.hidePlay);
-          self.$el.on("click", "div.play", self.play);
-        });
-      });
     }
     return this;
   },
@@ -73,51 +65,31 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     $(".play", this.el).remove();  
   },
 
+  clickPlay: function() {
+    this.model.play();
+  },
+
   play: function() {
-    console.log("play");
-    soundManager.stopAll();
-    soundManager.play(this.model.id.toString());
-    this.state.id = this.model.id;
-    var self = this;
-    $(".play", this.el).removeClass().addClass("stop");
     this.$el.off();
-    this.vent.trigger("switchSongs", this.model);
-
-    // New event handlers
-    $(".stop", this.el).on("click", function() {
-      // Stop playing sound
-      soundManager.pause(self.model.id);
-      self.state.id = null;
-
-      $(this).removeClass().queue(function() {
-        var that = this;
-        self.$el.on("mouseenter", self.showPlay);
-        self.$el.on("mouseleave", self.hidePlay);
-        self.$el.on("click", "div.play", self.play);
-      });
-    });
+    this.$el.on("click .album .stop", this.clickStop);
+    $(".play", this.el).remove();
+    this.$el.append("<div class='stop'></div>");
+    this.state.id = this.model.id;
   },
 
-  switchSongs: function(model) {
-    if ((id !== this.model.id) && $(".stop", this.el).length !== 0) {
-      $(".stop", this.el).remove();
-      this.$el.on("mouseenter", this.showPlay);
-      this.$el.on("mouseleave", this.hidePlay);
-      this.$el.on("click", "div.play", this.play);
-    }
-
-    // var id = model.id;
-    // if ((id !== this.model.id) && $(".stop", this.el).length !== 0) {
-    //   soundManager.stop(this.model.id.toString());
-    //   $(".stop", this.el).remove();
-    //   this.$el.on("mouseenter", this.showPlay);
-    //   this.$el.on("mouseleave", this.hidePlay);
-    //   this.$el.on("click", "div.play", this.play);
-    // }
+  clickStop: function() {
+    this.model.stop();
   },
 
-  nextSong: function(model) {
-    this.showPlay().play();
+  stop: function() {
+    $(".stop", this.el).removeClass();
+    this.refreshEvents();
+  },
+ 
+  refreshEvents: function() {
+    this.$el.on("click .album .play", this.clickPlay);
+    this.$el.on("hover", this.showPlay);
+    this.$el.on("mouseleave", this.hidePlay);
   }
 
 });

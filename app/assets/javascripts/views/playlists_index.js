@@ -74,7 +74,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
                     // Trigger event change for songs view
                     var model = self.collection.get(id);
                     model.fetch({success: function(model) {
-                      self.vent.trigger("loadSongs", model);
+                      self.vent.trigger("loadSongs", model.id);
                       }
                     });
                     // !!! Dry this code up into setActive function

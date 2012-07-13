@@ -10,6 +10,7 @@ Syncd.Views.SongsIndex = Backbone.Marionette.CollectionView.extend({
     this.vent = options.vent;
     this.playlists = options.playlists;
     this.vent.on("loadSongs", this.renderSongs);
+    //this.bindTo(window.Syncd.playlists, "stateChange", this.updateState);
     $(window).resize(this.resizeSongs);
   },
 
@@ -30,17 +31,15 @@ Syncd.Views.SongsIndex = Backbone.Marionette.CollectionView.extend({
   renderSongs: function (id) {
     this.mid = id;
     this.render();
-
-    // var self = this;
-    // this.$el.html("");
-    // this.playlists.get(id).get("songs").each(function(model,index) {
-    //   self.songList[index] = new Syncd.Views.Song({model: model, index: index});
-    //   self.$el.append(self.songList[index].render().el);
-    // });
   },
 
   resizeSongs: function () {
     this.render();
+  },
+
+  updateState: function(id) {
+    this.state.id = id;
+    console.log(this.state.id);
   }
 });
 
