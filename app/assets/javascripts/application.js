@@ -13,8 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.all
-//= require underscore
+//= require underscorejs
 //= require backbone
+//= require backbone.marionette
 //
 //= require syncd
 //

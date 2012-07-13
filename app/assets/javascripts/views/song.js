@@ -1,12 +1,16 @@
-Syncd.Views.Song = Backbone.View.extend({
+Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
 
   initialize: function(options) {
     _.bindAll(this);
+
     this.model.initSongs();
-    this.indexid = options.index;
-    this.vent = options.vent;
+
+    this.index = this.model.collection.indexOf(this.model);
     this.state = options.state;
-    this.vent.on("switchSongs", this.switchSongs);
+    this.vent = options.vent;
+
+    this.bindTo(this.model, "nextSong", this.nextSong);
+    this.bindTo(this.vent, "switchSongs", this.switchSongs); // Change this so that it only binds once to every item view
   },
 
   events: {
@@ -21,10 +25,10 @@ Syncd.Views.Song = Backbone.View.extend({
     // Check to see if album view or list view should be rendered
     var width = $("#center").width();
     if (width < 565) {
-      this.$el.addClass('album2').html(JST["songs/songlist"]({song: this.model, index: this.indexid}));
+      this.$el.addClass('album2').html(JST["songs/songlist"]({song: this.model, index: this.index}));
     } else {
       this.$el.addClass('album').html(JST["songs/song"]({
-        song: this.model, index: this.indexid}
+        song: this.model, index: this.index}
         )).draggable({ helper: function(){
                 $copy = self.$el.clone();
                 return $copy;
@@ -62,6 +66,7 @@ Syncd.Views.Song = Backbone.View.extend({
 
   showPlay: function() {
     this.$el.append("<div class='play'></div>");
+    return this;
   },
 
   hidePlay: function() {
@@ -69,7 +74,9 @@ Syncd.Views.Song = Backbone.View.extend({
   },
 
   play: function() {
-    soundManager.play(this.model.id);
+    console.log("play");
+    soundManager.stopAll();
+    soundManager.play(this.model.id.toString());
     this.state.id = this.model.id;
     var self = this;
     $(".play", this.el).removeClass().addClass("stop");
@@ -80,6 +87,7 @@ Syncd.Views.Song = Backbone.View.extend({
     $(".stop", this.el).on("click", function() {
       // Stop playing sound
       soundManager.pause(self.model.id);
+      self.state.id = null;
 
       $(this).removeClass().queue(function() {
         var that = this;
@@ -91,14 +99,25 @@ Syncd.Views.Song = Backbone.View.extend({
   },
 
   switchSongs: function(model) {
-    var id = model.id;
     if ((id !== this.model.id) && $(".stop", this.el).length !== 0) {
-      soundManager.stop(this.model.id);
       $(".stop", this.el).remove();
       this.$el.on("mouseenter", this.showPlay);
       this.$el.on("mouseleave", this.hidePlay);
       this.$el.on("click", "div.play", this.play);
     }
+
+    // var id = model.id;
+    // if ((id !== this.model.id) && $(".stop", this.el).length !== 0) {
+    //   soundManager.stop(this.model.id.toString());
+    //   $(".stop", this.el).remove();
+    //   this.$el.on("mouseenter", this.showPlay);
+    //   this.$el.on("mouseleave", this.hidePlay);
+    //   this.$el.on("click", "div.play", this.play);
+    // }
+  },
+
+  nextSong: function(model) {
+    this.showPlay().play();
   }
 
 });

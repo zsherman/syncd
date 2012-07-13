@@ -70,7 +70,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
                     var LI = $("li", self.el).last();
                     var id = LI.children().data("id");
                     LI.addClass("active");
-                    router.navigate("playlists/" + id);
+                    //router.navigate("playlists/" + id);
                     // Trigger event change for songs view
                     var model = self.collection.get(id);
                     model.fetch({success: function(model) {
@@ -85,26 +85,25 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     $(".active").removeClass("active");
     $(eventName.currentTarget).addClass('active');
     var id = $(eventName.currentTarget).children().data("id");
-    router.navigate("playlists/" + id);
+    //router.navigate("playlists/" + id);
 
     // Trigger event change for songs view
     var self = this;
     var model = this.collection.get(id);
-    model.fetch({success: function(model) {
-      self.vent.trigger("loadSongs", model);
-      }
-    });
+
+    // New behavior to be implemented: If model.songs is not an empty collection,
+    // fetch the songs, and trigger loadSongs. A master collection containing these
+    // song collections has to be created. OR... you can pass in the playlist collection
+    // and find the song collection that needs to be viewed by inspecting the right model
+    if (model.get("songs") === null) {
+      model.fetch({success: function(model) {
+        self.vent.trigger("loadSongs", model.id);
+        }
+      });
+    } else {
+      self.vent.trigger("loadSongs", model.id);
+    }
   }
 
 });
-
-
-
-
-
-// NOTE: Can refresh the playlists (and the songs they contain) by calling
-// this.collection.fetch();
-
-
-
 
