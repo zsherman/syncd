@@ -15,9 +15,12 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
   },
 
   events: {
-    "hover": "showPlay",
-    "mouseleave": "hidePlay",
-    "click .album .play": "clickPlay"
+    "hover.validator": "showPlay",
+    "hover.delete": "showDelete",
+    "mouseleave.delete": "hideDelete",
+    "mouseleave.validator": "hidePlay",
+    "click.validator .album .play": "clickPlay",
+    "click.delete .album .delete": "delete"
   },
 
   render: function () {
@@ -49,7 +52,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     // If so, display "stop" button, remove all current events, and 
     // add new onclick event 
     if (this.state.id === this.model.id) {
-      this.$el.off();
+      this.$el.off(".validator");
       this.$el.on("click .album .stop", this.clickStop);
       this.$el.append("<div class='stop'></div>");
     }
@@ -63,6 +66,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
 
   hidePlay: function() {
     $(".play", this.el).remove();  
+    $(".delete", this.el).remove();  
   },
 
   clickPlay: function() {
@@ -70,10 +74,10 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
   },
 
   play: function() {
-    this.$el.off();
-    this.$el.on("click .album .stop", this.clickStop);
     $(".play", this.el).remove();
+    this.$el.off(".validator");
     this.$el.append("<div class='stop'></div>");
+    this.$el.on("click.validator", ".stop", this.clickStop);
     this.state.id = this.model.id;
   },
 
@@ -82,14 +86,27 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
   },
 
   stop: function() {
+    this.state.id = null;
     $(".stop", this.el).removeClass();
     this.refreshEvents();
   },
  
   refreshEvents: function() {
-    this.$el.on("click .album .play", this.clickPlay);
-    this.$el.on("hover", this.showPlay);
-    this.$el.on("mouseleave", this.hidePlay);
+    this.$el.on("click.validator", ".play", this.clickPlay);
+    this.$el.on("hover.validator", this.showPlay);
+    this.$el.on("mouseleave.validator", this.hidePlay);
+  },
+
+  showDelete: function() {
+    this.$el.append("<div class='delete'></div>");
+  },
+
+  hideDelete: function() {
+    $(".delete", this.el).remove(); 
+  },
+
+  delete: function() {
+    this.model.collection.remove(this.model);
   }
 
 });

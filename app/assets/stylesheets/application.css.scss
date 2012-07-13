@@ -267,6 +267,16 @@
 	@include background-image-retina('stop.png');
 }
 
+#center .album .delete {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 15px;
+	height: 15px;
+	background: white;
+	color: black;
+}
+
 #center .album .footer span.title {
 	color: rgba(225,225,225, 1);
 }
