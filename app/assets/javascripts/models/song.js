@@ -42,11 +42,12 @@ Syncd.Models.Song = Backbone.Model.extend({
     var index = this.collection.indexOf(this);
     var nextModel = this.collection.at(index+1);
     var nextModelid = nextModel.id.toString();
+    var nextModelpid = nextModel.get("pid").toString();
     var currentModel = this; 
     var currentModelid = currentModel.id.toString();
 
     // Play upcoming song
-    soundManager.getSoundById(nextModelid).play();
+    soundManager.getSoundById("id-"+nextModelpid+"-"+nextModelid).play();
 
     // Remove play view for previous song
     this.trigger("stop");

@@ -5,11 +5,11 @@ Syncd.Views.SongsIndex = Backbone.Marionette.CollectionView.extend({
   emptyView: Syncd.Views.NoSongs,
 
   initialize: function(options) {
-    _.bindAll(this);
+    _.bindAll(this); 
     this.state = options.state;
     this.collection = options.collection;
-
-    $(window).resize(this.resizeSongs);
+    var resizeThrottle = _.throttle(this.render, 1500);
+    $(window).resize(resizeThrottle);
   },
 
   itemViewOptions: function() {
@@ -29,7 +29,6 @@ Syncd.Views.SongsIndex = Backbone.Marionette.CollectionView.extend({
   },
 
   renderSongs: function (id) {
-    //this.mid = id;
     this.render();
   },
 
