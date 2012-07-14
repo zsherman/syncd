@@ -1,12 +1,14 @@
 Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   initialize: function(options) {
     _.bindAll(this);
+    this.state = _.extend({}, Backbone.Events);
     this.vent = options.vent;
     this.collection.on("add", this.addNewPlaylist);
     this.collection.on("reset", this.render);
     this.collection.on("remove", this.destroyPlaylist);
     $('#left section.playlists a.create').click(this.newPlaylist); // Outside of the view element
     $('#left section.playlists a.delete').click(this.deletePlaylists); // Outside of the view element
+    $('#left section.music li').click(this.showMusic);
   },
 
   events: {
@@ -23,8 +25,10 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   renderPlaylists: function() {
     var self = this;
     this.collection.each(function(model, index) {
-      var playlist = new Syncd.Views.Playlist({ model: model, collection: self.collection, vent: self.vent });
-      self.$el.append(playlist.render().$el.addClass("index-"+index));
+      if (model.get("default") === null) {
+        var playlist = new Syncd.Views.Playlist({ model: model, collection: self.collection, vent: self.vent });
+        self.$el.append(playlist.render().$el.addClass("index-"+index));
+      }
     });
   },
 
@@ -97,11 +101,31 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     // and find the song collection that needs to be viewed by inspecting the right model
     if (model.get("songs") === null) {
       model.fetch({success: function(model) {
-        self.vent.trigger("loadSongs", model.id);
+        var songsView = new Syncd.Views.SongsIndex({collection: model.get("songs"), state: self.state});
+        Syncd.centerRegion.show(songsView);
         }
       });
     } else {
-      self.vent.trigger("loadSongs", model.id);
+      var songsView = new Syncd.Views.SongsIndex({collection: model.get("songs"), state: self.state});
+      Syncd.centerRegion.show(songsView);
+    }
+  },
+
+  showMusic: function() {
+    var self = this;
+    $(".active").removeClass("active");
+    $("#left section.music li").addClass("active");
+    var id = _.first(this.collection.where({default: true})).id;
+    var model = this.collection.get(id);
+    if (model.get("songs") === null) {
+      model.fetch({success: function(model) {
+        var musicView = new Syncd.Views.SongsIndex({collection: model.get("songs"), state: self.state});
+        Syncd.centerRegion.show(musicView);
+        }
+      });
+    } else {
+      var musicView = new Syncd.Views.SongsIndex({collection: model.get("songs"), state: self.state});
+      Syncd.centerRegion.show(musicView);
     }
   }
 

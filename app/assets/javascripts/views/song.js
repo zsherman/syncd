@@ -12,13 +12,16 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     this.state = options.state;
     // this.vent = options.vent;
 
+    console.log(this.model);
+
   },
 
   events: {
     "hover.validator": "showPlay",
-    "hover.delete": "showDelete",
-    "mouseleave.delete": "hideDelete",
+    "hover.options": "showOptions",
+    "mouseleave.options": "hideOptions",
     "mouseleave.validator": "hidePlay",
+    "click.heart .album .heart": "love",
     "click.validator .album .play": "clickPlay",
     "click.delete .album .delete": "delete"
   },
@@ -51,9 +54,9 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     // Check state object to see if song is currently being played
     // If so, display "stop" button, remove all current events, and 
     // add new onclick event 
-    if (this.state.id === this.model.id) {
+    if (this.state.id === "id-" + this.model.get("pid") + "-" + this.model.id) {
       this.$el.off(".validator");
-      this.$el.on("click .album .stop", this.clickStop);
+      this.$el.on("click", ".stop", this.clickStop);
       this.$el.append("<div class='stop'></div>");
     }
     return this;
@@ -78,7 +81,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     this.$el.off(".validator");
     this.$el.append("<div class='stop'></div>");
     this.$el.on("click.validator", ".stop", this.clickStop);
-    this.state.id = this.model.id;
+    this.state.id = "id-" + this.model.get("pid") + "-" + this.model.id;
   },
 
   clickStop: function() {
@@ -97,12 +100,18 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     this.$el.on("mouseleave.validator", this.hidePlay);
   },
 
-  showDelete: function() {
+  showOptions: function() {
     this.$el.append("<div class='delete'></div>");
+    this.$el.append("<div class='heart'></div>");
   },
 
-  hideDelete: function() {
-    $(".delete", this.el).remove(); 
+  hideOptions: function() {
+    $(".delete, .heart", this.el).remove(); 
+
+  },
+
+  love: function() {
+    $(".heart").removeClass().addClass("love");
   },
 
   delete: function() {

@@ -17,9 +17,14 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
   	var userPlaylists = new Syncd.Views.PlaylistsIndex({collection: this.collection, router: this, vent: vent});
     $('.playlists ul').html(userPlaylists.render().$el);
     
-    // Set up songs view
-    var songsView = new Syncd.Views.SongsIndex({playlists: this.collection, vent: vent});
-    $('#center').html(songsView.$el);
+    // Set up center region
+    Syncd.centerRegion = new Backbone.Marionette.Region({
+      el: "#center"
+    });
+
+    //centerRegion.show();
+    //var songsView = new Syncd.Views.SongsIndex({playlists: this.collection, vent: vent});
+    //$('#center').html(songsView.$el);
 
   
   },

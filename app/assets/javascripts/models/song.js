@@ -5,7 +5,11 @@ Syncd.Models.Song = Backbone.Model.extend({
 
   initSongs: function() {
   	var self = this;
-  	var id = this.id.toString();
+    var p_id = this.collection.pid.toString();
+    this.set({"pid": p_id})
+    //console.log(this);
+  	var m_id = this.id.toString();
+    var id = "id-" + p_id + "-" + m_id;
     soundManager.createSound({
     id: id,
     url: this.get("audio"),
@@ -58,12 +62,15 @@ Syncd.Models.Song = Backbone.Model.extend({
 
   play: function() {
     soundManager.pauseAll();
-    soundManager.play(this.id.toString());
+    var id = "id-" + this.collection.pid.toString() + "-" + this.id.toString();
+    soundManager.play(id);
     this.trigger("play");
   },
 
   stop: function() {
-    soundManager.pause(this.id.toString());
+    var id = "id-" + this.collection.pid.toString() + "-" + this.id.toString();
+    soundManager.pause(id);
+    console.log(id);
   }
 
 });

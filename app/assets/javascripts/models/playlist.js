@@ -17,6 +17,7 @@ Syncd.Models.Playlist = Backbone.Model.extend({
   	_.each(response, function(value, key) {
   		attrs[key] = value;
   	});
+    this.songs.pid = response.playlist_id;
   	attrs.songs = this.songs;
   	return attrs;
   }

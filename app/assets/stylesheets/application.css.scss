@@ -268,13 +268,45 @@
 }
 
 #center .album .delete {
+	cursor: pointer;
 	position: absolute;
-	left: 0;
-	top: 0;
-	width: 15px;
-	height: 15px;
-	background: white;
-	color: black;
+	left: 10px;
+	top: 7px;
+	width: 18px;
+	height: 18px;
+	background: rgba(60, 60, 60, .9);
+	color: white;
+	opacity: 1;
+	@include border-radius(2px); 
+}
+
+#center .album .heart {
+	cursor: pointer;
+	position: absolute;
+	right: 10px;
+	top: 7px;
+	width: 18px;
+	height: 18px;
+	background: rgba(60, 60, 60, .9);
+	color: white;
+	opacity: 1;
+	@include background-image-retina('heart.png');
+	@include border-radius(2px); 
+}
+
+#center .album .love {
+	cursor: pointer;
+	position: absolute;
+	right: 10px;
+	top: 7px;
+	width: 18px;
+	height: 18px;
+	background: rgba(60, 60, 60, .9);
+	color: white;
+	opacity: 1;	
+	@include background-image-retina('love.png');
+	@include border-radius(2px); 
+
 }
 
 #center .album .footer span.title {
