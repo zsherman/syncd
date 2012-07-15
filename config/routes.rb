@@ -6,6 +6,8 @@ Syncd::Application.routes.draw do
 
   root :to => "playlists#index"
 
+  match 'playlists/:pid/songs/:id' => 'songs#create'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
