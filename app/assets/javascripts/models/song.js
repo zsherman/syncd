@@ -1,9 +1,12 @@
 Syncd.Models.Song = Backbone.Model.extend({
 
   initialize: function() {
+    this.initSongsonce = _.once(this.initSongs);
    },
 
   initSongs: function() {
+    console.log("Initalize song");
+    console.log(this.collection);
   	var self = this;
     var p_id = this.collection.pid.toString();
     this.set({"pid": p_id})

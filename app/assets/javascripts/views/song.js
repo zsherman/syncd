@@ -3,7 +3,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
   initialize: function(options) {
     _.bindAll(this);
 
-    this.model.initSongs();
+    this.model.initSongsonce();
     this.index = this.model.collection.indexOf(this.model);
     
     this.bindTo(this.model, "stop", this.stop);
@@ -32,16 +32,12 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     // Check to see if album view or list view should be rendered
     var width = $("#center").width();
     if (width < 565) {
+      console.log(this.model);
       this.$el.addClass('album2').html(JST["songs/songlist"]({song: this.model, index: this.index}));
     } else {
       this.$el.addClass('album').html(JST["songs/song"]({
         song: this.model, index: this.index}
-        )).draggable({ helper: function(){
-                $copy = self.$el.clone();
-                return $copy;
-                },
-                appendTo: 'body',
-                scroll: false, zIndex: 1000 });
+        ));
         this.$el.append("<div class='loading'></div>");
       $('<img />')
         .attr('src', this.model.get("image"))
@@ -69,7 +65,6 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
 
   hidePlay: function() {
     $(".play", this.el).remove();  
-    $(".delete", this.el).remove();  
   },
 
   clickPlay: function() {
@@ -101,12 +96,13 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
   },
 
   showOptions: function() {
-    this.$el.append("<div class='delete'></div>");
-    this.$el.append("<div class='heart'></div>");
+    var self = this;
+    $('.delete, .heart, .move, .buy', this.el).stop().fadeIn();
+    $('.buy', this.el).draggable({ helper: function() {var clone = $('.footer',self.el).clone().addClass("draggable-song"); return clone;}, zIndex: 20000, appendTo: "body"});
   },
 
   hideOptions: function() {
-    $(".delete, .heart", this.el).remove(); 
+    $(".delete, .heart, .move, .buy", this.el).hide(); 
 
   },
 

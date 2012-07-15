@@ -21,7 +21,8 @@ Syncd.Views.SongsIndex = Backbone.Marionette.CollectionView.extend({
   events: {
   },
 
-  beforeRender: function(){
+  onRender: function(){
+    this.$el.sortable({placeholder: 'sortable-placeholder'});
 
     //this.collection = (mid) ? this.playlists.get(mid).songs : new Syncd.Collections.Songs({});
   
