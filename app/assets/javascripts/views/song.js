@@ -23,7 +23,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     "mouseleave.validator": "hidePlay",
     "click.heart .album .heart": "love",
     "click.validator .album .play": "clickPlay",
-    "click.delete .album .delete": "delete"
+    "click.delete .album .delete": "delete",
   },
 
   render: function () {
@@ -111,6 +111,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
   },
 
   delete: function() {
+    this.model.destroy();
     this.model.collection.remove(this.model);
   }
 
