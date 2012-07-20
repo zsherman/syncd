@@ -75,10 +75,11 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
                     var id = LI.children().data("id");
                     LI.addClass("active");
                     //router.navigate("playlists/" + id);
-                    // Trigger event change for songs view
+                    
                     var model = self.collection.get(id);
                     model.fetch({success: function(model) {
-                      self.vent.trigger("loadSongs", model.id);
+                      var songsView = new Syncd.Views.SongsIndex({collection: model.get("songs"), state: self.state});
+                      Syncd.centerRegion.show(songsView);
                       }
                     });
                     // !!! Dry this code up into setActive function

@@ -111,8 +111,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
   },
 
   delete: function() {
-    this.model.destroy();
-    this.model.collection.remove(this.model);
+    this.model.delete();
   }
 
 });

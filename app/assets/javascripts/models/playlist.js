@@ -9,7 +9,7 @@ Syncd.Models.Playlist = Backbone.Model.extend({
 
   initSongs: function() {
   	var songs = this.get("songs");
-  	this.songs = new Syncd.Collections.Songs({collection: songs, playlist: this.id})
+  	this.songs = new Syncd.Collections.Songs({collection: songs})
   },
 
   parse: function(response) {
@@ -20,28 +20,40 @@ Syncd.Models.Playlist = Backbone.Model.extend({
   	});
     this.songs.pid = response.playlist_id;
   	attrs.songs = this.songs;
+    console.log(attrs);
   	return attrs;
   },
 
-  dropFunc: function( event, ui ) {
+  droppableFunc: function( event, ui ) {
+    // s_id = ID of song to be inserted into new playlist
+    // old_pid = ID of playlist that song currently resides in
     var _self = this;
     var s_id = $(ui.helper[0]).data("id");
     var old_pid = $(ui.helper[0]).data("pid");
-    var playlistCollection = this.collection;
-    var songModel = playlistCollection.get(old_pid).get("songs").get(s_id).clone();
-    var songCollection;
 
-    if (playlistCollection.get(this).get("songs") === null) {
-      playlistCollection.get(this).fetch({success: function(model) {
-          songCollection = _self.get("songs");
-          songCollection.add(songModel);
-          songModel.save();
+    // Create a new instance of the song model to be inserted into the desired playlist
+    var songModel = this.collection.get(old_pid).get("songs").get(s_id).clone();
+
+    // If the contents of the target playlist have not been fetched yet,
+    // fetch them, add the new song model to the song collection, and save
+    // it
+    var addAndSave = function() { 
+      _self.get("songs").add(songModel);
+      songModel.save({}, {
+        success: function(model, response){
+          //_self.set({count: response.count});
+        }
+      });
+
+    }
+
+    if (this.get("songs") === null) {
+      this.fetch({success: function(model) {
+          addAndSave();
         }
       });
     } else {
-      songCollection = playlistCollection.get(this).get("songs");
-      songCollection.add(songModel);
-      songModel.save();
+      addAndSave();
     }
   }
 

@@ -9,6 +9,8 @@ Syncd.Views.Playlist = Backbone.View.extend({
     _.bindAll(this);
     this.vent = options.vent;
     this.vent.on("deletePL", this.deletePlaylist);
+    this.model.songs.on("add", this.updateCount);
+    this.model.songs.on("remove", this.updateCount);
   },
 
   render: function () {
@@ -16,7 +18,7 @@ Syncd.Views.Playlist = Backbone.View.extend({
     this.$el.html(JST["playlists/playlist"]({playlist: this.model})).droppable({
       activeClass: "ui-state-hover",
       hoverClass: "ui-state-active",
-      drop: self.model.dropFunc
+      drop: self.model.droppableFunc
       });
     return this;
   },
@@ -35,6 +37,7 @@ Syncd.Views.Playlist = Backbone.View.extend({
   },
 
   deletePlaylist: function() {
+    console.log(this.model);
     var id = this.model.id;
     this.$("span", this.$el).animate({
       left: '15px'
@@ -43,7 +46,10 @@ Syncd.Views.Playlist = Backbone.View.extend({
     $(".delete-button", this.$el).animate({
       left: '6px'
     }, 300 );
-  }
+  },
 
+  updateCount: function() {
+    $(".num", this.el).html(this.model.songs.length);
+  }
 
 });

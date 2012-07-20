@@ -5,7 +5,8 @@ class SongsController < ApplicationController
 		song = Playlist.find(params[:playlist_id]).songs.exists?(params[:id])
 		if !(song)
 			playlist = Playlist.find(params[:playlist_id]).songs << Song.find(params[:id])
-			respond_with(playlist)
+			@playlist = Playlist.find_by_id(params[:playlist_id])
+			respond_with(@playlist)
 		end		
 	end
 
