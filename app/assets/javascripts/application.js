@@ -13,8 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.all
-//= require underscore
+//= require underscorejs
 //= require backbone
+//= require backbone.marionette
 //
 //= require syncd
 //
@@ -24,4 +25,14 @@
 //= require_tree ./routers
 //= require_tree ../templates
 //= require_tree .
+
+
+soundManager.setup({
+  url: '/swf',
+  flashVersion: 9, // optional: shiny features (default = 8)
+  useFlashBlock: false, 
+  onready: function() { }
+});
+
+
 

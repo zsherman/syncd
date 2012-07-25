@@ -10,6 +10,8 @@ gem 'bootstrap-sass'
 gem 'backbone-on-rails'
 gem 'rabl'
 gem 'yajl-ruby'
+gem 'em-websocket'
+gem 'faye'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -18,6 +20,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'compass-rails'
   gem 'jquery-ui-rails'
+  gem 'marionette-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platform => :ruby

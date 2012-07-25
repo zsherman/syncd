@@ -32,7 +32,7 @@
 		</section>
 		<section class="members">
 			<header>
-				<span>Members</span>
+				<span>Friends</span>
 				<div class="options"></span>
 			</header>
 			<ul>
@@ -89,7 +89,7 @@
 	</div>
 </div>
 
-  <%= javascript_include_tag "retina" %>
+  <%= javascript_include_tag "retina", "http://localhost:9292/faye.js" %>
   <%= javascript_include_tag "application" %>
   <%= yield :javascript %>
 </body>

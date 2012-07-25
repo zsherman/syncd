@@ -2,9 +2,13 @@ Syncd::Application.routes.draw do
 
   get "playlists/index"
 
-  resources :playlists
+  resources :playlists do
+    resources :songs
+  end
 
   root :to => "playlists#index"
+
+  #match 'playlists/:pid/songs/:id' => 'songs#update'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
