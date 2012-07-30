@@ -1,12 +1,17 @@
 Syncd::Application.routes.draw do
 
-  get "playlists/index"
+  root :to => "home#index"
+
+  devise_for :users, :only => :omniauth_callbacks
+  match 'users/auth/:provider/callback' => 'authentications#create'
+  match '/auth/:provider/signout' => 'authentications#signout'
 
   resources :playlists do
     resources :songs
   end
 
-  root :to => "playlists#index"
+
+  #get "playlists/index"
 
   #match 'playlists/:pid/songs/:id' => 'songs#update'
 

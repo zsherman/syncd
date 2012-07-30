@@ -16,8 +16,8 @@ Syncd.Views.Playlist = Backbone.View.extend({
   render: function () {
     var self = this;
     this.$el.html(JST["playlists/playlist"]({playlist: this.model})).droppable({
-      activeClass: "ui-state-hover",
-      hoverClass: "ui-state-active",
+      activeClass: "ui-state-active",
+      hoverClass: "ui-state-hover",
       drop: self.model.droppableFunc
       });
     return this;

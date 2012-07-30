@@ -3,4 +3,12 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
+@import "compass/css3";
+@import "retina";
 
+#connect .signin {
+	display: block;
+	width: 100px;
+	height: 17px;
+	@include background-image-retina('fb_login.png');
+}
