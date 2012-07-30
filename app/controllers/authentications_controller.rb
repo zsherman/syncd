@@ -13,12 +13,6 @@ class AuthenticationsController < ApplicationController
         # it expires, the cookie will be long gone, and an entirely new call to 
         # the facebook api must be made (i.e. a presentation of the login page, not
         # the app)
-        # if authentication && current_user && session["fb_expiry"] < Time.now.to_i
-        #     # Authentication found, current user is signed in, and token has expired.
-        #     # Refresh the token with the new one and update the session info
-        #     @auth_action = true if authentication.update_attribute("token", auth['credentials']['token'])
-        #     create_or_refresh_fb_session(auth)
-        # elsif authentication && !current_user  
 
         if authentication && !current_user
             # Authentication found and user not signed in
@@ -86,6 +80,7 @@ class AuthenticationsController < ApplicationController
 
     def delete_fb_session
         session.delete("fb_expiry")
+        session.delete("fb_access_token")
     end
 
 end

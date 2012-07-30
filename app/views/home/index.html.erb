@@ -44,6 +44,7 @@
 	                $.getJSON('users/auth/facebook/callback', function(json) {
 	                    $('#connect').html('Connected! Callback complete.');
 	                    $('#results').html(JSON.stringify(json));
+                        window.location.href = 'http://localhost:3000/playlists';
 	                });
 	            }
 	        }, { scope: 'email,read_stream' });
