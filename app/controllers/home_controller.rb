@@ -1,4 +1,7 @@
 class HomeController < ApplicationController
+	# need a before filter that checks to make sure access token is valid 
+	# - is it sufficient enough to check the expiry date of 
+
   def index
   	if false
   		redirect_to playlists_url

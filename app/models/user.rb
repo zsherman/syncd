@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
 	def apply_omniauth(auth)
 	  self.email = auth['extra']['raw_info']['email']
-	  authentications.build(:provider => auth['provider'], :uid => auth['uid'], :token => auth['credentials']['token'])
+	  authentications.build(:provider => auth['provider'], :uid => auth['uid'], :token => auth['extension']['token'])
 	end
 
 end
