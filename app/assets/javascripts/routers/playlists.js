@@ -1,6 +1,7 @@
 Syncd.Routers.Playlists = Backbone.Router.extend({
 
   routes: {
+    'playlists': 'index',
     '': 'index',
     'playlists/:name': 'viewPlaylist',
   },

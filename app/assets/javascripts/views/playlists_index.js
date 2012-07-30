@@ -25,7 +25,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   renderPlaylists: function() {
     var self = this;
     this.collection.each(function(model, index) {
-      if (model.get("default") === null) {
+      if (model.get("editable") === null) {
         var playlist = new Syncd.Views.Playlist({ model: model, collection: self.collection, vent: self.vent });
         self.$el.append(playlist.render().$el.addClass("index-"+index));
       }
@@ -116,7 +116,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     var self = this;
     $(".active").removeClass("active");
     $("#left section.music li").addClass("active");
-    var id = _.first(this.collection.where({default: true})).id;
+    var id = _.first(this.collection.where({editable: true})).id;
     var model = this.collection.get(id);
     if (model.get("songs") === null) {
       model.fetch({success: function(model) {
