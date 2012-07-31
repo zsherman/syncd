@@ -23,7 +23,7 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
       el: "#center"
     });
 
-    Syncd.centerRegion.show(musicView);
+    //Syncd.centerRegion.show(musicView);
 
     //centerRegion.show();
     //var songsView = new Syncd.Views.SongsIndex({playlists: this.collection, vent: vent});

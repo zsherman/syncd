@@ -5,42 +5,32 @@ class AuthenticationsController < ApplicationController
 
         # Try to find authentication first
         authentication = Authentication.find_by_provider_and_uid(auth['provider'], auth['uid'])
-        @auth_action = false
-
-        # This first if statement needs to be reworked. The cookie containing the signed
-        # request (and app ID) will expire when the session expires. We will try to 
-        # extend the token as long as possible with a refresh every day, but if
-        # it expires, the cookie will be long gone, and an entirely new call to 
-        # the facebook api must be made (i.e. a presentation of the login page, not
-        # the app)
-
-        if authentication && !current_user
-            # Authentication found and user not signed in
-            # Sign the user in
+        
+        unless current_user 
+            # Request a new 60 day token using the current 2 hour token obtained from fb
             auth.merge!(extend_fb_token(auth['credentials']['token']))
-            @auth_action = true if sign_in(:user, authentication.user) &&
-                authentication.update_attribute("token", auth['extension']['token'])
+            authentication.update_attribute("token", auth['extension']['token']) if authentication
+
+            unless authentication
+                user = User.new
+                user.apply_omniauth(auth)
+                saved_status = user.save(:validate => false)
+            end
+
+            # Add the new token and expiration date to the user's session
             create_or_refresh_fb_session(auth)
-
-        elsif !authentication 
-            # Authentication not found, so create a new user.
-            user = User.new
-            auth.merge!(extend_fb_token(auth['credentials']['token']))
-            user.apply_omniauth(auth)
-
-            # Add token info to session
-            create_or_refresh_fb_session(auth)
-
-            if user.save(:validate => false)
-                @auth_action = true if sign_in(:user, user)
+            if saved_status.nil? || saved_status
+                user = authentication ? authentication.user : user
+                sign_in(:user, user)
             end
         end
-        render :json => { :success => @auth_action, :current_user => current_user.as_json(:only => [:email]) }
+
+        render :json => { :success => (current_user ? true : false), :current_user => current_user.as_json(:only => [:email]) }
     end
 
     def signout
-        @success = delete_fb_session && sign_out(:user)
-        render :json => { :success => @success.as_json }
+        success = delete_fb_session && sign_out(:user)
+        render :json => { :success => success.as_json }
     end
 
     def create_or_refresh_fb_session(auth_hash_or_extension_hash)
