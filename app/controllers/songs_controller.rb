@@ -1,4 +1,5 @@
 class SongsController < ApplicationController
+	before_filter :authenticate_user!
   	respond_to :json
 
 	def update
@@ -14,4 +15,8 @@ class SongsController < ApplicationController
 		playlist = Playlist.find(params[:playlist_id]).songs.delete(Song.find(params[:id]))
 		respond_with(playlist)
 	end
+
+	def show
+	end
+
 end
