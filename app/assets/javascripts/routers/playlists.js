@@ -8,6 +8,10 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
   
   initialize: function(options) {
   	this.collection = options.collection;
+    new BackboneSync.RailsFayeSubscriber(this.collection, {
+      channel: 'playlists', // Set to Rails model.class.table_name, or override Model.faye_channel
+      client: faye
+    });
   },
   
   index: function() {

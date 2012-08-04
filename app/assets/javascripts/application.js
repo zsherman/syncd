@@ -25,6 +25,8 @@
 //= require_tree ./views
 //= require_tree ./routers
 //= require_tree ../templates
+//= require extensions/backbone.collection.idempotent
+//= require backbone_sync-rails/rails_faye_subscriber
 //= require_tree .
 
 
