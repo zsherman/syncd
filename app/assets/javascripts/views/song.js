@@ -33,10 +33,10 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     var width = $("#center").width();
     if (width < 565) {
       console.log(this.model);
-      this.$el.addClass('album2').html(JST["songs/songlist"]({song: this.model, index: this.index}));
+      this.$el.addClass('album2').html(JST["songs/songlist"]({song: this.model, pid: this.model.collection.parent.id, index: this.index}));
     } else {
       this.$el.addClass('album').html(JST["songs/song"]({
-        song: this.model, index: this.index}
+        song: this.model, pid: this.model.collection.parent.id, index: this.index}
         ));
         this.$el.append("<div class='loading'></div>");
       $('<img />')
@@ -50,7 +50,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     // Check state object to see if song is currently being played
     // If so, display "stop" button, remove all current events, and 
     // add new onclick event 
-    if (this.state.id === "id-" + this.model.get("pid") + "-" + this.model.id) {
+    if (this.state.id === "id-" + this.model.collection.parent.id + "-" + this.model.id) {
       this.$el.off(".validator");
       this.$el.on("click", ".stop", this.clickStop);
       this.$el.append("<div class='stop'></div>");
@@ -76,7 +76,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     this.$el.off(".validator");
     this.$el.append("<div class='stop'></div>");
     this.$el.on("click.validator", ".stop", this.clickStop);
-    this.state.id = "id-" + this.model.get("pid") + "-" + this.model.id;
+    this.state.id = "id-" + this.model.collection.parent.id + "-" + this.model.id;
   },
 
   clickStop: function() {

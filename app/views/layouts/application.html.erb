@@ -4,13 +4,14 @@
   <title>Syncd</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= csrf_meta_tags %>
+  
 </head>
-<body>
+<body style="overflow: hidden">
 
 <%= yield %>
 
-  <%= javascript_include_tag "retina", "http://localhost:9292/faye.js" %>
-  <%= javascript_include_tag "application" %>
-  <%= yield :javascript %>
+
+
+
 </body>
 </html>

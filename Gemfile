@@ -17,6 +17,8 @@ gem 'omniauth'
 gem 'omniauth-facebook', '1.4.0'
 gem 'oauth2'
 gem 'pg'
+gem 'backbone_sync-rails'
+gem 'foreman'
 
 # Gems used only for assets and not required
 # in production environments by default.

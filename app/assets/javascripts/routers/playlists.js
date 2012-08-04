@@ -8,6 +8,10 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
   
   initialize: function(options) {
   	this.collection = options.collection;
+    new BackboneSync.RailsFayeSubscriber(this.collection, {
+      channel: 'playlists', // Set to Rails model.class.table_name, or override Model.faye_channel
+      client: faye
+    });
   },
   
   index: function() {
@@ -18,16 +22,15 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
   	var userPlaylists = new Syncd.Views.PlaylistsIndex({collection: this.collection, router: this, vent: vent});
     $('.playlists ul').html(userPlaylists.render().$el);
     
-    // Set up center region
-    Syncd.centerRegion = new Backbone.Marionette.Region({
-      el: "#center"
+    // Set up regions
+    Syncd.addRegions({
+      centerRegion: "#center",
+      rightRegion: "#right"
     });
 
-    Syncd.centerRegion.show(musicView);
-
-    //centerRegion.show();
-    //var songsView = new Syncd.Views.SongsIndex({playlists: this.collection, vent: vent});
-    //$('#center').html(songsView.$el);
+    // Syncd.centerRegion.on("view:show", function(view){
+    //   console.log(view);
+    // });
 
   
   },

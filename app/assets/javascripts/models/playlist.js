@@ -2,25 +2,27 @@ Syncd.Models.Playlist = Backbone.Model.extend({
 
   initialize: function() {
     _.bindAll(this);
-  	this.initSongs();
+    //var friends = new Syncd.Collections.Friends({});  
+  	var songs = new Syncd.Collections.Songs({});
+    songs.length = 0;
+    songs.parent = this;  
+    //this.set("friends", songs);
+    this.set("songs", songs);
   },
 
   urlRoot: '/playlists',
 
-  initSongs: function() {
-  	var songs = this.get("songs");
-  	this.songs = new Syncd.Collections.Songs({collection: songs})
-  },
-
   parse: function(response) {
-  	this.songs = this.songs.reset(response.songs); // Repopulate songs collection
-  	var attrs = {};
+  	this.get("songs").reset(response.songs); // Repopulate songs collection
+  	//songs.pid = response.playlist_id;
+    var attrs = {};
   	_.each(response, function(value, key) {
-  		attrs[key] = value;
+      if (key != "songs") {
+  	 	 attrs[key] = value;
+      }
   	});
-    this.songs.pid = response.playlist_id;
-  	attrs.songs = this.songs;
-    console.log(attrs);
+  	//attrs.songs = songs;
+    //console.log(attrs);
   	return attrs;
   },
 
@@ -47,7 +49,7 @@ Syncd.Models.Playlist = Backbone.Model.extend({
 
     }
 
-    if (this.get("songs") === null) {
+    if (this.get("songs").length === 0) {
       this.fetch({success: function(model) {
           addAndSave();
         }

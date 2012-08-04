@@ -9,8 +9,8 @@ Syncd.Views.Playlist = Backbone.View.extend({
     _.bindAll(this);
     this.vent = options.vent;
     this.vent.on("deletePL", this.deletePlaylist);
-    this.model.songs.on("add", this.updateCount);
-    this.model.songs.on("remove", this.updateCount);
+    this.model.get("songs").on("add", this.updateCount);
+    this.model.get("songs").on("remove", this.updateCount);
   },
 
   render: function () {
@@ -49,7 +49,7 @@ Syncd.Views.Playlist = Backbone.View.extend({
   },
 
   updateCount: function() {
-    $(".num", this.el).html(this.model.songs.length);
+    $(".num", this.el).html(this.model.get("songs").length);
   }
 
 });

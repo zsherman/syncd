@@ -1,3 +1,4 @@
+<div id="load_container">
 <div id="top"></div>
 <div id="mid">
 	<div id="left">
@@ -40,16 +41,8 @@
 		   <%= render('show.json.rabl') %>
 		</script>
 
-		<%= content_for :javascript do -%>
-		  <%= javascript_tag do %>
-		  	  var div = $('<div></div>');
-		      div.html($('#bootstrap').text());
-		      var data = JSON.parse(div.text());
-		      Syncd.initialize({collection: data});
-		  <% end %>
-		<% end %>
 
-		<%= render('show.json.rabl') %>
+
 		
 <!-- 		<div class="album">
 			<footer>1</footer>
@@ -92,4 +85,14 @@
 			<div class="repeat"></div>
 		</div>
 	</div>
+</div>
+<%= javascript_include_tag "retina", "http://localhost:9292/faye.js" %>
+  <%= javascript_include_tag "application" %>
+		  <%= javascript_tag do %>
+		  	  var div = $('<div></div>');
+		      div.html($('#bootstrap').text());
+		      var data = JSON.parse(div.text());
+		      Syncd.initialize({collection: data});
+		  <% end %>
+
 </div>
