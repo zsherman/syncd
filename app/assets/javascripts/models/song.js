@@ -6,9 +6,7 @@ Syncd.Models.Song = Backbone.Model.extend({
 
   initSongs: function() {
   	var self = this;
-    var p_id = this.collection.pid.toString();
-    this.set({"pid": p_id})
-    //console.log(this);
+    var p_id = this.collection.parent.id.toString();
   	var m_id = this.id.toString();
     var id = "id-" + p_id + "-" + m_id;
     soundManager.createSound({
@@ -43,7 +41,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     var index = this.collection.indexOf(this);
     var nextModel = this.collection.at(index+1);
     var nextModelid = nextModel.id.toString();
-    var nextModelpid = nextModel.get("pid").toString();
+    var nextModelpid = nextModel.collection.parent.id.toString();
     var currentModel = this; 
     var currentModelid = currentModel.id.toString();
 
@@ -64,19 +62,19 @@ Syncd.Models.Song = Backbone.Model.extend({
 
   play: function() {
     soundManager.pauseAll();
-    var id = "id-" + this.collection.pid.toString() + "-" + this.id.toString();
+    var id = "id-" + this.collection.parent.id.toString() + "-" + this.id.toString();
     soundManager.play(id);
     this.trigger("play");
   },
 
   stop: function() {
-    var id = "id-" + this.collection.pid.toString() + "-" + this.id.toString();
+    var id = "id-" + this.collection.parent.id.toString() + "-" + this.id.toString();
     soundManager.pause(id);
     console.log(id);
   },
 
   delete: function() {
-    var id = "id-" + this.collection.pid.toString() + "-" + this.id.toString();
+    var id = "id-" + this.collection.parent.id.toString() + "-" + this.id.toString();
     soundManager.destroySound(id);
     this.destroy();
     this.collection.remove(this.model);

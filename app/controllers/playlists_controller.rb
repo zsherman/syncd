@@ -3,16 +3,15 @@ class PlaylistsController < ApplicationController
   respond_to :json
 
   def index
-    @playlist = Playlist.all
+    @playlist = current_user.playlists
   end
 
   def create
-  	 playlist = Playlist.create(:name => params[:name])
+  	 playlist = current_user.playlists.create(:name => params[:name])
   	 respond_with(playlist)
   end
 
   def show
-    @id = params[:id]
   	@playlist = Playlist.find_by_id(params[:id])
   end
 

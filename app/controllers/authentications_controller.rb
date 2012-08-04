@@ -19,13 +19,18 @@ class AuthenticationsController < ApplicationController
 
             # Add the new token and expiration date to the user's session
             create_or_refresh_fb_session(auth)
+
+            # Cache friend list in local storage
+            friends = import_friendlist(auth)
+
+            # Sign in the user
             if saved_status.nil? || saved_status
                 user = authentication ? authentication.user : user
                 sign_in(:user, user)
             end
         end
 
-        render :json => { :success => (current_user ? true : false), :current_user => current_user.as_json(:only => [:email]) }
+        render :json => { :success => (current_user ? true : false), :current_user => current_user.as_json(:only => [:email]), :friends => friends.as_json }
     end
 
     def signout
@@ -66,6 +71,26 @@ class AuthenticationsController < ApplicationController
         parsed_response = Hash["extension", Hash["token", matched_response[1], "expiry", matched_response[2]]]
         return parsed_response
 
+    end
+
+    def import_friendlist(auth)
+        require "net/https"
+        require "uri"
+        require "json"
+
+        uid = auth['uid']
+        token = auth['extension']['token']
+
+        uri = URI.parse("https://graph.facebook.com/"+uid+"/friends?access_token="+token)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+        request = Net::HTTP::Get.new(uri.request_uri)
+
+        response = http.request(request)
+        parsed_response = JSON.parse response.body
+        return parsed_response['data']
     end
 
     def delete_fb_session

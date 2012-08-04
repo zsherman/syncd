@@ -75,8 +75,7 @@
                     $.getJSON('users/auth/facebook/callback', function(json) {
                         $('#connect').html('Connected! Callback complete.');
                         $('#results').html(JSON.stringify(json));
-                        //window.location.href = 'http://localhost:3000/playlists';
-
+                        localStorage.setItem('friends', JSON.stringify(json['friends']));
 
                         $("#slides li:nth-child(2)").load('http://localhost:3000/playlists #load_container', function() {
                             $.getJSON('http://localhost:3000/playlists.json', function(data) {

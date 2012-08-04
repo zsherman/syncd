@@ -5,10 +5,11 @@ window.Syncd = {
   Routers: {},
 
   initialize: function(data) {
-  	console.log(data);
-  	this.playlists = new Syncd.Collections.Playlists(data.collection);
-  	router = new Syncd.Routers.Playlists({collection: this.playlists});
+    _.extend(this, Backbone.Marionette.Application.prototype);
+  	collection = new Syncd.Collections.Playlists(data.collection);
+  	router = new Syncd.Routers.Playlists({collection: collection});
     Backbone.history.start({pushState: true});
     router.navigate("/playlists");
   }
 };
+

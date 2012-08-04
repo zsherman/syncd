@@ -5,6 +5,6 @@ Syncd.Collections.Songs = Backbone.Collection.extend({
   model: Syncd.Models.Song, 
 
   url: function() {
-    return '/playlists/' + this.pid + '/songs';
+    return '/playlists/' + this.parent.id + '/songs';
   }
 });

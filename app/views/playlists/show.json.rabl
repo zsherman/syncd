@@ -2,4 +2,6 @@ object false
 
 node (:songs) { |m| @playlist.songs }
 
-node (:playlist_id) { |m| @playlist.id}
+child @playlist.users => :subscribers do
+  attributes :uid
+end
