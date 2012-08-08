@@ -26,5 +26,5 @@ class PlaylistsController < ApplicationController
     playlist.destroy
     respond_with("success")
   end
-
+ 
 end
