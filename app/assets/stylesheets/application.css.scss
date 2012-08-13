@@ -32,6 +32,117 @@
     z-index: 6;
 }
 
+#top .fb-image {
+	float: left;
+	margin: 0px 8px 5px 5px;
+	width: 35px;
+	height: 35px;
+
+	@include border-radius(3px); 
+	overflow: hidden;
+}
+
+#top .invites {
+	cursor: pointer;
+	position: absolute;
+	left: 165px;
+	top: 7px;
+	width: 25px; 
+	height: 25px;
+	@include border-radius(2px); 
+	@include background(linear-gradient(top, #A3A3A3, #7A7A7A));
+	box-shadow: 0 1px 0 #6B6B6B, inset 0 1px 0 #969696;
+}
+
+#top .invites:after {
+	content: '';
+	position: absolute;
+	width: 6px;
+	height: 6px;
+	@include border-radius(6px); 
+	background: white;
+	top: 10px;
+	left: 9px;
+}
+
+#top .invites:active {
+
+	@include background(linear-gradient(top, #7A7A7A, #A3A3A3));
+}	
+
+#top .invitelist {
+	display: none;
+	position: absolute;
+	left: 70px;
+	top: 45px;
+	width: 220px;
+	background: #EBEBEB;
+	@include border-radius(2px); 
+	@include single-box-shadow(#232323, 0, 1px, 15px, 2px);
+	color: #4D4D4D;
+}
+
+#top .invitelist:after {
+	content: '';
+	position: absolute;
+	top: -8px;
+	left: 100px;
+	width: 0; 
+	height: 0; 
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-bottom: 8px solid #DBDBDB;
+}
+
+#top .invitelist .title {
+	height: 22px;
+	width: 100%;
+	text-align: center;
+	font-size: 14px;
+	font-family:Helvetica,Arial,'DejaVu Sans','Liberation Sans',Freesans,sans-serif;
+	font-weight: bold;
+	padding-top: 5px;
+	border-bottom: 1px solid #C2C2C2;
+	@include background(linear-gradient(top, #DBDBDB, #DBDBDB));
+	@include border-radius(2px 2px 0px 0px); 
+
+}
+
+#top .invitelist .invite-container .single-invite:nth-child(n+2) {
+	border-top: 1px solid #CFCFCF;
+}
+
+#top .invitelist .content .single-invite {
+	padding: 5px;
+}
+
+#top .invitelist .content .single-invite .pl_name {
+	display: block;
+	font-weight: bold;
+}
+
+#top .invitelist .content .single-invite .inviter {
+	display: block;
+	width: 150px;
+	height: auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+
+
+#top .logo {
+	width: 100px;
+	height: 15px;
+	color: white;
+	font-size: 14px;
+	font-family: Arial;
+	font-weight: bold;
+	margin: 0px auto;
+	position: relative;
+	top: 10px;
+}
+
 #mid {
 	position: absolute;
 	top: 40px;
@@ -186,6 +297,104 @@
 	bottom: 0;
 	width: 190px;
     @include background(linear-gradient(top, #363944, #494d5b));
+    color: white;
+}
+
+#right .fb-image {
+	float: left;
+	margin-left: 5px;
+	margin-bottom: 5px;
+	width: 30px;
+	height: 30px;
+}
+
+.fb-image-container {
+	padding: 8px;
+	width: 100%;
+}
+
+.num-subscribers {
+	margin-left: 3px;
+	margin-bottom: 4px;
+	font-size: 11px;
+	font-family: Arial;
+}
+
+.add-subscriber {
+	float: left;
+	width: 30px;
+	height: 30px;
+	margin-left: 5px;
+	margin-bottom: 5px;
+	background: grey;
+}
+
+#friendsearch {
+	width: 125px;
+	height: 12px;
+}
+
+/*!
+ * jQuery UI Autocomplete 1.8.22
+ *
+ * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Autocomplete#theming
+ */
+.ui-autocomplete {
+		max-height: 450px;
+		overflow-y: auto;
+		/* prevent horizontal scrollbar */
+		overflow-x: hidden;
+		/* add padding to account for vertical scrollbar */
+		padding-right: 20px;
+	}
+	/* IE 6 doesn't support max-height
+	 * we use height instead, but this forces the menu to always be this tall
+	 */
+	* html .ui-autocomplete {
+		height: 100px;
+	}
+/*
+ * jQuery UI Menu 1.8.22
+ *
+ * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Menu#theming
+ */
+.ui-menu {
+	list-style:none;
+	padding: 2px;
+	margin: 0;
+	display:block;
+	float: left;
+}
+.ui-menu .ui-menu {
+	margin-top: -3px;
+}
+.ui-menu .ui-menu-item {
+	margin:0;
+	padding: 0;
+	zoom: 1;
+	float: left;
+	clear: left;
+	width: 100%;
+}
+.ui-menu .ui-menu-item a {
+	text-decoration:none;
+	display:block;
+	padding:.2em .4em;
+	line-height:1.5;
+	zoom:1;
+}
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active {
+	font-weight: normal;
+	margin: -1px;
 }
 
 

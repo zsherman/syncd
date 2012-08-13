@@ -1,5 +1,12 @@
 <div id="load_container">
-<div id="top"></div>
+<div id="top">
+	<div class="invites"></div>
+	<div class="invitelist">
+		<div class="title">Invitations</div>
+		<div class="content"></div>
+	</div>
+	<div class="logo"></div>
+</div>
 <div id="mid">
 	<div id="left">
 		<section class="music">
@@ -34,7 +41,8 @@
 			</ul>
 		</section>
 	</div>
-	<div id="right"></div>
+	<div id="right">
+	</div>
 	<div id="center">
 
 		<script type="text/json" id="bootstrap">
@@ -92,7 +100,7 @@
 		  	  var div = $('<div></div>');
 		      div.html($('#bootstrap').text());
 		      var data = JSON.parse(div.text());
-		      Syncd.initialize({collection: data});
+		      Syncd.initialize({playlist_collection: data['playlists'], invitation_collection: data['invitations']});
 		  <% end %>
 
 </div>

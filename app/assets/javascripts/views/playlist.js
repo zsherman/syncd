@@ -11,6 +11,8 @@ Syncd.Views.Playlist = Backbone.View.extend({
     this.vent.on("deletePL", this.deletePlaylist);
     this.model.get("songs").on("add", this.updateCount);
     this.model.get("songs").on("remove", this.updateCount);
+    this.model.get("songs").on("reset", this.updateCount);
+    this.model.on("change:name", this.render);
   },
 
   render: function () {

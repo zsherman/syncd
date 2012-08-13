@@ -22,4 +22,9 @@ class User < ActiveRecord::Base
 		self.authentications.first.uid
 	end
 
+	def self.find_by_uid(uid)
+		auth = Authentication.find_by_uid(uid.to_s)
+		auth.user if Authentication.find_by_uid(uid.to_s)
+	end
+
 end
