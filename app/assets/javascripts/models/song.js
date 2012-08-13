@@ -10,30 +10,30 @@ Syncd.Models.Song = Backbone.Model.extend({
   	var m_id = this.id.toString();
     var id = "id-" + p_id + "-" + m_id;
     soundManager.createSound({
-    id: id,
-    url: this.get("audio"),
-    autoLoad: false,
-    autoPlay: false,
-    onload: function() {
-    },
-    onplay: function() {
-    },
-    onresume: function() {
-      self.trigger("resumed", self);
-    },
-    whileloading: function() {
-      //console.log(this.durationEstimate);
-    },
-    onfinish: function() {
-      self.nextSong();
-  	},
-    onstop: function() {
-      self.trigger("stop");
-    },
-    onpause: function() {
-      self.trigger("stop");
-    },
-    volume: 50
+      id: id,
+      url: this.get("audio"),
+      autoLoad: false,
+      autoPlay: false,
+      onload: function() {
+      },
+      onplay: function() {
+      },
+      onresume: function() {
+        self.trigger("resumed", self);
+      },
+      whileloading: function() {
+        //console.log(this.durationEstimate);
+      },
+      onfinish: function() {
+        self.nextSong();
+    	},
+      onstop: function() {
+        self.trigger("stop");
+      },
+      onpause: function() {
+        self.trigger("stop");
+      },
+      volume: 50
     });
   },
 
@@ -77,7 +77,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     var id = "id-" + this.collection.parent.id.toString() + "-" + this.id.toString();
     soundManager.destroySound(id);
     this.destroy();
-    this.collection.remove(this.model);
+    //this.collection.remove(this.model);
   }
 
 });

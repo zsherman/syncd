@@ -30,7 +30,7 @@ class AuthenticationsController < ApplicationController
             end
         end
 
-        render :json => { :success => (current_user ? true : false), :current_user => current_user.as_json(:only => [:email]), :friends => friends.as_json }
+        render :json => { :success => (current_user ? true : false), :current_user => current_user.as_json(:only => [:email]), :uid => current_user.uid, :friends => friends.as_json }
     end
 
     def signout

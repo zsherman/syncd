@@ -6,6 +6,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     this.collection.on("add", this.addNewPlaylist);
     this.collection.on("reset", this.render);
     this.collection.on("remove", this.destroyPlaylist);
+    this.collection.on("change:name", this.updateName);
     $('#left section.playlists a.create').click(this.newPlaylist); // Outside of the view element
     $('#left section.playlists a.delete').click(this.deletePlaylists); // Outside of the view element
     $('#left section.music li').click(this.showMusic);
@@ -55,11 +56,20 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     });
 
     // Remove playlist element from the collection
-    this.collection.remove(model);
+    this.collection.remove(model, {silent: true});
+    model.destroy();
   },
 
-  destroyPlaylist: function(m, c, options) {
-    m.destroy();
+  destroyPlaylist: function(model, collection, options) {
+    var id = model.id;
+    $('*[data-id="'+id+'"]').parent().remove();
+
+    // Reorder indices
+    $("[class^='index']").removeClass().each(function(index){
+      $(this).addClass("index-"+index);
+    });
+
+    model.destroy();
   },
 
   newPlaylist: function () {
@@ -98,14 +108,11 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     if (model.get("songs").length === 0) {
       model.fetch({success: function(model) {
         
-        console.log(model);
         self.renderRegions(model);
-        console.log(model);
         }
       });
     } else {
       self.renderRegions(model);
-      console.log(model);
     }
 
 
@@ -130,9 +137,14 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   renderRegions: function(model, state) {
     var songsView = new Syncd.Views.SongsIndex({collection: model.get("songs"), state: this.state});
     Syncd.centerRegion.show(songsView);
+    console.log(model);
+    var infoPane = new Syncd.Views.SubscribersIndex({collection: model.get("subscribers")});
+    Syncd.rightRegion.show(infoPane);
+  },
 
-    // var infoPane = new Syncd.Views.InfoPane;
-    // Syncd.rightRegion.show(infoPane);
+  updateName: function(model) {
+    var name = model.get("name");
+    this.collection.get(model.id).set(name);
   }
 
 });

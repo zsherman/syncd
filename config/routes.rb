@@ -12,7 +12,9 @@ Syncd::Application.routes.draw do
 
   resources :playlists do
     resources :songs
+    resources :subscribers
   end
+
 
 
   #get "playlists/index"
