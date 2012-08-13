@@ -9,6 +9,7 @@ gem 'sqlite3'
 gem 'bootstrap-sass'
 gem 'backbone-on-rails'
 gem 'rabl'
+gem 'httparty'
 gem 'yajl-ruby'
 gem 'em-websocket'
 gem 'faye'
@@ -19,6 +20,7 @@ gem 'oauth2'
 gem 'pg'
 gem 'backbone_sync-rails', :git => 'git://github.com/maxgillett/backbone_sync-rails.git'
 gem 'foreman'
+gem 'thin'
 
 # Gems used only for assets and not required
 # in production environments by default.
