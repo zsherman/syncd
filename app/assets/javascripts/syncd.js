@@ -12,8 +12,11 @@ window.Syncd = {
       return JST[template](data);
     }
     _.extend(this, Backbone.Marionette.Application.prototype);
-  	collection = new Syncd.Collections.Playlists(data.collection, {parse: true});
-  	router = new Syncd.Routers.Playlists({collection: collection});
+  	
+    playlist_collection = new Syncd.Collections.Playlists(data.playlist_collection, {parse: true});
+  	invitation_collection = new Syncd.Collections.Invites(data.invitation_collection);
+
+    router = new Syncd.Routers.Playlists({collection: playlist_collection, invitations: invitation_collection});
     Backbone.history.start({pushState: true});
     router.navigate("/playlists");
   }

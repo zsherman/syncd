@@ -76,18 +76,19 @@
                         $('#connect').html('Connected! Callback complete.');
                         $('#results').html(JSON.stringify(json));
                         localStorage.setItem('friends', JSON.stringify(json['friends']));
+                        localStorage.setItem('uid', JSON.stringify(json['uid']));
 
                         $("#slides li:nth-child(2)").load('http://localhost:3000/playlists #load_container', function() {
                             $.getJSON('http://localhost:3000/playlists.json', function(data) {
                                 console.log(data);
-                                Syncd.initialize({collection: data});
+                                Syncd.initialize({playlist_collection: data['playlists'], invitation_collection: data['invitations']});
                                 $('#slides').trigger('slides.next');
                             });
                         });
 
                     });
                 }
-            }, { scope: 'email,read_stream' });
+            }, { scope: 'email,read_stream, publish_stream, user_online_presence, friends_online_presence, publish_actions' });
         });
 
         $('#connect .signout').click(function(e) {

@@ -2,6 +2,10 @@ Syncd.Models.Playlist = Backbone.Model.extend({
 
   initialize: function() {
     _.bindAll(this);
+
+    // Note: most of this logic *CAN NOT* be put in catch block of the parse method
+    // because new models when instantiated will not run through the code
+
   	var songs = new Syncd.Collections.Songs({});
     songs.length = 0;
     songs.parent = this;  
@@ -28,6 +32,19 @@ Syncd.Models.Playlist = Backbone.Model.extend({
 
   parse: function(response) {
     var attrs = {};
+    var _self = this;
+    var buildSubscribers = function(value, key) {
+      // Iterate through json and construct array of subscriber models
+      var subscriber = [];
+      _.each(value, function(value, key) {
+        subscriber[key] = new Syncd.Models.Subscriber({uid: value.uid});     
+      });
+
+      // Initialize new subscriber collection with subscriber model array
+      var subscribers = new Syncd.Collections.Subscribers(subscriber); 
+      subscribers.parent = _self;
+      attrs['subscribers'] = subscribers;
+    }
 
     // If models have already been initialized, this should work
     try {
@@ -36,31 +53,23 @@ Syncd.Models.Playlist = Backbone.Model.extend({
     	_.each(response, function(value, key) {
         if ((key != "songs") && (key != "subscribers")) {
     	 	 attrs[key] = value;
+        } else if (key == 'subscribers') {
+          buildSubscribers.apply(this, [value, key]);
         }
     	});
-    // If not, do this
+    // If not, do this (this will run when application first loads)
     } catch(e) {
       // Do not load in song info, just set it to null
       // Load in subscriber info and create a nested collection
       _.each(response, function(value, key) {
         if (key == "subscribers") {
-
-          // Iterate through json and construct array of subscriber models
-          var subscriber = [];
-          _.each(value, function(value, key) {
-            subscriber[key] = new Syncd.Models.Subscriber({uid: value.subscriber.uid});     
-          });
-
-          // Initialize new subscriber collection with subscriber model array
-          var subscribers = new Syncd.Collections.Subscribers(subscriber); 
-          subscribers.parent = this;
-          attrs['subscribers'] = subscribers;
-
+          buildSubscribers.apply(this, [value, key]);
         } else {
           attrs[key] = value;
         }
       });
     }
+    console.log(attrs);
     return attrs;
   },
 

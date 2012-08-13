@@ -10,7 +10,7 @@ class SongsController < ApplicationController
 			songlist << song
 
 			# Notify faye that song has been added to playlist
-			Song.notify_observers(:after_create, song, params[:playlist_id])
+			Song.notify_observers(:custom_after_create, song, params[:playlist_id])
 			respond_with(@playlist)
 		end
 	end
@@ -21,7 +21,7 @@ class SongsController < ApplicationController
 		songlist.delete(song)
 
 		# Notify faye that song has been deleted from playlist
-		Song.notify_observers(:after_destroy, song, params[:playlist_id])
+		Song.notify_observers(:custom_after_destroy, song, params[:playlist_id])
 		respond_with("success")
 	end
 

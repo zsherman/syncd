@@ -3,11 +3,18 @@ class PlaylistsController < ApplicationController
   respond_to :json
 
   def index
+    # Get current user's invitations
+    uid = current_user.uid
+    @invitations = Invitation.find_all_by_uid(uid)
+
+    # Get current user's playlists
     @playlist = current_user.playlists
   end
 
   def create
   	 playlist = current_user.playlists.create(:name => params[:name])
+     uid = current_user.uid
+     Playlist.notify_observers(:custom_after_create, playlist, uid)
   	 respond_with(playlist)
   end
 
@@ -18,12 +25,14 @@ class PlaylistsController < ApplicationController
   def update
   	playlist = Playlist.find_by_id(params[:id])
     playlist.update_attributes(:name => params[:name])
+    Playlist.notify_observers(:custom_after_update, playlist, current_user.uid)
     respond_with(playlist)
   end
 
   def destroy
     playlist = Playlist.find_by_id(params[:id])
     playlist.destroy
+    Playlist.notify_observers(:custom_after_destroy, playlist, current_user.uid)
     respond_with("success")
   end
  
