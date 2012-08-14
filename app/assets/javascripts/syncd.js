@@ -3,6 +3,7 @@ window.Syncd = {
   Collections: {},
   Views: {},
   Routers: {},
+  Instances: {},
 
   initialize: function(data) {
     // Override render function to allow JST templates
@@ -12,11 +13,15 @@ window.Syncd = {
       return JST[template](data);
     }
     _.extend(this, Backbone.Marionette.Application.prototype);
-  	
-    playlist_collection = new Syncd.Collections.Playlists(data.playlist_collection, {parse: true});
-  	invitation_collection = new Syncd.Collections.Invites(data.invitation_collection);
 
-    router = new Syncd.Routers.Playlists({collection: playlist_collection, invitations: invitation_collection});
+    this.Instances.PlaylistCollection = new Syncd.Collections.Playlists(data.playlist_collection, {parse: true});
+  	this.Instances.InvitationCollection = new Syncd.Collections.Invites(data.invitation_collection);
+
+    router = new Syncd.Routers.Playlists({
+      collection: this.Instances.PlaylistCollection, 
+      invitations: this.Instances.InvitationCollection
+    });
+
     Backbone.history.start({pushState: true});
     router.navigate("/playlists");
   }

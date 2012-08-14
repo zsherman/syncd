@@ -1,5 +1,5 @@
 Syncd.Models.Playlist = Backbone.Model.extend({
-
+  
   initialize: function() {
     _.bindAll(this);
 

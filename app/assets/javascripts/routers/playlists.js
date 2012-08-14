@@ -32,12 +32,12 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
 
     // Render invitations
     var invitationsView = new Syncd.Views.InvitesIndex({collection: this.invitations});
-    $('#top .invitelist .content').html(invitationsView.render().$el);
+    $('#top .invites-container .content').html(invitationsView.render().$el);
 
-    $('#top .invites').toggle(function() {
-      $('#top .invitelist').css('display', 'block');
+    $('#top .invites-button').toggle(function() {
+      $('#top .invites-container').fadeIn(400);
     }, function() {
-      $('#top .invitelist').css('display', 'none');
+      $('#top .invites-container').fadeOut(400);
     });
 
   
