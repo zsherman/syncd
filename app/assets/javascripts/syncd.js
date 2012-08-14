@@ -16,10 +16,12 @@ window.Syncd = {
 
     this.Instances.PlaylistCollection = new Syncd.Collections.Playlists(data.playlist_collection, {parse: true});
   	this.Instances.InvitationCollection = new Syncd.Collections.Invites(data.invitation_collection);
+    this.Instances.SearchCollection = new Syncd.Collections.Searches();
 
     router = new Syncd.Routers.Playlists({
-      collection: this.Instances.PlaylistCollection, 
-      invitations: this.Instances.InvitationCollection
+      playlists: this.Instances.PlaylistCollection, 
+      invitations: this.Instances.InvitationCollection,
+      searches: this.Instances.SearchCollection
     });
 
     Backbone.history.start({pushState: true});
