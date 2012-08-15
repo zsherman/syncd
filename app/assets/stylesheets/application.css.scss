@@ -779,7 +779,45 @@
 	@include background-image-retina('repeat.png');
 }
 
+.searched_song {
+	position: relative;
+	border: 1px solid white;
+	height: 70px;
+	overflow: hidden;
+	background-image: -webkit-linear-gradient(top, #272C2D, #151919);
+	@include border-radius(3px);
+}
 
+.search_image {
+	position: relative;
+	float: left;
+	left: 5px;
+	height: 60px;
+	width: 60px;
+	border: 1px solid white;
+	background: url('http://userserve-ak.last.fm/serve/64/45163985.png');
+	margin-top: 4px;
+	@include border-radius(3px);
+}
 
+.search_info {
+	position: relative;
+	width: 80%;
+	float: left;
+	margin-left: 10px;
+}
 
+.search_title {
+	width: 50%;
+	color: #93D1EA;
+}
 
+.search_artist {
+	width: 50%;
+	color: #93D1EA;
+}
+
+.search_url {
+	width: 50%;
+	color: #93D1EA;
+}
