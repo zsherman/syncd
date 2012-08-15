@@ -74,7 +74,7 @@ class SearchController < ApplicationController
 			@songs << ex
 		end
 		
-		logger.debug @songs.inspect
+		#logger.debug @exfm_songs.inspect
 		respond_to do |format|
     		format.html
     		format.json

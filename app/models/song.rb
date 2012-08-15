@@ -1,5 +1,5 @@
 class Song < ActiveRecord::Base
-  attr_accessible :artist, :title, :url, :id
+  attr_accessible :artist, :title, :url, :id, :image
   has_and_belongs_to_many :playlists
 
   def faye_channel(*args)

@@ -9,11 +9,11 @@ module Exfm
     response = HTTParty.get(base_uri+'/'+URI.escape(input))
     results = JSON.parse(response.body)
     tracks = results["songs"]
-    Rails.logger.info tracks
     @exfm_songs = []
     tracks.each do |t|
-      @exfm_songs << Song.find_or_create_by_title_and_artist_and_url(:title => t["title"], :artist => t["artist"], :url =>t["url"])
+      @exfm_songs << Song.find_or_create_by_title_and_artist_and_url_and_image(:title => t["title"], :artist => t["artist"], :url => t["url"], :image => t["image"]["small"])
     end
+    Rails.logger.debug @exfm_songs
     return @exfm_songs
   end
 
