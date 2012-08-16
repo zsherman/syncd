@@ -43,14 +43,20 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
       $('#top .invites-container').fadeOut(400);
     });
 
-    // Attach event handler to search input
-    $('#top .search').on("keypress", function(e) {
+    var keypressCallback = function(e) {
       if(e.keyCode==13){
-        //$('#top .search').off("keypress");
+        $('#top .search').off("keypress");
         var view = new Syncd.Views.SearchesIndex({ collection: _self.searches });
+        view.on("collection:before:close", function(){
+          $('#top .search').on("keypress", keypressCallback);
+        });
         Syncd.centerRegion.show(view);
       }
-    });
+    }
+
+    // Attach event handler to search input
+    $('#top .search').on("keypress", keypressCallback);
+
 
     // Syncd.centerRegion.on("view:show", function(view){
     //   console.log(view);

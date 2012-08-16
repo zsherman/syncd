@@ -11,6 +11,7 @@ Syncd.Views.SearchesIndex = Backbone.Marionette.CollectionView.extend({
 
 		$('#top .search').on("keypress", function(e) {
 	      if(e.keyCode==13){
+	      	_self.collection.fetch();
 	        _self.render();
 	      }
 	    });
