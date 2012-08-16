@@ -46,7 +46,7 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
     // Attach event handler to search input
     $('#top .search').on("keypress", function(e) {
       if(e.keyCode==13){
-        $('#top .search').off("keypress");
+        //$('#top .search').off("keypress");
         var view = new Syncd.Views.SearchesIndex({ collection: _self.searches });
         Syncd.centerRegion.show(view);
       }
