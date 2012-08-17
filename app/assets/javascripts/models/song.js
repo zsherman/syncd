@@ -1,7 +1,12 @@
 Syncd.Models.Song = Backbone.Model.extend({
 
   initialize: function() {
-    this.initSongsonce = _.once(this.initSongs);
+    _.bindAll(this);
+    try {
+      this.initSongs();
+    } catch (err) {
+      // do nothing
+    }
    },
 
   initSongs: function() {
