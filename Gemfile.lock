@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/maxgillett/backbone_sync-rails.git
-  revision: b4008174f4033d32d87b9846539c3a665fbbbb2e
+  revision: 15a1d6924e78faf19b625239064beaafcfde67c9
   specs:
-    backbone_sync-rails (0.0.8)
+    backbone_sync-rails (0.0.9)
       rails (>= 3.0.0)
 
 GEM
@@ -112,7 +112,7 @@ GEM
     jquery-ui-rails (1.1.1)
       jquery-rails
       railties (>= 3.1.0)
-    json (1.7.4)
+    json (1.7.5)
     jwt (0.1.5)
       multi_json (>= 1.0)
     mail (2.4.4)
