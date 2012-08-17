@@ -10,7 +10,7 @@ child @playlist => :playlists do
 end
 
 child @invitations => :invitations do
-	attributes :playlist_id, :inviter_uid, :playlist_name, :inviter_name
+	attributes :id, :playlist_id, :inviter_uid, :playlist_name, :inviter_name
 end
 
 

@@ -31,7 +31,7 @@ class PlaylistsController < ApplicationController
 
   def destroy
     playlist = Playlist.find_by_id(params[:id])
-    playlist.destroy
+    current_user.playlists.delete(playlist)
     Playlist.notify_observers(:custom_after_destroy, playlist, current_user.uid)
     respond_with("success")
   end

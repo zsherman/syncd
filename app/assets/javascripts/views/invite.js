@@ -16,20 +16,12 @@ Syncd.Views.Invite = Backbone.Marionette.ItemView.extend({
   	var el = this.make("span", {"class": "accepted"}, "Invitation accepted");
   	this.$el.html(el);
   	setTimeout(function () {
-	   $(".invites-button").trigger('click');
-	}, 1000);
+      $(".invites-button").trigger('click');
+    }, 1000);
 
-  	// Remove invitation
-  	setTimeout(function () {
-    	_self.model.destroy();
-	}, 1500);
-
-  	// Add new playlist to playlist collection
-  	var playlist = new Syncd.Models.Playlist({id: this.model.get("playlist_id"), name: this.model.get("playlist_name")});
-  	playlist.fetch({success: function(model) {
-        	Syncd.Instances.PlaylistCollection.add(model);
-        }
-    });
+    // Add current user to playlist (i.e. notify the server that the invitation has been accepted)
+    // and add the new playlist the playlist collection
+    this.model.addPlaylist();
 
   }
 });
