@@ -78,8 +78,8 @@
                         localStorage.setItem('friends', JSON.stringify(json['friends']));
                         localStorage.setItem('uid', JSON.stringify(json['uid']));
 
-                        $("#slides li:nth-child(2)").load('http://localhost:3000/playlists #load_container', function() {
-                            $.getJSON('http://localhost:3000/playlists.json', function(data) {
+                        $("#slides li:nth-child(2)").load('http://thawing-peak-7366.herokuapp.com/playlists #load_container', function() {
+                            $.getJSON('http://thawing-peak-7366.herokuapp.com/playlists.json', function(data) {
                                 console.log(data);
                                 Syncd.initialize({playlist_collection: data['playlists'], invitation_collection: data['invitations']});
                                 $('#slides').trigger('slides.next');
@@ -109,6 +109,6 @@
 
 
 
-<%= javascript_include_tag "retina", "http://localhost:9292/faye.js" %>
+<%= javascript_include_tag "retina", "http://thawing-peak-7366.herokuapp.com/faye.js" %>
   <%= javascript_include_tag "application" %>
 
