@@ -1,0 +1,95 @@
+<div id="load_container">
+<div id="top">
+	<div class="invites-button"></div>
+	<div class="invites-container">
+		<div class="title">Invitations</div>
+		<div class="content"></div>
+	</div>
+	<div class="logo">
+	<input class="search"></div>
+</div>
+<div id="mid">
+	<div id="left">
+		<section class="music">
+			<header>
+				<span>Syncd</span>
+			</header>
+			<ul>
+				<li>
+					<span>Music</span>
+					<div class="num">46</div>
+				</li>			
+			</ul>
+		</section>
+		<section class="playlists">
+			<header>
+				<span>Playlists</span>
+				<div class="options"></span>
+			</header>
+			<ul></ul>
+			<a href="#" class="create">Create playlist</a>
+			<a href="#" class="delete">Delete playlist</a>
+		</section>
+		<section class="members">
+			<header>
+				<span>Friends</span>
+				<div class="options"></span>
+			</header>
+			<ul>
+				<li>Max</li>
+				<li>Zach</li>
+				<li>Sonny</li>
+			</ul>
+		</section>
+	</div>
+	<div id="right">
+	</div>
+	<div id="center">
+
+		<script type="text/json" id="bootstrap">
+		   <%= render('show.json.rabl') %>
+		</script>
+
+	</div>
+</div>
+<div id="bottom">
+	<div class="now-playing">
+		<div class="album"></div>
+		<div class="info">
+			<span class="song">Fineshrine</span>
+			<span class="artist">Purity Ring</span>
+		</div>
+	</div>
+	<div class="controls">
+		<div class="buttons">
+			<div class="rw"></div>
+			<div class="pause"></div>
+			<div class="ff"></div>
+		</div>
+		<div class="progress-bar">
+			<span class="current">1:19</span>
+			<div class="bar">
+				<div class="bar-filled"></div>
+			</div>
+			<span class="end">3:11</span>
+		</div>
+		<div class="audio">
+			<div class="icon"></div>
+			<div class="bar">
+				<div class="bar-filled"></div>
+			</div>
+			<div class="shuffle"></div>
+			<div class="repeat"></div>
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "retina", "http://localhost:9292/faye.js" %>
+  <%= javascript_include_tag "application" %>
+		  <%= javascript_tag do %>
+		  	  var div = $('<div></div>');
+		      div.html($('#bootstrap').text());
+		      var data = JSON.parse(div.text());
+		      Syncd.initialize({playlist_collection: data['playlists'], invitation_collection: data['invitations']});
+		  <% end %>
+
+</div>

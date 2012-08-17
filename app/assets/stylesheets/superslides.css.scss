@@ -1,0 +1,23 @@
+#slides {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+#slides .slides-navigation {
+  width: 988px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 3;
+  top: -50%;
+}
+
+#slides .slides-navigation a {
+  position: absolute;
+  display: block;
+}
+#slides .slides-navigation a.prev {
+  left: 0;
+}
+#slides .slides-navigation a.next {
+  right: 0;
+}

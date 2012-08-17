@@ -12,10 +12,30 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.all
+//= require jquery.superslides
+//= require underscorejs
+//= require backbone
+//= require backbone.marionette
+//
+//= require syncd
+//
+//= require_tree ./models
+//= require_tree ./collections
+//= require_tree ./views
+//= require_tree ./routers
+//= require_tree ../templates
+//= require extensions/backbone.collection.idempotent
+//= require backbone_sync-rails/rails_faye_subscriber
 //= require_tree .
-//= require twitter/bootstrap
 
 
-$(document).ready(function(){
-  /* Your javascripts goes here... */
+soundManager.setup({
+  url: '/swf',
+  flashVersion: 9, // optional: shiny features (default = 8)
+  useFlashBlock: false, 
+  onready: function() { }
 });
+
+
+

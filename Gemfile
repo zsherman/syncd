@@ -5,15 +5,31 @@ gem 'rails', '3.2.3'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
-gem "twitter-bootstrap-rails"
-
+gem 'bootstrap-sass'
+gem 'backbone-on-rails'
+gem 'rabl'
+gem 'httparty'
+gem 'yajl-ruby'
+gem 'em-websocket'
+gem 'faye'
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook', '1.4.0'
+gem 'oauth2'
+gem 'pg'
+gem 'backbone_sync-rails', :git => 'git://github.com/maxgillett/backbone_sync-rails.git'
+gem 'foreman'
+gem 'thin'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+  #gem 'sqlite3'
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
+  gem 'compass-rails'
+  gem 'jquery-ui-rails'
+  gem 'marionette-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platform => :ruby

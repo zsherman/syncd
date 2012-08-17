@@ -1,0 +1,114 @@
+<div id="slides">
+  <ul class="slides-container">
+    <li>
+        <div class="container">
+
+
+
+<div id="fb-root"></div>
+
+<div id="results">
+    <%= signed_in?(:user).to_s %> </div>
+
+<p id="connect">
+    <% if !signed_in?(:user) %> 
+        <a class="signin" href="#"></a>
+    <% else %>
+        <a class="signout" href="#">Signout</a>
+    <% end %>
+</p>
+<!-- <img src="http://flickholdr.com/1000/800" alt="" style="position: relative"> -->
+      </div>
+    </li>
+    <li>
+      <div class="container">
+        Slide two
+<!-- <img src="http://flickholdr.com/1000/800" alt="" style="position: relative"> -->
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $('#slides').superslides({
+            slide_easing: 'easeInOutCubic',
+            slide_speed: 800
+        });
+    });
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId  : '504807159545247',
+            status : true, // check login status
+            cookie : true, // enable cookies to allow the server to access the session
+            xfbml  : true  // parse XFBML
+        });
+    };
+
+    (function(d) {
+        var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        d.getElementsByTagName('head')[0].appendChild(js);
+    }(document));
+
+    $(function() {
+        $('#connect .signin').click(function(e) {
+            e.preventDefault();
+
+            FB.login(function(response) {
+                console.log(response);
+                if (response.authResponse) {
+                    $('body').on('slides.animated', '#slides', function(){
+                        $("#slides li:nth-child(1):first").remove();
+                    })
+                    //$('#connect').html('Connected! Hitting OmniAuth callback (GET users/auth/facebook/callback)...');
+
+                    // since we have cookies enabled, this request will allow omniauth to parse
+                    // out the auth code from the signed request in the fbsr_XXX cookie
+                    $.getJSON('users/auth/facebook/callback', function(json) {
+                        $('#connect').html('Connected! Callback complete.');
+                        $('#results').html(JSON.stringify(json));
+                        localStorage.setItem('friends', JSON.stringify(json['friends']));
+                        localStorage.setItem('uid', JSON.stringify(json['uid']));
+
+                        $("#slides li:nth-child(2)").load('http://localhost:3000/playlists #load_container', function() {
+                            $.getJSON('http://localhost:3000/playlists.json', function(data) {
+                                console.log(data);
+                                Syncd.initialize({playlist_collection: data['playlists'], invitation_collection: data['invitations']});
+                                $('#slides').trigger('slides.next');
+                            });
+                        });
+
+                    });
+                }
+            }, { scope: 'email,read_stream, publish_stream, user_online_presence, friends_online_presence, publish_actions' });
+        });
+
+        $('#connect .signout').click(function(e) {
+            e.preventDefault();
+            $.getJSON('/auth/facebook/signout', function(json) {
+                $('#connect').html('Connected! Callback complete.');
+                $('#results').html(JSON.stringify(json));
+            });
+        });
+
+        FB.Event.subscribe('auth.statusChange', function(response) {
+            //alert('The status of the session is: ' + response.status);
+        });
+
+    });
+
+</script>
+
+
+
+<%= javascript_include_tag "retina", "http://localhost:9292/faye.js" %>
+  <%= javascript_include_tag "application" %>
+
