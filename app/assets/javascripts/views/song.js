@@ -3,7 +3,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
   initialize: function(options) {
     _.bindAll(this);
 
-    this.model.initSongsonce();
+//    this.model.initSongsonce();
     this.index = this.model.collection.indexOf(this.model);
     
     this.bindTo(this.model, "stop", this.stop);
