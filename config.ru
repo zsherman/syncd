@@ -2,7 +2,7 @@
 require 'faye'
 
 require ::File.expand_path('../config/environment',  __FILE__)
-use Faye::RackAdapter, :mount => '/faye'
+use Faye::RackAdapter, :mount => '/faye', :timeout => 25
 run Syncd::Application
 
 # faye_server = Faye::RackAdapter.new(:mount => '/faye', :timeout => 45)
