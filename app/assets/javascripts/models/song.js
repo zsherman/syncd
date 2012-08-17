@@ -5,6 +5,7 @@ Syncd.Models.Song = Backbone.Model.extend({
    },
 
   initSongs: function() {
+    //filter out where playlist doesn't exist
   	var self = this;
     var p_id = this.collection.parent.id.toString();
   	var m_id = this.id.toString();
