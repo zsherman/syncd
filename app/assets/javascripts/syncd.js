@@ -9,7 +9,6 @@ window.Syncd = {
     // Override render function to allow JST templates
     Backbone.Marionette.Renderer.render = function(template, data){
       if (!JST[template]) throw "Template '" + template + "' not found!";
-      console.log(data);
       return JST[template](data);
     }
     _.extend(this, Backbone.Marionette.Application.prototype);
