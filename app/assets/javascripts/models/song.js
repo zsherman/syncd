@@ -12,7 +12,11 @@ Syncd.Models.Song = Backbone.Model.extend({
   initSongs: function() {
     //filter out where playlist doesn't exist
   	var self = this;
-    var p_id = this.collection.parent.id.toString();
+    if(typeof this.collection.parent != "undefined") {
+      var p_id = this.collection.parent.id.toString();
+    } else {
+      var p_id = "search";
+    }
   	var m_id = this.id.toString();
     var id = "id-" + p_id + "-" + m_id;
     soundManager.createSound({
@@ -68,13 +72,21 @@ Syncd.Models.Song = Backbone.Model.extend({
 
   play: function() {
     soundManager.pauseAll();
-    var id = "id-" + this.collection.parent.id.toString() + "-" + this.id.toString();
+    if (typeof this.collection.parent != "undefined") {
+      var id = "id-" + this.collection.parent.id.toString() + "-" + this.id.toString();
+    } else {
+      var id = "id-" + "search" + "-" + this.id.toString();
+    }
     soundManager.play(id);
     this.trigger("play");
   },
 
   stop: function() {
-    var id = "id-" + this.collection.parent.id.toString() + "-" + this.id.toString();
+    if (typeof this.collection.parent != "undefined") {
+      var id = "id-" + this.collection.parent.id.toString() + "-" + this.id.toString();
+    } else {
+      var id = "id-" + "search" + "-" + this.id.toString();
+    }
     soundManager.pause(id);
     console.log(id);
   },
