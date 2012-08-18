@@ -1,7 +1,13 @@
 <div class="searched_song">
 	<div class="search_image"><img src=<%=image%>></div> 
 	<div class="search_info">
-		<span class="search_title"><%= title %><a href="#" class="play_search">Play</a><a href="#" class="stop_search">Stop</a></span></br>
+		<span class="search_title"><%= title %><a href="#" class="play_search">Play</a><a href="#" class="stop_search">Stop</a>
+		<select class="add_to_playlist">
+			<option value="">Select a playlist</option>
+			<% for (var p=0; p<playlists.length; p++) { %>
+				<option value="<%= playlists[p].id %>"><%= playlists[p].name %></option>
+			<% } %>
+		</select></span></br>
 		<span class="search_artist"><%= artist %></span></br>
 		<span class="search_url"><%= audio %></span>
 	</div>
