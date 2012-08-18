@@ -37,7 +37,8 @@ Syncd.Views.SearchedSong = Backbone.Marionette.ItemView.extend({
   },
 
   addToPlaylist: function(data) {
-    var playlist_id = data.currentTarget.selectedOptions[0].value;
+    var playlist_id = $("select option:selected", this.el).val();
+    //var playlist_id = data.currentTarget.selectedOptions[0].value;
     var songModel = this.model.clone();
     var playlist = Syncd.Instances.PlaylistCollection.get(playlist_id);
 
