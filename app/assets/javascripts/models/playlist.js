@@ -46,9 +46,9 @@ Syncd.Models.Playlist = Backbone.Model.extend({
       attrs['subscribers'] = subscribers;
     }
 
-    // If models have already been initialized, this should work
-    try {
-    	this.get("songs").reset(response.songs); // Repopulate songs collection
+    // If playlist is not new, then update it
+    if (!this.isNew()) {
+      this.get("songs").reset(response.songs); // Repopulate songs collection
       this.get("fetched") ? "donothing" : this.set("fetched", true);
     	_.each(response, function(value, key) {
         if ((key != "songs") && (key != "subscribers")) {
@@ -57,8 +57,7 @@ Syncd.Models.Playlist = Backbone.Model.extend({
           buildSubscribers.apply(this, [value, key]);
         }
     	});
-    // If not, do this (this will run when application first loads)
-    } catch(e) {
+    } else {
       // Do not load in song info, just set it to null
       // Load in subscriber info and create a nested collection
       _.each(response, function(value, key) {
@@ -88,7 +87,7 @@ Syncd.Models.Playlist = Backbone.Model.extend({
       _self.get("songs").add(songModel);
       songModel.save({}, {
         success: function(model, response){
-          //_self.set({count: response.count});
+          songModel.initSongs();
         }
       });
 
