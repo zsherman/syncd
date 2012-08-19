@@ -17,7 +17,7 @@ gem 'omniauth'
 gem 'omniauth-facebook', '1.4.0'
 gem 'oauth2'
 gem 'pg'
-gem 'backbone_sync-rails', :git => 'git://github.com/maxgillett/backbone_sync-rails.git'
+gem 'backbone_sync-rails', :git => 'git://github.com/maxgillett/backbone_sync-rails.git', :branch => "development"
 gem 'foreman'
 gem 'thin'
 
