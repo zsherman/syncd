@@ -1,8 +1,9 @@
 GIT
   remote: git://github.com/maxgillett/backbone_sync-rails.git
-  revision: b4008174f4033d32d87b9846539c3a665fbbbb2e
+  revision: 109c65294721033bc6b58a7a4edf29c716575539
+  branch: development
   specs:
-    backbone_sync-rails (0.0.8)
+    backbone_sync-rails (0.0.9)
       rails (>= 3.0.0)
 
 GEM
