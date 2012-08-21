@@ -79,6 +79,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     }
     soundManager.play(id);
     this.trigger("play");
+    Syncd.vent.trigger("play", this);
   },
 
   stop: function() {

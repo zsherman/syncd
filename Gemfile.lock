@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/maxgillett/backbone_sync-rails.git
-  revision: 109c65294721033bc6b58a7a4edf29c716575539
+  revision: 56d0644ab48c9a0d0ba1654984bac39e6d9feea1
   branch: development
   specs:
     backbone_sync-rails (0.0.9)
@@ -96,7 +96,7 @@ GEM
       yajl-ruby (>= 1.0.0)
     faye-websocket (0.4.6)
       eventmachine (>= 0.12.0)
-    foreman (0.55.0)
+    foreman (0.56.0)
       thor (>= 0.13.6)
     fssm (0.2.9)
     hashie (1.2.0)
@@ -107,13 +107,13 @@ GEM
     httpauth (0.1)
     i18n (0.6.0)
     journey (1.0.4)
-    jquery-rails (2.1.0)
+    jquery-rails (2.1.1)
       railties (>= 3.1.0, < 5.0)
       thor (~> 0.14)
     jquery-ui-rails (1.1.1)
       jquery-rails
       railties (>= 3.1.0)
-    json (1.7.4)
+    json (1.7.5)
     jwt (0.1.5)
       multi_json (>= 1.0)
     mail (2.4.4)
