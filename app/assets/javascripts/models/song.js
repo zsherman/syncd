@@ -19,6 +19,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     }
   	var m_id = this.id.toString();
     var id = "id-" + p_id + "-" + m_id;
+    this.soundObject_id = id;
     soundManager.createSound({
       id: id,
       url: this.get("audio"),
@@ -90,6 +91,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     }
     soundManager.pause(id);
     console.log(id);
+    Syncd.vent.trigger("pause", this);
   },
 
   delete: function() {

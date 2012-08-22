@@ -43,11 +43,12 @@ Syncd.addInitializer(function(options){
   });
 
   // Instantiate bottom layout and pass in views
-  Syncd.bottom_layout = new Syncd.Layouts.Bottom();
-  Syncd.bottom_layout.render();
+  bottom_layout = new Syncd.Layouts.Bottom();
+  bottom_layout.render();
   
-  nowplaying = new Syncd.Views.NowPlaying();
-  Syncd.bottom_layout.nowplaying.show(nowplaying);
+  bottom_layout.nowplaying.show(new Syncd.Views.NowPlaying());
+  bottom_layout.buttons.show(new Syncd.Views.Buttons());
+  bottom_layout.progressbar.show(new Syncd.Views.ProgressBar());
 
   // Create new router
   router = new Syncd.Routers.Playlists({
@@ -59,7 +60,5 @@ Syncd.addInitializer(function(options){
   // Start the router and navigate to "/playlists"
   Backbone.history.start({pushState: true});
   router.navigate("/playlists");
-
-  Syncd.vent.bindTo("play", function(model) {console.log(model)});
 
 });
