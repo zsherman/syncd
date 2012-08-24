@@ -36,13 +36,17 @@ Syncd.Models.Song = Backbone.Model.extend({
         //console.log(this.durationEstimate);
       },
       onfinish: function() {
+        console.log("song finished");
         self.nextSong();
     	},
+      ondataerror: function() {
+        self.nextSong();
+      },
       onstop: function() {
         self.trigger("stop");
       },
       onpause: function() {
-        self.trigger("stop");
+          self.trigger("stop");
       },
       volume: 50
     });
