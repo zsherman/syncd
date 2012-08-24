@@ -3,6 +3,7 @@ Syncd.Views.SearchedSong = Backbone.Marionette.ItemView.extend({
   initialize: function() {
     //_.bindAll(this);
     //this.model.initSongsonce();
+    this.index = this.model.collection.indexOf(this.model);
   },
 
   template: "searches/searched_song",

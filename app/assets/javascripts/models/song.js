@@ -48,10 +48,15 @@ Syncd.Models.Song = Backbone.Model.extend({
   },
 
   nextSong: function() {
+    console.log("Next song is starting...")
     var index = this.collection.indexOf(this);
     var nextModel = this.collection.at(index+1);
     var nextModelid = nextModel.id.toString();
-    var nextModelpid = nextModel.collection.parent.id.toString();
+    if(typeof this.collection.parent != "undefined") {
+      var nextModelpid = nextModel.collection.parent.id.toString();
+    } else {
+      var nextModelpid = "search";
+    }
     var currentModel = this; 
     var currentModelid = currentModel.id.toString();
 
