@@ -4,6 +4,7 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
     _.bindAll(this);
     Syncd.vent.bindTo("play", this.createTimer);
     Syncd.vent.bindTo("pause", this.stopTimer);
+    //$(".progress-bar .bar").slider();
   },
   
   template: "player/progressbar",
@@ -19,7 +20,9 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
     } else {
       state = {
         length: "0:00",
-        position: "0:00" 
+        position: "0:00",
+        percent: "0%",
+        display: "none"
       }
     }
     this.$el.html(JST[this.template]({state: state}));
@@ -50,7 +53,9 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
   parseTime: function(sound) {
     return state = {
         length: this.calcTime(sound.durationEstimate),
-        position: this.calcTime(sound.position)
+        position: this.calcTime(sound.position),
+        percent: 100*sound.position/sound.durationEstimate+"%",
+        display: "block"
     }
   },
 

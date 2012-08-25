@@ -28,9 +28,11 @@ Syncd.Models.Song = Backbone.Model.extend({
       onload: function() {
       },
       onplay: function() {
+        Syncd.vent.trigger("play", self);
       },
       onresume: function() {
         self.trigger("resumed", self);
+        Syncd.vent.trigger("play", self);
       },
       whileloading: function() {
         //console.log(this.durationEstimate);
@@ -40,9 +42,11 @@ Syncd.Models.Song = Backbone.Model.extend({
     	},
       onstop: function() {
         self.trigger("stop");
+        Syncd.vent.trigger("pause", self);
       },
       onpause: function() {
         self.trigger("stop");
+        Syncd.vent.trigger("pause", self);
       },
       volume: 50
     });
@@ -80,7 +84,6 @@ Syncd.Models.Song = Backbone.Model.extend({
     }
     soundManager.play(id);
     this.trigger("play");
-    Syncd.vent.trigger("play", this);
   },
 
   stop: function() {
@@ -91,7 +94,6 @@ Syncd.Models.Song = Backbone.Model.extend({
     }
     soundManager.pause(id);
     console.log(id);
-    Syncd.vent.trigger("pause", this);
   },
 
   delete: function() {

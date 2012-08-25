@@ -739,9 +739,19 @@
 	position: absolute;
 	left: 0;
 	height: 7px;
-	width: 42%;
+	width: 0%;
     @include background(linear-gradient(top, #b3f0c9, #64d9dc));
-	@include border-radius(3px);
+	@include border-radius(3px 0px 0px 3px);
+}
+
+#bottom .controls .progress-bar .pointer {
+	display: none;
+	position: absolute;
+	top: -1px;
+	height: 9px;
+	width: 9px;
+	@include border-radius(9px);
+	background: white;
 }
 
 #bottom .controls .progress-bar span.current {
