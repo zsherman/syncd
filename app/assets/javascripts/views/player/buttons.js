@@ -10,7 +10,9 @@ Syncd.Views.Buttons = Backbone.View.extend({
 
   events: {
     "click .play": "play",
-    "click .pause": "pause"
+    "click .pause": "pause",
+    "click .ff": "next",
+    "click .rw": "prev"
   },
   
   render: function(state) {
@@ -34,6 +36,14 @@ Syncd.Views.Buttons = Backbone.View.extend({
 
   pause: function() {
     this.model.stop();
+  },
+
+  next: function() {
+    this.model.nextSong();
+  },
+
+  prev: function() {
+    this.model.prevSong();
   }
 
 });

@@ -684,6 +684,7 @@
 	height: 11px;
 	width:9px;
 	@include background-image-retina('rw.png');
+	cursor: pointer;
 }
 
 #bottom .controls .buttons .play {
@@ -695,6 +696,7 @@
 	border-top: 10px solid transparent;
 	border-bottom: 10px solid transparent;
 	border-left: 13px solid white;
+	cursor: pointer;
 	//@include background-image-retina('pause.png');
 }
 
@@ -705,6 +707,7 @@
 	height: 19px;
 	width: 11px;
 	@include background-image-retina('pause.png');
+	cursor: pointer;
 }
 
 #bottom .controls .buttons .ff {
@@ -714,6 +717,7 @@
 	height: 11px;
 	width:9px;
 	@include background-image-retina('ff.png');
+	cursor: pointer;
 }
 
 #bottom .controls .progress-bar {
@@ -744,8 +748,7 @@
 	@include border-radius(3px 0px 0px 3px);
 }
 
-#bottom .controls .progress-bar .pointer {
-	display: none;
+.ui-slider-handle {
 	position: absolute;
 	top: -1px;
 	height: 9px;

@@ -4,7 +4,6 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
     _.bindAll(this);
     Syncd.vent.bindTo("play", this.createTimer);
     Syncd.vent.bindTo("pause", this.stopTimer);
-    //$(".progress-bar .bar").slider();
   },
   
   template: "player/progressbar",
@@ -13,22 +12,41 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
   },
   
   render: function(id) {
-    var state;
-    if (typeof id != "undefined") {
-      var sound = soundManager.getSoundById(id);
-      state = this.parseTime(sound);
-    } else {
-      state = {
-        length: "0:00",
-        position: "0:00",
-        percent: "0%",
-        display: "none"
-      }
+    self = this;
+    var state = {
+      length: "0:00",
+      position: "0:00",
+      percent: "0%",
+      display: "none"
     }
     this.$el.html(JST[this.template]({state: state}));
+    $(".bar", this.el).slider({
+      start: function(event, ui) { self.stopTimer(); },
+      slide: function(event, ui) { self.slide(ui) },
+      stop: function(event, ui) { self.createTimer(self.model, ui.value) }
+    });
   },
 
-  createTimer: function(model) {
+  createTimer: function(model, pos) {
+    console.log(pos);
+    // Set the model on the view
+    this.model = model;
+
+    // Get the model's sound object and create a partial function
+    // If pos (position) is set, then update the position of the sound object
+    var sound = soundManager.getSoundById(model.soundObject_id);
+    var updateDOM = partial(this.parseTime, sound);
+    if (typeof pos != "undefined") { sound.setPosition(Math.floor(pos/100*sound.durationEstimate)) }
+
+    // If a timer already exists, remove it
+    if (this.timer) {
+      this.stopTimer();
+    }
+    
+    // Create a new timer
+    this.timer = setInterval(updateDOM, 1000);
+
+    // Partial function
     function partial(func /*, 0..n args */) {
       var args = Array.prototype.slice.call(arguments, 1);
       return function() {
@@ -36,14 +54,6 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
         return func.apply(this, allArguments);
       };
     }
-
-    var id = model.soundObject_id;
-    var render = partial(this.render, id);
-    if (this.timer) {
-      this.stopTimer();
-    }
-    render();
-    this.timer = setInterval(render, 1000);
   },
 
   stopTimer: function() {
@@ -51,12 +61,11 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
   },
 
   parseTime: function(sound) {
-    return state = {
-        length: this.calcTime(sound.durationEstimate),
-        position: this.calcTime(sound.position),
-        percent: 100*sound.position/sound.durationEstimate+"%",
-        display: "block"
-    }
+    var percent = 100*sound.position/sound.durationEstimate+"%";
+    $(".current", this.el).html(this.calcTime(sound.position));
+    $(".end", this.el).html( this.calcTime(sound.durationEstimate));
+    $(".bar-filled", this.el).css("width", percent);
+    $(".ui-slider-handle", this.el).css({"left": percent, "display": "block"});
   },
 
   calcTime: function(num) {
@@ -66,6 +75,15 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
       seconds = "0"+seconds.toString();
     }
     return minutes+":"+seconds;
+  },
+
+  slide: function(ui) {
+    // Get sound object
+    var sound = soundManager.getSoundById(this.model.soundObject_id);
+
+    // Update to the position you seek
+    $(".current", this.el).html(this.calcTime(ui.value/100*sound.durationEstimate));
+    $(".bar-filled", this.el).css("width", ui.value+"%");
   }
 
 });
