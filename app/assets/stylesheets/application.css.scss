@@ -748,7 +748,18 @@
 	@include border-radius(3px 0px 0px 3px);
 }
 
+#bottom .controls .progress-bar .duration-bar {
+	position: absolute;
+	left: 0;
+	height: 7px;
+	width: 0%;
+    @include background(linear-gradient(bottom, #5a5f6f, #7e8496));
+	@include border-radius(3px);
+}
+
 .ui-slider-handle {
+	outline: none;
+	border: 0;
 	position: absolute;
 	top: -1px;
 	height: 9px;

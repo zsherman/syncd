@@ -28,7 +28,6 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
   },
 
   createTimer: function(model, pos) {
-    console.log(pos);
     // Set the model on the view
     this.model = model;
 
@@ -65,6 +64,7 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
     $(".current", this.el).html(this.calcTime(sound.position));
     $(".end", this.el).html( this.calcTime(sound.durationEstimate));
     $(".bar-filled", this.el).css("width", percent);
+    $(".duration-bar").css("width", 100*sound.duration/sound.durationEstimate+"%")
     $(".ui-slider-handle", this.el).css({"left": percent, "display": "block"});
   },
 
