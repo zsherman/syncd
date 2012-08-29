@@ -12,6 +12,9 @@ Syncd.Models.Song = Backbone.Model.extend({
   initSongs: function() {
     //filter out where playlist doesn't exist
   	var self = this;
+    if(this.get("image") == null) {
+      this.set("image", 'http://dribbble.s3.amazonaws.com/users/104537/screenshots/432495/v-for-vendetta-icon.jpg');
+    }
     if(typeof this.collection.parent != "undefined") {
       var p_id = this.collection.parent.id.toString();
     } else {
