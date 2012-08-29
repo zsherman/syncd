@@ -34,8 +34,7 @@ soundManager.setup({
   url: '/swf',
   flashVersion: 9, // optional: shiny features (default = 8)
   useFlashBlock: false, 
+  preferFlash: true,
   onready: function() { }
 });
-
-
 

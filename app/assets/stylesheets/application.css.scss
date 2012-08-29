@@ -637,12 +637,15 @@
 	top: 6px;
 	width: 26px;
 	height: 26px;
-	@include background-image-retina('album-small.png');
+	overflow: hidden;
+	//@include background-image-retina('album-small.png');
 	@include border-radius(2px); 
 }
 
 
-#bottom .info {
+#bottom .now-playing .info {
+	display: block;
+	width: 140px;
 	font-family: Arial;
 	position: absolute;
 	top: 4px;
@@ -652,12 +655,15 @@
 	letter-spacing: 1px;
 }
 
-#bottom .info span {
+#bottom .now-playing .info span {
 	display: block;
 	height: 12px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
-#bottom .info span.artist {
+#bottom .now-playing .info span.artist {
 	font-weight: bold;
 }
 
@@ -683,6 +689,20 @@
 	height: 11px;
 	width:9px;
 	@include background-image-retina('rw.png');
+	cursor: pointer;
+}
+
+#bottom .controls .buttons .play {
+	position: absolute;
+	left: 45px;
+	top: 12px;
+	width: 0; 
+	height: 0; 
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+	border-left: 13px solid white;
+	cursor: pointer;
+	//@include background-image-retina('pause.png');
 }
 
 #bottom .controls .buttons .pause {
@@ -692,6 +712,7 @@
 	height: 19px;
 	width: 11px;
 	@include background-image-retina('pause.png');
+	cursor: pointer;
 }
 
 #bottom .controls .buttons .ff {
@@ -701,6 +722,7 @@
 	height: 11px;
 	width:9px;
 	@include background-image-retina('ff.png');
+	cursor: pointer;
 }
 
 #bottom .controls .progress-bar {
@@ -726,9 +748,29 @@
 	position: absolute;
 	left: 0;
 	height: 7px;
-	width: 42%;
+	width: 0%;
     @include background(linear-gradient(top, #b3f0c9, #64d9dc));
+	@include border-radius(3px 0px 0px 3px);
+}
+
+#bottom .controls .progress-bar .duration-bar {
+	position: absolute;
+	left: 0;
+	height: 7px;
+	width: 0%;
+    @include background(linear-gradient(bottom, #5a5f6f, #7e8496));
 	@include border-radius(3px);
+}
+
+.ui-slider-handle {
+	outline: none;
+	border: 0;
+	position: absolute;
+	top: -1px;
+	height: 9px;
+	width: 9px;
+	@include border-radius(9px);
+	background: white;
 }
 
 #bottom .controls .progress-bar span.current {

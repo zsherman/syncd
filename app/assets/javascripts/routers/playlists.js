@@ -27,12 +27,6 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
   	var userPlaylists = new Syncd.Views.PlaylistsIndex({collection: this.playlists, router: this, vent: vent});
     $('.playlists ul').html(userPlaylists.render().$el);
     
-    // Set up regions
-    Syncd.addRegions({
-      centerRegion: "#center",
-      rightRegion: "#right"
-    });
-
     // Render invitations
     var invitationsView = new Syncd.Views.InvitesIndex({collection: this.invitations});
     $('#top .invites-container .content').html(invitationsView.render().$el);
@@ -43,6 +37,9 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
       $('#top .invites-container').fadeOut(400);
     });
 
+    // Render trending playlists, songs, albums, etc
+
+    // Function to handle generation and presentation of search results
     var keypressCallback = function(e) {
       if(e.keyCode==13){
         $('#top .search').off("keypress");
@@ -56,11 +53,6 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
 
     // Attach event handler to search input
     $('#top .search').on("keypress", keypressCallback);
-
-
-    // Syncd.centerRegion.on("view:show", function(view){
-    //   console.log(view);
-    // });
   
   },
 
