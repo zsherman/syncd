@@ -13,7 +13,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     //filter out where playlist doesn't exist
   	var self = this;
     if(this.get("image") == null) {
-      this.set("image", 'http://dribbble.s3.amazonaws.com/users/104537/screenshots/432495/v-for-vendetta-icon.jpg');
+      this.set("image", 'http://25.media.tumblr.com/tumblr_m704va32Qw1qzo6tso1_500.jpg');
     }
     if(typeof this.collection.parent != "undefined") {
       var p_id = this.collection.parent.id.toString();
