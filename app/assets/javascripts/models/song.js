@@ -131,7 +131,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     soundManager.pauseAll();
     var index = this.collection.indexOf(this);
     var prev = this.collection.at(index-1);
-    var prevModelid = nextModel.soundObject_id;
+    var prevModelid = prev.soundObject_id;
     // var currentModel = this; 
     // var currentModelid = currentModel.id.toString();
 
@@ -142,7 +142,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     this.trigger("stop");
 
     // Trigger upcoming song to play view
-    nextModel.trigger("play");
+    prev.trigger("play");
 
     // Update state
     //console.log(window);
