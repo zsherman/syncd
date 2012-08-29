@@ -84,6 +84,12 @@
 	</div>
 </div>
 <%= javascript_include_tag "retina", "http://localhost:9292/faye.js" %>
+<script src="http://connect.soundcloud.com/sdk.js"></script>
+<script>
+	SC.initialize({
+	  client_id: '4624e2f4f3302307304aa5658d3a7177'
+	});
+</script>
 <%= javascript_include_tag "application" %>
 <%= javascript_tag do %>
 	var div = $('<div></div>');

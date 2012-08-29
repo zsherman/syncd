@@ -643,7 +643,9 @@
 }
 
 
-#bottom .info {
+#bottom .now-playing .info {
+	display: block;
+	width: 140px;
 	font-family: Arial;
 	position: absolute;
 	top: 4px;
@@ -653,12 +655,15 @@
 	letter-spacing: 1px;
 }
 
-#bottom .info span {
+#bottom .now-playing .info span {
 	display: block;
 	height: 12px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
-#bottom .info span.artist {
+#bottom .now-playing .info span.artist {
 	font-weight: bold;
 }
 

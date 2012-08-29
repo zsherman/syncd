@@ -81,7 +81,7 @@
                         $("#slides li:nth-child(2)").load('http://localhost:3000/playlists #load_container', function() {
                             $.getJSON('http://localhost:3000/playlists.json', function(data) {
                                 console.log(data);
-                                Syncd.initialize({playlist_collection: data['playlists'], invitation_collection: data['invitations']});
+                                Syncd.start({playlist_collection: data['playlists'], invitation_collection: data['invitations']});
                                 $('#slides').trigger('slides.next');
                             });
                         });

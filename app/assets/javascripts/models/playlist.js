@@ -2,37 +2,45 @@ Syncd.Models.Playlist = Backbone.Model.extend({
   
   initialize: function() {
     _.bindAll(this);
+    var _self = this;
 
     // Note: most of this logic *CAN NOT* be put in catch block of the parse method
     // because new models when instantiated will not run through the code
 
-  	var songs = new Syncd.Collections.Songs({});
+    var songs = new Syncd.Collections.Songs({});
     songs.length = 0;
     songs.parent = this;  
-    this.set("songs", songs);
 
-    // Mark as unfetched
-    this.set("fetched", false);
+    this.set({
+      songs: songs,
+      fetched: false
+    });
 
     // Initialize faye subscriber
-    var channelName = 'songs'+this.id;
     new BackboneSync.RailsFayeSubscriber(this.get("songs"), {
-        channel: channelName, // Set to Rails model.class.table_name, or override Model.faye_channel
+        channel: 'songs'+this.id,
         client: faye
     });
 
-    // Check to make sure that collection has been fetched
-    // and populated with data on an add call (cannot be done
-    // with a remove call). Need to think of a way to update the count
-    // or fetch before a remove call from faye
-    this.get("songs").on("add", this.isFetched);
+    // Add a listener 
+    this.get("songs").on("add", function(model) {
+      // When a song is added to a playlist through faye, make sure that the playlist collection
+      // has been fetched. If the playlist is not fetched, a song will be added to an empty collection
+      if (!_self.get("fetched")) {
+        _self.fetch();
+      }
+      // If a soundObject_id does not exist on the model, then run initSongs
+      if (!model.soundObject_id) {
+        model.initSongs();
+      }
+    });
   },
 
   urlRoot: '/playlists',
 
   parse: function(response) {
-    var attrs = {};
     var _self = this;
+    var attrs = {};
     var buildSubscribers = function(value, key) {
       // Iterate through json and construct array of subscriber models
       var subscriber = [];
@@ -68,7 +76,6 @@ Syncd.Models.Playlist = Backbone.Model.extend({
         }
       });
     }
-    console.log(attrs);
     return attrs;
   },
 
@@ -101,12 +108,5 @@ Syncd.Models.Playlist = Backbone.Model.extend({
     } else {
       addAndSave();
     }
-  },
-
-  isFetched: function() {
-    if (this.get("fetched") === false) {
-      this.fetch();
-    }
   }
-
 });
