@@ -13,7 +13,7 @@ Syncd.Views.SubscribersIndex = Backbone.Marionette.CollectionView.extend({
   		var length = this.collection.length;
   		length += (length == 1) ? " subscriber" : " subscribers";
     	this.$el.prepend('<div class="num-subscribers">'+length+'</div>');
-    	this.$el.append('<input id="friendsearch" />');
+    	this.$el.append('<input id="friendsearch" value="Add a friend" />');
   	},
 
   	createAutosuggest: function() {

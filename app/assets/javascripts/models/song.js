@@ -109,8 +109,6 @@ Syncd.Models.Song = Backbone.Model.extend({
     var index = this.collection.indexOf(this);
     var nextModel = this.collection.at(index+1);
     var nextModelid = nextModel.soundObject_id;
-    // var currentModel = this; 
-    // var currentModelid = currentModel.id.toString();
 
     // Play upcoming song
     soundManager.getSoundById(nextModelid).play();

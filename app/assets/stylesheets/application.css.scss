@@ -12,12 +12,19 @@
  *= require_tree .
  
 */
-
+@import "compass/reset";
 @import "bootstrap";
 @import "compass";
 @import "compass/css3";
 @import "retina";
 //@import "compass/layout/sticky-footer";
+
+#load_container {
+	position: absolute;
+	min-width: 725px;
+	width: 100%;
+	height: 100%;
+}
 
 //Scroll Bar
 ::-webkit-scrollbar {
@@ -35,7 +42,7 @@
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    background: #E4F2F9;
+    background: #3b3b3b;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 ::-webkit-scrollbar-thumb:window-inactive {
@@ -50,10 +57,84 @@
 	height: 40px;
 	top: 0;
 	width: 100%;
-    @include background(linear-gradient(top, #444444, #313131));
+    @include background(linear-gradient(top, #2c2b2b, #0f0f0f));
     //@include single-box-shadow(#232323, 0, 1px, 8px, 1px);
     border-bottom: 1px solid #232323;
     z-index: 6;
+}
+
+#top .search {
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	left: 210px;
+	top: 8px;
+	height: 25px;
+	width: 165px;
+	padding-left: 24px;
+	background: #2c2c2c;
+	border: none;
+	color: #8f999d;
+	@include single-box-shadow(#131313, 0, 1px, 5px, 1px, inset);
+	@include border-radius(12px); 
+}
+
+#top .search:after {
+	position: absolute;
+	content: '';
+	width: 15px;
+	height: 15px;
+	left: 6px;
+	top: 6px;
+	@include background-image-retina('glass.png');
+}
+
+#top .nav-buttons {
+	position: absolute;
+	left: 410px;
+	top: 9px;
+}
+
+#top .nav-buttons div {
+	cursor: pointer;
+	float: left;
+	width: 25px;
+	height: 23px;
+    @include background(linear-gradient(top, #626262, #464646));
+    @include single-box-shadow(#131313, 0, 0px, 1px, 1px);
+}
+
+#top .nav-buttons .prev {
+	@include border-radius(3px 0px 0px 3px); 
+}
+
+#top .nav-buttons .prev:after {
+	content: '';
+	position: absolute;
+	left: 9px;
+	top: 6px;
+	width: 0; 
+	height: 0; 
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-right: 9px solid #111111;
+}
+
+#top .nav-buttons .next {
+	margin-left: 1px;
+	@include border-radius(0px 3px 3px 0px); 
+}
+
+#top .nav-buttons .next:after {
+	content: '';
+	position: absolute;
+	left: 34px;
+	top: 6px;
+	width: 0; 
+	height: 0; 
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 9px solid #111111;
 }
 
 #top .fb-image {
@@ -69,13 +150,13 @@
 #top .invites-button {
 	cursor: pointer;
 	position: absolute;
-	left: 165px;
+	right: 165px;
 	top: 7px;
 	width: 25px; 
 	height: 25px;
 	@include border-radius(2px); 
-	@include background(linear-gradient(top, #A3A3A3, #7A7A7A));
-	box-shadow: 0 1px 0 #6B6B6B, inset 0 1px 0 #969696;
+	@include background(linear-gradient(top, #626262, #494949));
+	box-shadow: 0 1px 0 #414141, inset 0 1px 0 #414141;
 }
 
 #top .invites-button:after {
@@ -91,13 +172,13 @@
 
 #top .invites-button:active {
 
-	@include background(linear-gradient(top, #7A7A7A, #A3A3A3));
+	@include background(linear-gradient(top, #494949, #626262));
 }	
 
 #top .invites-container {
 	display: none;
 	position: absolute;
-	left: 70px;
+	right: 70px;
 	top: 45px;
 	width: 220px;
 	background: #EBEBEB;
@@ -174,6 +255,33 @@
 	top: 10px;
 }
 
+#top .toggle {
+	position: absolute;
+	top: 8px;
+	width: 50px;
+	height: 25px;
+	right: 200px;
+	background: #2c2c2c;
+	@include single-box-shadow(#131313, 0, 1px, 5px, 1px, inset);
+	@include border-radius(12px); 
+	user-select: 'none';
+}
+
+#top .toggle .button {
+	position: relative;
+	width: 22px;
+	height: 22px;
+	top: 2px;
+	left: 2px;
+	@include background(linear-gradient(top, #c9c9c9, #b5b5b5));
+	@include single-box-shadow(rgba(218,218,218,0.3), 0, 0px, 1px, 1px);
+	@include border-radius(12px); 
+}
+
+
+// Middle
+
+
 #mid {
 	position: absolute;
 	top: 40px;
@@ -193,19 +301,19 @@
 	left: 0px;
 	top: 0px;
 	bottom: 0px;
-	width: 190px;
-    @include background(linear-gradient(top, #363944, #494d5b));
-    border-right: 2px solid #242839;
-    border-left: 2px solid #242839;
+	width: 200px;
+    //@include background(linear-gradient(top, #363944, #494d5b));
+    background: #1b1b1b image-url('noisebg.png');
+    border-right: 2px solid #212121;
+    border-left: 2px solid #212121;
     z-index: 5;
     overflow: auto;
 }
 
 #left section {
 	padding-bottom: 6px;
-	border-bottom: 1px solid #242839;
 	
-    @include background(linear-gradient(bottom, #363944, #414551));
+    //@include background(linear-gradient(bottom, #363944, #414551));
 }
 
 #left section header {
@@ -222,13 +330,22 @@
 
 #left section header .options {
 	position: absolute;
-	right: 4px;
+	right: 14px;
 	top: 7px;
 	@include background-image-retina('options_icon.png');
 	height: 15px;
 	width: 15px; 
 } 
 
+#left section header .add {
+	cursor: pointer;
+	position: absolute;
+	right: 18px;
+	top: 0px;
+	@include background-image-retina('add.png');
+	height: 15px;
+	width: 15px; 
+} 
 
 #left section ul {
 	position: relative;
@@ -240,30 +357,30 @@
 #left section ul li {
 	cursor: pointer;
 	position: relative;
-	color: #93d1ea;
-	padding: 3px 0px 3px 30px;
+	color: #668e9d;
+	padding: 4px 0px 4px 30px;
 
     //@include background(linear-gradient(bottom, #363944, #414551));
 }
 
 #left section ul li.active {
-	
-    @include background(linear-gradient(top, #292c34, #18191e));
+	background: #2d2e2e;
+    //@include background(linear-gradient(top, #292c34, #18191e));
 }
 
 
 #left section ul li .num {
-	color: #d7f4ff;
+	color: #668e9d;
 	font-family: Arial;
 	font-size: 11px;
 	position: absolute;
-	top: 2px;
-	right: 3px;
+	top: 3px;
+	right: 14px;
 	padding: 1px 6px 0 6px;
 	@include border-radius(2px); 
 	//@include box-shadow(rgba(54, 57, 70, 1) 0px -1px 1px 1px inset);
 	@include box-shadow(rgba(255, 255, 255, 0.1) 0 1px 0, rgba(37, 39, 50, 0.8) 0 1px 1px 1px inset);
-	background: #4b5063;
+	background: #2b2c2c;
 }
 
 #left section ul li span {
@@ -327,16 +444,44 @@
 	top: 0;
 	bottom: 0;
 	width: 190px;
-    @include background(linear-gradient(top, #363944, #494d5b));
+    //@include background(linear-gradient(top, #363944, #494d5b));
+    background: #1b1b1b image-url('noisebg.png');
     color: white;
 }
 
 #right .fb-image {
 	float: left;
-	margin-left: 5px;
-	margin-bottom: 5px;
-	width: 30px;
-	height: 30px;
+	padding-left: 6px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	width: 170px;
+	height: 40px;
+}
+
+#right .fb-image .info {
+	position: relative;
+	float: left;
+	left: 8px;
+	font-size: 12px;
+}
+
+#right .fb-image .info .name {
+	font-weight: bold;
+	color: #73a0b3;
+	height: 16px;
+}
+
+#right .fb-image .info .status {
+	color: #81888c;
+	font-size: 11px;
+}
+
+#right .fb-image img {
+	float: left;
+	width: 35px;
+	height: 35px;
+	@include border-radius(20px); 
+
 }
 
 .fb-image-container {
@@ -361,8 +506,15 @@
 }
 
 #friendsearch {
-	width: 125px;
+	padding: 8px;
+	width: 160px;
 	height: 12px;
+	background: #2c2c2c;
+	border: none;
+	color: #8f999d;
+	margin-top: 4px;
+	@include single-box-shadow(#131313, 0, 1px, 5px, 1px, inset);
+	@include border-radius(12px); 
 }
 
 /*!
@@ -434,16 +586,84 @@
 #center {
 	position: absolute;
 	color: white;
-	left: 190px;
+	left: 200px;
 	right: 190px;
-	min-width: 300px;
+	min-width: 475px;
 	top: 0;
 	bottom: 0;
     background: #1a1a1a;
     overflow: auto;
     padding: 10px;
+    border: 14px solid #202020;
 }
 
+#center .list {
+	cursor: pointer;
+	color: #787878;
+	padding: 2px 0px 2px 0px;
+}
+
+#center .list.bar {
+	padding: 2px 0px 2px 40px;
+	color: #bcbcbc;
+	@include background(linear-gradient(top, #222222, #161616));
+}
+
+#center .list.bar .artist {
+	margin-left: 2px;
+}
+
+#center .list:not(.bar):nth-child(odd) {
+
+}
+
+#center .list:not(.bar):nth-child(even) {
+	background: #202020;
+}
+
+
+#center .ui-sortable .list.active {
+	background: rgba(102, 142, 156, 0.5);
+	color: white;
+}
+
+#center .list .status {
+	display: inline-block;
+	margin-left: 5px;
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 7px solid transparent;
+}
+
+#center .list .status.playing {
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 7px solid white;
+}
+
+#center .list .number {
+	text-align: right;
+	display: inline-block;
+	width: 22px;
+	margin-right: 10px;
+}
+
+#center .list .title {
+	display: inline-block;
+	width: 175px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-right: 15px;
+}
+
+#center .list .artist {
+	display: inline-block;
+	width: 175px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
 
 #center .album {
 	position: relative;
@@ -612,8 +832,9 @@
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	height: 45px;
-	background: #2d2e3a;
+	height: 45px; 
+	@include background(linear-gradient(top, #2b2c2d, #1f2021));
+	//background: #2d2e3a;
 	border-top: 1px solid #232323;
     z-index: 5;
 }
@@ -626,7 +847,7 @@
 	height: 36px;
 	
 	@include border-radius(3px); 
-    @include background(linear-gradient(bottom, #363944, #414551));
+    @include background(linear-gradient(top, #161b1f, #161b1f));
 	@include box-shadow(rgba(255, 255, 255, 0.1) 0 1px 0, rgba(37, 39, 50, 0.8) 0 1px 1px 1px inset);
 }
 

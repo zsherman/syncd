@@ -43,7 +43,7 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
     }
     
     // Create a new timer
-    this.timer = setInterval(updateDOM, 1000);
+    this.timer = setInterval(updateDOM, 100);
 
     // Partial function
     function partial(func /*, 0..n args */) {

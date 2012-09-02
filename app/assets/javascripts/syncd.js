@@ -22,6 +22,16 @@ Syncd.addInitializer(function(options){
   this.Instances.InvitationCollection = new Syncd.Collections.Invites(options.invitation_collection);
   this.Instances.SearchCollection = new Syncd.Collections.Searches();
 
+  // Create a state object
+  this.state = { 
+    songsview: {
+      toggle: "album",
+      resize: "album",
+      highlighted: {}
+    },
+    currentsong: ""
+  }
+
   // Set up regions
   Syncd.addRegions({
     centerRegion: "#center",

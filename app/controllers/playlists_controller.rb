@@ -1,4 +1,5 @@
 class PlaylistsController < ApplicationController
+  require 'uri'
   before_filter :authenticate_user!
   respond_to :json
 
@@ -9,6 +10,11 @@ class PlaylistsController < ApplicationController
 
     # Get current user's playlists
     @playlist = current_user.playlists
+
+    #cookies[:csrf_token] = raw form_authenticity_token;
+    #response['set-cookie'] = "csrf_token="+form_authenticity_token;
+    response.set_cookie("csrf_token", {:value => form_authenticity_token, :expires => Time.now+60*24*60*60})
+
   end
 
   def create

@@ -7,7 +7,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     this.collection.on("reset", this.render);
     this.collection.on("remove", this.destroyPlaylist);
     this.collection.on("change:name", this.updateName);
-    $('#left section.playlists a.create').click(this.newPlaylist); // Outside of the view element
+    $('#left section.playlists header .add').click(this.newPlaylist); // Outside of the view element
     $('#left section.playlists a.delete').click(this.deletePlaylists); // Outside of the view element
     $('#left section.music li').click(this.showMusic);
   },

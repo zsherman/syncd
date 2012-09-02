@@ -52,7 +52,18 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
     }
 
     // Attach event handler to search input
-    $('#top .search').on("keypress", keypressCallback);
+    $("#top .search").on("keypress", keypressCallback);
+
+    // Toggle list view and album view
+    $("#top .toggle").toggle (function() {
+      $(".button", this).css('left', '28px');
+      Syncd.state.songsview.toggle = "list";
+      Syncd.vent.trigger("songsview.toggle:updated");
+    }, function() {
+      $(".button", this).css('left', '0px');
+      Syncd.state.songsview.toggle = "album";
+      Syncd.vent.trigger("songsview.toggle:updated");
+    });
   
   },
 

@@ -1,4 +1,6 @@
 <div data-id="<%= song.escape("id") %>" class="footer" >
-	<span class="number"></span>
-	<span><span class="title"><%= song.escape("title") %></span> - <%= song.escape("artist") %></span>
+	<span class="status"></span>
+	<span class="number"><%= index + 1 %></span>
+	<span class="title"><%= song.escape("title") %></span>
+	<span class="artist"><%= song.escape("artist") %></span>
 </div>

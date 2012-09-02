@@ -6,7 +6,7 @@ module Exfm
 
   def self.search(input)
     Rails.logger.info base_uri+'/'+URI.escape(input)
-    response = HTTParty.get(base_uri+'/'+URI.escape(input))
+    response = HTTParty.get(base_uri+'/'+URI.escape(input)+"?results=50")
     results = JSON.parse(response.body)
     tracks = results["songs"]
     @exfm_songs = []

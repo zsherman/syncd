@@ -5,8 +5,14 @@
 		<div class="title">Invitations</div>
 		<div class="content"></div>
 	</div>
-	<div class="logo">
-	<input class="search"></div>
+	<input class="search"></input>
+	<div class="nav-buttons">
+		<div class="prev"></div>
+		<div class="next"></div>
+	</div>
+	<div class="toggle" unselectable="on">
+		<div class="button"></div>
+	</div>
 </div>
 <div id="mid">
 	<div id="left">
@@ -25,10 +31,10 @@
 			<header>
 				<span>Playlists</span>
 				<div class="options"></span>
+				<div class="add"></span>
 			</header>
 			<ul></ul>
-			<a href="#" class="create">Create playlist</a>
-			<a href="#" class="delete">Delete playlist</a>
+			<a href="#" class="delete" style="color: #668e9d">Delete playlist</a>
 		</section>
 		<section class="members">
 			<header>
@@ -45,7 +51,6 @@
 	<div id="right">
 	</div>
 	<div id="center">
-
 		<script type="text/json" id="bootstrap">
 		   <%= render('show.json.rabl') %>
 		</script>
