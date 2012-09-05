@@ -65,10 +65,10 @@ class SearchController < ApplicationController
 		#probably where we'll use sphinx or full text search of sorts
 		input = params[:input]
 		@songs = Song.where(:title => params[:input])
-		@artist_songs = Song.where(:artist => params[:input])
-		@artist_songs.each do |a|
-			@songs << a
-		end
+		#@artist_songs = Song.where(:artist => params[:input])
+		#@artist_songs.each do |a|
+		#	@songs << a
+		#end
 		@exfm_songs = Exfm.search(input)
 		@exfm_songs.each do |ex|
 			@songs << ex

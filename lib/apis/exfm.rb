@@ -11,7 +11,11 @@ module Exfm
     tracks = results["songs"]
     @exfm_songs = []
     tracks.each do |t|
-      @exfm_songs << Song.find_or_create_by_title_and_artist_and_audio_and_image(:title => t["title"], :artist => t["artist"], :audio => t["url"], :image => t["image"]["large"])
+      artist = Artist.find_or_create_by_name(:name => t["artist"]);
+      newSong = Song.find_or_create_by_title_and_audio_and_image(:title => t["title"], :audio => t["url"], :image => t["image"]["large"])
+      
+      newSong.artists << artist
+      @exfm_songs << newSong
     end
     Rails.logger.debug @exfm_songs
     return @exfm_songs

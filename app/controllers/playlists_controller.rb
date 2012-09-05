@@ -1,5 +1,4 @@
 class PlaylistsController < ApplicationController
-  require 'uri'
   before_filter :authenticate_user!
   respond_to :json
 

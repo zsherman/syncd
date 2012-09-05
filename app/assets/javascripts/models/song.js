@@ -166,7 +166,6 @@ Syncd.Models.Song = Backbone.Model.extend({
     //   var id = "id-" + "search" + "-" + this.id.toString();
     // }
     soundManager.pause(this.soundObject_id);
-    console.log(id);
   },
 
   delete: function() {
