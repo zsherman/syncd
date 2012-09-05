@@ -4,9 +4,9 @@ module Exfm
   base_uri 'http://ex.fm/api/v3/song/search'
   API_KEY = ''
 
-  def self.search(input)
+  def self.search(input, results)
     Rails.logger.info base_uri+'/'+URI.escape(input)
-    response = HTTParty.get(base_uri+'/'+URI.escape(input)+"?results=50")
+    response = HTTParty.get(base_uri+'/'+URI.escape(input)+"?results=" + results.to_s)
     results = JSON.parse(response.body)
     tracks = results["songs"]
     @exfm_songs = []
