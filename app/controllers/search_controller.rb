@@ -14,7 +14,7 @@ class SearchController < ApplicationController
 		#respond_to block
 		input = params[:song] + " " + params[:artist]
 		@songs = Song.where(:title => params[:song]).where(:artist => params[:artist])
-		@exfm_songs = Exfm.search(input)
+		@exfm_songs = Exfm.search(input, 10)
 		@exfm_songs.each do |ex|
 			@songs << ex
 		end
@@ -69,7 +69,7 @@ class SearchController < ApplicationController
 		@artist_songs.each do |a|
 			@songs << a
 		end
-		@exfm_songs = Exfm.search(input)
+		@exfm_songs = Exfm.search(input, 50)
 		@exfm_songs.each do |ex|
 			@songs << ex
 		end
