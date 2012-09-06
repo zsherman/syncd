@@ -43,8 +43,11 @@ artist_includes = Webservice::ArtistIncludes.new(
 # Query the webservice for the artist with the above ID. The result
 # will contain all the information specified in artist_includes.
 query = Webservice::Query.new
+artist_query = query.get_artists(:name => "Purity Ring")
 
-uuid = query.get_artists(:name => "Beach House").first.entity.id.uuid
+if artist_query.count != 0
+  uuid = artist_query.first.entity.id.uuid 
+end
 
 # Create an MBID object which represents a MusicBrainz artist ID.
 mbid = Model::MBID.new(uuid, :artist)
@@ -61,10 +64,10 @@ artist.releases.each do |r|
     puts r.id
     puts "Album Name: " + release.title
     puts "Artist: "+release.artist.name
-    puts r.tags
+    puts r.tags.first.methods
     puts r.types
     release.tracks.each do |t|
-      puts t
+      puts t.to_s
     end
     # r.release_events.each do |e|
     #   puts e.country

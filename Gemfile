@@ -21,6 +21,8 @@ gem 'backbone_sync-rails', :git => 'git://github.com/maxgillett/backbone_sync-ra
 gem 'foreman'
 gem 'thin'
 gem 'rbrainz'
+gem "squeel"
+gem 'typhoeus'
 
 # Gems used only for assets and not required
 # in production environments by default.

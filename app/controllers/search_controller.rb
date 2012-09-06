@@ -5,6 +5,7 @@ class SearchController < ApplicationController
 	require 'apis/bandcamp'
 	require 'apis/console'
 
+
 	def find_song_with_artist
 		#for bookmarklet mostly
 		#search for song in our db
@@ -13,7 +14,7 @@ class SearchController < ApplicationController
 		#store searched song in our db
 		#respond_to block
 		input = params[:song] + " " + params[:artist]
-		@songs = Song.where(:title => params[:song]).where(:artist => params[:artist])
+		@songs = Song.includes([:artists]).where('artists.name' => params[:artist], :title => params[:song])
 		@exfm_songs = Exfm.search(input, 10)
 		@exfm_songs.each do |ex|
 			@songs << ex
@@ -62,23 +63,15 @@ class SearchController < ApplicationController
 	def find_with_input
 		#for general search box, may contain song or artist or both
 		#returns relevant songs
-		#probably where we'll use sphinx or full text search of sorts
 		input = params[:input]
-		@songs = Song.where(:title => params[:input])
-		
-		#@artist_songs = Song.where(:artist => params[:input])
-		#@artist_songs.each do |a|
-		#	@songs << a
-		#end
-		@exfm_songs = Exfm.search(input, 50)
-		@exfm_songs.each do |ex|
-			@songs << ex
+
+		begin 
+			Exfm.search(input, 50)
+		rescue
+			# Do something here.
 		end
-		
-		#logger.debug @exfm_songs.inspect
-		respond_to do |format|
-    		format.html
-    		format.json
-  		end
+
+		@songs = Song.joins{artists}.where{(artists.name.like '%'+input+'%') | (title.like '%'+input+'%')}
+
 	end
 end
