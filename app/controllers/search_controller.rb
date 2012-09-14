@@ -71,7 +71,8 @@ class SearchController < ApplicationController
 			# Do something here.
 		end
 
-		@songs = Song.joins{artists}.where{(artists.name.like '%'+input+'%') | (title.like '%'+input+'%')}
+		#@songs = Song.joins{artists}.where{(artists.name.like '%'+input+'%') | (title.like '%'+input+'%')}
+		@artist = Artist.where{(name.like input)}.first
 
 	end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120906183437) do
+ActiveRecord::Schema.define(:version => 20120909212610) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 20120906183437) do
     t.string   "artwork"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
-    t.string   "type"
+    t.string   "list_type"
   end
 
   create_table "albums_artists", :id => false, :force => true do |t|
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20120906183437) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "inviter_uid"
+    t.string   "name"
   end
 
   create_table "playlists", :force => true do |t|
@@ -109,6 +110,8 @@ ActiveRecord::Schema.define(:version => 20120906183437) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

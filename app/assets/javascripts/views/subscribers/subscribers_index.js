@@ -2,7 +2,8 @@ Syncd.Views.SubscribersIndex = Backbone.Marionette.CollectionView.extend({
 
 	initialize: function() {
 		_.bindAll(this);
-		this.$el.on("click", "#friendsearch", this.createAutosuggest);
+		$("#right .subscriptions").on("click", "#friendsearch", this.createAutosuggest);
+		this.collection.on("add", this.updateCount);
 	},
 
  	itemView: Syncd.Views.Subscriber,
@@ -12,8 +13,8 @@ Syncd.Views.SubscribersIndex = Backbone.Marionette.CollectionView.extend({
  	onRender: function(){
   		var length = this.collection.length;
   		length += (length == 1) ? " subscriber" : " subscribers";
-    	this.$el.prepend('<div class="num-subscribers">'+length+'</div>');
-    	this.$el.append('<input id="friendsearch" value="Add a friend" />');
+    	$("#right .subscriptions .num-subscribers").html(length);
+    	$("#right .subscriptions .search").html('<input id="friendsearch" value="Add a friend" />');
   	},
 
   	createAutosuggest: function() {
@@ -30,11 +31,25 @@ Syncd.Views.SubscribersIndex = Backbone.Marionette.CollectionView.extend({
 				var uid = _.find(friends, function(obj){ return obj.name == friend_name; }).id.replace(/"/g, '');
 				var new_subscriber = new Syncd.Models.Subscriber({
 				  uid: uid,
-				  playlist_id: _self.collection.parent.id
+				  name: friend_name,
+				  playlist_id: _self.collection.parent.id,
+				  status: "pending"
 				});
 				//_self.collection.add(new_subscriber);
-				new_subscriber.save();
+				new_subscriber.save({}, {
+		        	success: function(model, response) {
+						_self.collection.push(new_subscriber);
+						console.log(new_subscriber);
+		        	}
+		        });
 			}
 		});
+  	},
+
+  	updateCount: function() {
+  		var length = this.collection.length;
+  		length += (length == 1) ? " subscriber" : " subscribers";
+    	$("#right .subscriptions .num-subscribers").html(length);
+  
   	}
 });

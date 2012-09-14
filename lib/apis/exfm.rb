@@ -18,7 +18,7 @@ module Exfm
     # the MusicBrainz server will incrlude in its answer.
     artist_includes = Webservice::ArtistIncludes.new(
      :aliases      => true,
-     :releases     => ['Album', 'Official'],
+     :releases     => ['Official'],
      :artist_rels  => true,
      :release_rels => true,
      :track_rels   => true,
@@ -63,9 +63,8 @@ module Exfm
           
           # Create the artist and the albums. Associate them all
           # Should handle multiple artist on a single album, i.e. "feat", etc
-          #type = r.tags.first.to_s.match('#(.*)')[0]
           artist = Artist.find_or_create_by_name_and_mbid(artist.name, uuid)
-          album = Album.create(:name => release.title)
+          album = Album.create(:name => release.title, :list_type => r.types.first.to_s.match('#(.*)')[1], :release_date => r.release_events.first.date.to_s)
 
           artist.albums << album
 
@@ -80,7 +79,7 @@ module Exfm
           album.songs << songs
 
           # Qeuee a request to exfm
-          requests[i] = Typhoeus::Request.new(base_uri+'/'+URI.escape(release.title)+"?results=100")
+          requests[i] = Typhoeus::Request.new(base_uri+'/'+URI.escape(release.title)+"?results=200")
           #requests[i] = Typhoeus::Request.new("http://localhost:3000/playlists.json")
           
           requests[i].on_complete do |response|
@@ -89,7 +88,11 @@ module Exfm
 
             tracks.each do |t|
               begin 
-                Song.find_by_title(t["title"]).update_attributes("audio" => t["url"], "image" => t["image"]["large"])
+                r = /remix/i
+                unless r.match t["title"]
+                  title = t["title"].match('(\D[^\(]+)')[1].sub(/\s+\Z/,"")
+                  Song.find_by_title(title).update_attributes("audio" => t["url"], "image" => t["image"]["large"])
+                end
               rescue
               end
             end

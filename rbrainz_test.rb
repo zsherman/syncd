@@ -30,7 +30,7 @@ include MusicBrainz
 # the MusicBrainz server will incrlude in its answer.
 artist_includes = Webservice::ArtistIncludes.new(
  :aliases      => true,
- :releases     => ['Album', 'Official'],
+ :releases     => ['Official'],
  :artist_rels  => true,
  :release_rels => true,
  :track_rels   => true,
@@ -55,6 +55,7 @@ mbid = Model::MBID.new(uuid, :artist)
 artist = query.get_artist_by_id(mbid, artist_includes) # hydra.queue in get_entity_by_id
 # @webservice.get will return a typhoeus::Request (Typhoeus::Request.new())
 
+
 #puts artist.releases[3].instance_variables
 artist.releases.each do |r|
   if r.release_events.first.country == "US"
@@ -64,8 +65,9 @@ artist.releases.each do |r|
     puts r.id
     puts "Album Name: " + release.title
     puts "Artist: "+release.artist.name
-    puts r.tags.first.methods
-    puts r.types
+    #puts r.tags.first.to_s + "osss"
+    puts r.types.first.to_s.match('#(.*)')[1]
+    puts r.release_events.first.date.to_s
     release.tracks.each do |t|
       puts t.to_s
     end
