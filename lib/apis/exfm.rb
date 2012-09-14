@@ -1,19 +1,117 @@
 module Exfm
-  include HTTParty
   require 'uri'
+  require 'typhoeus'
+  require 'rbrainz'
+  include MusicBrainz
+  include HTTParty
   base_uri 'http://ex.fm/api/v3/song/search'
   API_KEY = ''
 
   def self.search(input, results)
-    Rails.logger.info base_uri+'/'+URI.escape(input)
-    response = HTTParty.get(base_uri+'/'+URI.escape(input)+"?results=" + results.to_s)
-    results = JSON.parse(response.body)
-    tracks = results["songs"]
+    #Rails.logger.info base_uri+'/'+URI.escape(input)
+    #response = HTTParty.get(base_uri+'/'+URI.escape(input)+"?results=" + results.to_s)
+    #results = JSON.parse(response.body)
+    #tracks = results["songs"]
     @exfm_songs = []
-    tracks.each do |t|
-      @exfm_songs << Song.find_or_create_by_title_and_artist_and_audio_and_image(:title => t["title"], :artist => t["artist"], :audio => t["url"], :image => t["image"]["large"])
+
+    # With the ArtistInclude object we can control what kind of information
+    # the MusicBrainz server will incrlude in its answer.
+    artist_includes = Webservice::ArtistIncludes.new(
+     :aliases      => true,
+     :releases     => ['Official'],
+     :artist_rels  => true,
+     :release_rels => true,
+     :track_rels   => true,
+     :label_rels   => true,
+     :url_rels     => true,
+     :counts => true,
+     :release_events => true
+    )
+
+    # Query the webservice for the artist with the above ID. The result
+    # will contain all the information specified in artist_includes.
+    query = Webservice::Query.new
+
+    # Grab the unique musicbrainz uuid for the artist and 
+    artist_query = query.get_artists(:name => input)
+      
+    if artist_query.count != 0
+      uuid = artist_query.first.entity.id.uuid 
+    else
+      return
     end
-    Rails.logger.debug @exfm_songs
+
+    if Artist.find_by_mbid(uuid).nil?
+
+      # Create a hydra, we will use it later
+      hydra = Typhoeus::Hydra.new
+      requests = []
+
+      mbid = Model::MBID.new(uuid, :artist)
+      artist = query.get_artist_by_id(mbid, artist_includes)
+
+      # Iterate through the releases and insert the albums and songs into our database
+      artist.releases.each_with_index do |r, i|
+
+        if r.release_events.first.country == "US"
+
+          # Grab the release iD
+          release_id = r.id.uuid
+
+          # Grab more info about the release (i.e. tracks, featured artists, etc)
+          release = query.get_release_by_id(release_id, :artist=>true, :tracks=>true, :release_events=>true)
+          
+          # Create the artist and the albums. Associate them all
+          # Should handle multiple artist on a single album, i.e. "feat", etc
+          artist = Artist.find_or_create_by_name_and_mbid(artist.name, uuid)
+          album = Album.create(:name => release.title, :list_type => r.types.first.to_s.match('#(.*)')[1], :release_date => r.release_events.first.date.to_s)
+
+          artist.albums << album
+
+          # Create the empty tracks (no audio files associated with them)
+          songs = []
+          release.tracks.each do |t|
+            songs << Song.create(:title => t.to_s)
+          end
+
+          # Associate the songs with the artist and the album
+          artist.songs << songs
+          album.songs << songs
+
+          # Qeuee a request to exfm
+          requests[i] = Typhoeus::Request.new(base_uri+'/'+URI.escape(release.title)+"?results=200")
+          #requests[i] = Typhoeus::Request.new("http://localhost:3000/playlists.json")
+          
+          requests[i].on_complete do |response|
+            results = JSON.parse(response.body)
+            tracks = results["songs"]
+
+            tracks.each do |t|
+              begin 
+                r = /remix/i
+                unless r.match t["title"]
+                  title = t["title"].match('(\D[^\(]+)')[1].sub(/\s+\Z/,"")
+                  Song.find_by_title(title).update_attributes("audio" => t["url"], "image" => t["image"]["large"])
+                end
+              rescue
+              end
+            end
+
+            #Rails.logger.info base_uri+'/'+URI.escape(input)
+            #Rails.logger.debug a
+          end
+
+          hydra.queue requests[i]
+
+        end
+
+      end #do block
+
+      # Activate queueed batch requests for exfm
+      hydra.run
+
+    end #if statement
+    #Rails.logger.debug @exfm_songs
     return @exfm_songs
   end
 

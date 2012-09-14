@@ -137,8 +137,8 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
   renderRegions: function(model, state) {
     var songsView = new Syncd.Views.SongsIndex({collection: model.get("songs"), state: this.state});
     Syncd.centerRegion.show(songsView);
-    var infoPane = new Syncd.Views.SubscribersIndex({collection: model.get("subscribers")});
-    Syncd.rightRegion.show(infoPane);
+    var subscriberView = new Syncd.Views.SubscribersIndex({collection: model.get("subscribers")});
+    Syncd.right_layout.subscribers.show(subscriberView);
   },
 
   updateName: function(model) {

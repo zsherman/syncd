@@ -41,28 +41,21 @@ Syncd.Models.Playlist = Backbone.Model.extend({
   parse: function(response) {
     var _self = this;
     var attrs = {};
-    var buildSubscribers = function(value, key) {
-      // Iterate through json and construct array of subscriber models
-      var subscriber = [];
-      _.each(value, function(value, key) {
-        subscriber[key] = new Syncd.Models.Subscriber({uid: value.uid});     
-      });
-
-      // Initialize new subscriber collection with subscriber model array
-      var subscribers = new Syncd.Collections.Subscribers(subscriber); 
-      subscribers.parent = _self;
-      attrs['subscribers'] = subscribers;
-    }
+    var subscriber = [];
 
     // If playlist is not new, then update it
     if (!this.isNew()) {
       this.get("songs").reset(response.songs); // Repopulate songs collection
       this.get("fetched") ? "donothing" : this.set("fetched", true);
     	_.each(response, function(value, key) {
-        if ((key != "songs") && (key != "subscribers")) {
-    	 	 attrs[key] = value;
-        } else if (key == 'subscribers') {
-          buildSubscribers.apply(this, [value, key]);
+        if ((key != "songs") && (key != "pending") && (key != "subscribed")) {
+    	 	  attrs[key] = value;
+        } else if ((key == 'pending') || (key == "subscribed")) {
+          // Iterate through json and construct array of subscriber models
+          var status = (key == "subscribed") ? "accepted" : "pending";
+          _.each(value, function(value, key) {
+            subscriber.push(new Syncd.Models.Subscriber({uid: value.uid, name: value.name, status: status}));     
+          });
         }
     	});
     } else {
@@ -70,12 +63,20 @@ Syncd.Models.Playlist = Backbone.Model.extend({
       // Load in subscriber info and create a nested collection
       _.each(response, function(value, key) {
         if (key == "subscribers") {
-          buildSubscribers.apply(this, [value, key]);
+          // var status = (key == "subscribers") ? "accepted" : "pending";
+          // _.each(value, function(value, key) {
+          //   subscriber.push(new Syncd.Models.Subscriber({uid: value.uid, status: status}));     
+          // });
         } else {
           attrs[key] = value;
         }
       });
     }
+
+    // Initialize new subscriber collection with subscriber model array
+    subscribers = new Syncd.Collections.Subscribers(subscriber); 
+    subscribers.parent = this;
+    attrs['subscribers'] = subscribers;
     return attrs;
   },
 

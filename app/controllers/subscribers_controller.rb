@@ -8,13 +8,14 @@ class SubscribersController < ApplicationController
 
 		# Create a new invitation for the user to be added
 		playlist = Playlist.find_by_id(params[:playlist_id])
-		invitation = playlist.invitations.find_or_create_by_uid_and_inviter_uid(:uid => params[:uid], :inviter_uid => current_user.uid)
+		invitation = playlist.invitations.find_or_create_by_uid_and_inviter_uid(:uid => params[:uid], :inviter_uid => current_user.uid, :name => params[:name])
 		::Rails.logger.info(invitation.inviter_uid)
 
-		# Send out a notification to faye
-		Invitation.notify_observers(:custom_after_create, invitation, user_to_be_added.uid)
-
-		respond_with(playlist)
+		# Send out a notification to faye (if the user exists)
+		if user_to_be_added
+			Invitation.notify_observers(:custom_after_create, invitation, user_to_be_added.uid)
+		end
+		respond_with(invitation)
 
 		# If user to be added currently exists, send out a notification 
 		# that they have been added to a playlist

@@ -34,21 +34,27 @@ Syncd.addInitializer(function(options){
 
   // Set up regions
   Syncd.addRegions({
-    centerRegion: "#center",
-    rightRegion: "#right"
+    centerRegion: "#center"
   });
 
   // Set up layouts
   Syncd.Layouts.Bottom = Backbone.Marionette.Layout.extend({
   	template: "player/layout",
-  	
   	el: "#bottom",
-  	
     regions: {
       nowplaying: ".now-playing",
       buttons: ".controls .buttons",
       progressbar: ".controls .progress-bar",
       volume: ".controls .audio"
+    }
+  });
+
+  Syncd.Layouts.Right = Backbone.Marionette.Layout.extend({
+    template: "right/layout",
+    el: "#right",
+    regions: {
+      subscribers: ".subscriptions .subscribers",
+      tags: ".tags"
     }
   });
 
@@ -59,6 +65,10 @@ Syncd.addInitializer(function(options){
   bottom_layout.nowplaying.show(new Syncd.Views.NowPlaying());
   bottom_layout.buttons.show(new Syncd.Views.Buttons());
   bottom_layout.progressbar.show(new Syncd.Views.ProgressBar());
+
+  // Instantiate right layout
+  this.right_layout = new Syncd.Layouts.Right();
+  this.right_layout.render();
 
   // Create new router
   router = new Syncd.Routers.Playlists({

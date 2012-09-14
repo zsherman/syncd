@@ -484,16 +484,24 @@
 
 }
 
-.fb-image-container {
-	padding: 8px;
-	width: 100%;
+#right .subscriptions .subscribers {
+	max-height: 300px;
+	overflow: auto;
 }
 
-.num-subscribers {
-	margin-left: 3px;
-	margin-bottom: 4px;
+#right .subscriptions .subscribers .fb-image {
+	padding-left: 8px;
+}
+
+
+#right .subscriptions .num-subscribers {
+	margin: 5px 0px 2px 10px;
 	font-size: 11px;
 	font-family: Arial;
+}
+
+#right .subscriptions .search {
+	padding: 5px 0px 0px 5px;
 }
 
 .add-subscriber {
