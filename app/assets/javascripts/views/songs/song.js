@@ -9,10 +9,11 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     
     this.bindTo(this.model, "stop", this.stop);
     this.bindTo(this.model, "play", this.play);
+    //this.bindTo(this.model, "destroy", this.remove);
 
     this.state = Syncd.state;
     this.index = this.model.collection.indexOf(this.model);
-
+    this.pid = this.model.collection.playlist.id; // playlist id
   },
 
   events: function() {
@@ -22,9 +23,9 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
         "hover.options": "showOptions",
         "mouseleave.options": "hideOptions",
         "mouseleave.validator": "hidePlay",
-        "click.heart .album .heart": "love",
-        "click.validator .album .play": "clickPlay",
-        "click.delete .album .delete": "delete",
+        "click.heart .heart": "love",
+        "click.validator .play": "clickPlay",
+        "click.delete .delete": "delete",
       }
     } else {
       return {
@@ -39,10 +40,10 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
 
     // Check to see if album view or list view should be rendered
     if (this.state.songsview.resize == "list" || this.state.songsview.toggle == "list") {
-      this.$el.addClass('list').html(JST["songs/songlist"]({song: this.model, pid: this.model.collection.parent.id, index: this.index}));
+      this.$el.addClass('list').html(JST["songs/songlist"]({song: this.model, pid: this.pid, index: this.index}));
     } else {
       this.$el.addClass('album').html(JST["songs/song"]({
-        song: this.model, pid: this.model.collection.parent.id, index: this.index}
+        song: this.model, pid: this.pid, index: this.index}
         ));
         this.$el.append("<div class='loading'></div>");
       $('<img />')
@@ -56,7 +57,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
     // Check state object to see if song is currently being played
     // If so, display "stop" button, remove all current events, and 
     // add new onclick event 
-    if (this.state.id === "id-" + this.model.collection.parent.id + "-" + this.model.id) {
+    if (this.state.id === "id-" + this.pid + "-" + this.model.id) {
       if (this.state.songsview.resize == "album" && this.state.songsview.toggle == "album") {
         this.$el.off(".validator");
         this.$el.on("click", ".stop", this.clickStop);
@@ -68,7 +69,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
       }
     }
 
-    if (this.state.songsview.highlighted[this.model.collection.parent.id] == this.model.id) {
+    if (this.state.songsview.highlighted[this.pid] == this.model.id) {
       this.$el.addClass("active");
     }
 
@@ -91,7 +92,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
   highlight: function() {
     $(".list:not(.bar)").removeClass("active");
     this.$el.addClass("active");
-    this.state.songsview.highlighted[this.model.collection.parent.id] = this.model.id; 
+    this.state.songsview.highlighted[this.pid] = this.model.id; 
   },
 
   play: function() {
@@ -105,7 +106,7 @@ Syncd.Views.Song = Backbone.Marionette.ItemView.extend({
       this.$el.append("<div class='stop'></div>");
       this.$el.on("click.validator", ".stop", this.clickStop);
     }
-    this.state.id = "id-" + this.model.collection.parent.id + "-" + this.model.id;
+    this.state.id = "id-" + this.pid + "-" + this.model.id;
   },
 
   clickStop: function() {

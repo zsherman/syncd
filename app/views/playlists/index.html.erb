@@ -107,8 +107,6 @@
     div.html($('#bootstrap').text());
     var data = JSON.parse(div.text());
 
-    // Syncd.initialize({playlist_collection: data['playlists'], invitation_collection: data['invitations']});
-
     var options = {
 		playlist_collection: data['playlists'],
 		invitation_collection: data['invitations']

@@ -39,7 +39,6 @@ Syncd.Views.SubscribersIndex = Backbone.Marionette.CollectionView.extend({
 				new_subscriber.save({}, {
 		        	success: function(model, response) {
 						_self.collection.push(new_subscriber);
-						console.log(new_subscriber);
 		        	}
 		        });
 			}

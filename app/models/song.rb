@@ -21,14 +21,15 @@ class Song < ActiveRecord::Base
 
 	def artist
 		begin 
-		self.artists.first.name 
-	rescue
-		"Unknown"
-	end
+			self.artists.first.name 
+		rescue
+			"Unknown"
+		end
 	end
 
-  	def as_json(options={})
-		{ :id => id, :title => title, :audio => audio,
+  	def as_json(args)
+  		u_id = args[0].to_s + "-" + id.to_s
+		return { :id => u_id, :title => title, :audio => audio,
 		  :url => url, :image => image,
 		  :artist => artist
 		}

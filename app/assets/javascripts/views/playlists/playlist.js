@@ -2,7 +2,8 @@ Syncd.Views.Playlist = Backbone.View.extend({
   tagName: "li",
 
   events: {
-  	"dblclick": "editPlaylist"
+  	"dblclick": "editPlaylist",
+    "click": "fetchRelated"
   },
 
   initialize: function(options) {
@@ -52,6 +53,27 @@ Syncd.Views.Playlist = Backbone.View.extend({
 
   updateCount: function() {
     $(".num", this.el).html(this.model.get("songs").length);
-  }
+  },
+
+  fetchRelated: function() {
+    var self = this;
+    $(".active").removeClass("active");
+    this.$el.addClass("active");
+    if (this.model.get("songs").length == 0) {
+      this.model.get("songs").fetch({success: function() {
+        self.renderRegions();
+        }
+      });
+    } else {
+      self.renderRegions();
+    }
+  },
+
+  renderRegions: function() {
+    var songsView = new Syncd.Views.SongsIndex({collection: this.model.get("songs")});
+    Syncd.centerRegion.show(songsView);
+    var subscriberView = new Syncd.Views.SubscribersIndex({collection: this.model.get("subscribers")});
+    Syncd.right_layout.subscribers.show(subscriberView);
+  },
 
 });

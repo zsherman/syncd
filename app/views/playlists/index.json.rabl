@@ -3,9 +3,8 @@ object false
 child @playlist => :playlists do
 	attributes :id, :created_at, :updated_id, :name, :editable
 	node (:count) { |playlist| playlist.songs.count }
-	node (:songs) { }
-	child :users => :subscribers do
-	  attributes :uid
+	child @pending_invitations => :subscribers do
+		attributes :uid, :name
 	end
 end
 

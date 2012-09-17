@@ -6,7 +6,6 @@ Syncd.Views.SongsIndex = Backbone.Marionette.CollectionView.extend({
 
   initialize: function(options) {
     _.bindAll(this); 
-    this.state = options.state;
     this.collection = options.collection;
 
     // Create a function that throttles the render function (which is called on resize)
@@ -23,8 +22,6 @@ Syncd.Views.SongsIndex = Backbone.Marionette.CollectionView.extend({
 
   itemViewOptions: function() {
     var self = this;
-    var obj = {vent: self.vent, state: self.state};
-    return obj;
   },
 
   events: {
@@ -47,10 +44,6 @@ Syncd.Views.SongsIndex = Backbone.Marionette.CollectionView.extend({
 
   },
 
-  renderSongs: function (id) {
-    this.render();
-  },
-
   resizeSongs: function () {
     var width = $("#center").width();
 
@@ -61,11 +54,7 @@ Syncd.Views.SongsIndex = Backbone.Marionette.CollectionView.extend({
     }
 
     this.render();
-  },
-
-  updateState: function(id) {
-    this.state.id = id;
-    console.log(this.state.id);
   }
+  
 });
 

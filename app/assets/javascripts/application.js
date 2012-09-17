@@ -16,6 +16,7 @@
 //= require jquery.superslides
 //= require underscorejs
 //= require backbone
+//= require backbone-relational
 //= require backbone.marionette
 //
 //= require syncd

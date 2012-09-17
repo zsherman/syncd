@@ -1,4 +1,4 @@
-Syncd.Models.Subscriber = Backbone.Model.extend({
+Syncd.Models.Subscriber = Backbone.RelationalModel.extend({
 
 	initialize: function() {
 		_.bindAll(this);

@@ -18,7 +18,7 @@ Syncd.addInitializer(function(options){
   }
 
   // Need to grab data from the options [options are passed in when Syncd.start(options) is called]
-  this.Instances.PlaylistCollection = new Syncd.Collections.Playlists(options.playlist_collection, {parse: true});
+  this.Instances.PlaylistCollection = new Syncd.Collections.Playlists(options.playlist_collection);
   this.Instances.InvitationCollection = new Syncd.Collections.Invites(options.invitation_collection);
   this.Instances.SearchCollection = new Syncd.Collections.Searches();
 
