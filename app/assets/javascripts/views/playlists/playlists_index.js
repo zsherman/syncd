@@ -6,14 +6,12 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     this.collection.on("add", this.addNewPlaylist);
     this.collection.on("reset", this.render);
     this.collection.on("remove", this.destroyPlaylist);
-    this.collection.on("change:name", this.updateName);
     $('#left section.playlists header .add').click(this.newPlaylist); // Outside of the view element
     $('#left section.playlists a.delete').click(this.deletePlaylists); // Outside of the view element
     $('#left section.music li').click(this.showMusic);
   },
 
   events: {
-    "click .playlists ul li": "setActive",
     "click .playlists ul li .delete-button": "deletePlaylist"
   },
 
@@ -95,29 +93,6 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     }});
   },
 
-  setActive: function (eventName) {
-    $(".active").removeClass("active");
-    $(eventName.currentTarget).addClass('active');
-    var id = $(eventName.currentTarget).children().data("id");
-    //router.navigate("playlists/" + id);
-
-    // Trigger event change for songs view
-    var self = this; 
-    var model = this.collection.get(id);
-    console.log(model.get("songs"));
-    if (model.get("songs").length === 0) {
-      model.fetch({success: function(model) {
-        
-        self.renderRegions(model);
-        }
-      });
-    } else {
-      self.renderRegions(model);
-    }
-
-
-  },
-
   showMusic: function() {
     var self = this;
     $(".active").removeClass("active");
@@ -132,18 +107,6 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     } else {
       self.renderRegions(model);
     }
-  },
-
-  renderRegions: function(model, state) {
-    var songsView = new Syncd.Views.SongsIndex({collection: model.get("songs"), state: this.state});
-    Syncd.centerRegion.show(songsView);
-    var subscriberView = new Syncd.Views.SubscribersIndex({collection: model.get("subscribers")});
-    Syncd.right_layout.subscribers.show(subscriberView);
-  },
-
-  updateName: function(model) {
-    var name = model.get("name");
-    this.collection.get(model.id).set(name);
   }
 
 });

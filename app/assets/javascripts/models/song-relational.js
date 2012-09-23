@@ -1,4 +1,4 @@
-Syncd.Models.Song = Backbone.Model.extend({
+Syncd.Models.SongRelational = Backbone.RelationalModel.extend({
 
   initialize: function() {
     _.bindAll(this);
