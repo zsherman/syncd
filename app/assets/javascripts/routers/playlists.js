@@ -11,7 +11,6 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
     var _self = this;
   	this.playlists = options.playlists;
     this.invitations = options.invitations;
-    this.searches = options.searches;
 
     var uid = localStorage.getItem("uid").replace(/"/g, '');
     new BackboneSync.RailsFayeSubscriber(this.playlists, {
@@ -38,12 +37,19 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
     // Attach event handler to search input
     $("#top .search").on("keypress", function(e) {
       if(e.keyCode==13){
-        // $('#top .search').off("keypress");
-        // var view = new Syncd.Views.SearchesIndex({ collection: _self.searches });
-        // view.on("collection:before:close", function(){
-        //   $('#top .search').on("keypress", keypressCallback);
-        // });
-        Syncd.centerRegion.show(new Syncd.Layouts.Search());
+        var search_term = $('#top .search').val();
+        var searchCollection = new Syncd.Collections.Searches({input: search_term});
+
+        searchCollection.fetch({
+          success: function(collection) {
+            collection.initSongs();
+            var layout = new Syncd.Layouts.Search();
+            var tracksView = new Syncd.Views.TrackIndex({collection: collection});
+        
+            Syncd.centerRegion.show(layout);
+            layout.tracks.show(tracksView);
+          }
+        });
       }
     });
 
@@ -67,14 +73,17 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
   },
 
   search: function() {
-    var searchCollection = new Syncd.Collections.Searches({});
-    searchCollection.fetch({
-      success: function() {
-      }
-    });
+    // var searchCollection = new Syncd.Collections.Searches({});
+    // searchCollection.fetch({
+    //   success: function(collection) {
+    //     var layout = new Syncd.Layouts.Search();
+    //     var tracksView = new Syncd.Views.TrackIndex({collection: collection});
+        
+    //     Syncd.centerRegion.show(layout);
+    //     layout.tracks.show(tracksView);
+    //   }
+    // });
 
-    console.log(searchCollection);
-    Syncd.centerRegion.show(new Syncd.Layouts.Search());
   
   },
 

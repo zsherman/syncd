@@ -25,29 +25,13 @@ class SearchController < ApplicationController
 
 	def find_everything
 		input = params[:input]
-		# @songs = []
-		# @albums = []
-
-		# @artists = Artist.search input, :load => { :include => 'songs' }
-		# @albums = Album.search input, :load => { :include => 'songs' }
-		# @songs = Song.search input, :load => { :include => 'artists' }
-		
-		# @artists = @artists.to_a
-		# @albums = @albums.to_a
-		# @songs = @songs.to_a
-
-		# @artists.each do |artist|
-		# 	@albums << artist.albums
-		# 	@songs << artist.songs
-		# end
-
-		# @albums.flatten!
-		# @songs.flatten!
-
 
 		@artists = Artist.search input
 		@albums = Album.search input
 		@songs = Song.search input
+
+		render :json => { 'artists' => @artists.as_json, 'albums' => @albums.as_json, 'songs' => @songs.as_json }
+
 	end
 
 end

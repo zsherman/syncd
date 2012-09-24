@@ -65,7 +65,6 @@ Syncd.Views.SongsIndex = Backbone.Marionette.CollectionView.extend({
 
   updateState: function(id) {
     this.state.id = id;
-    console.log(this.state.id);
   }
 });
 

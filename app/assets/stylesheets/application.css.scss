@@ -862,7 +862,8 @@ body {
 #center .search .containers {
 	position: relative;
 	top: 15px;
-	height: 175px;
+	height: 155px;
+	margin-bottom: 20px;
 }
 
 #center .search .containers .artists {
@@ -986,6 +987,11 @@ body {
 	cursor: pointer;
 	color: #787878;
 	padding: 2px 0px 2px 0px;
+}
+
+#center .search .tracks .active {
+	background: rgba(102, 142, 156, 0.5) !important;
+	color: white !important;
 }
 
 #center .search .tracks .track.bar {

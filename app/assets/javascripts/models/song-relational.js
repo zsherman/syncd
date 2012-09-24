@@ -10,16 +10,9 @@ Syncd.Models.SongRelational = Backbone.RelationalModel.extend({
     if(this.get("image") == null) {
       this.set("image", 'http://25.media.tumblr.com/tumblr_m704va32Qw1qzo6tso1_500.jpg');
     }
-    if(typeof this.collection.parent != "undefined") {
-      var p_id = this.collection.parent.id.toString();
-    } else {
-      var p_id = "search";
-    }
-  	var m_id = this.id.toString();
-    var id = "id-" + p_id + "-" + m_id;
 
     // If object is from soundcloud
-    sc_track = this.get("audio").match(/tracks.\d+/);
+    sc_track = this.get("audio") ? this.get("audio").match(/tracks.\d+/) : false;
     if (sc_track) {
       SC.stream("/"+sc_track, {
         url: this.get("audio"),
@@ -64,9 +57,9 @@ Syncd.Models.SongRelational = Backbone.RelationalModel.extend({
       });
     } else {
       // If object is not from soundcloud
-      this.soundObject_id = id;
+      this.soundObject_id = "id-"+this.id;
       soundManager.createSound({
-        id: id,
+        id: this.soundObject_id,
         url: this.get("audio"),
         autoLoad: false,
         autoPlay: false,

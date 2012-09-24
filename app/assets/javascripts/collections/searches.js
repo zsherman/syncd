@@ -1,22 +1,25 @@
 Syncd.Collections.Searches = Backbone.Paginator.requestPager.extend({
 
-	initialize: function() {
+	initialize: function(options) {
+        this.input = options.input;
 	    this.artists = new Syncd.Collections.Artists({});
     	this.albums = new Syncd.Collections.Albums({});
     	this.playlists = new Syncd.Collections.Playlists({});
 	},
 
-	model: Syncd.Models.Album,
+	model: Syncd.Models.SongRelational,
 
 	paginator_core: {
         // the type of the request (GET by default)
         type: 'GET',
 
         // the type of reply (jsonp by default)
-        dataType: 'jsonp',
+        dataType: 'json',
 
         // the URL (or base URL) for the service
-    	url: 'http://localhost:3000/search/frank%20ocean?'
+    	url: function() {
+            return 'http://localhost:3000/search/'+this.input+'.json?'
+        }
     },
 
 	paginator_ui: {
@@ -61,16 +64,24 @@ Syncd.Collections.Searches = Backbone.Paginator.requestPager.extend({
     },
 
     parse: function (response) {
-  
-        var tags = response.artists.albums;
+        var tags = response.songs;
 
+        this.artists.reset(response.artists);
+        this.albums.reset(response.albums);
 
         //Normally this.totalPages would equal response.d.__count
         //but as this particular NetFlix request only returns a
         //total count of items for the search, we divide.
         //this.totalPages = Math.ceil(response.d.__count / this.perPage);
-        console.log(tags);
+        
+        //console.log(tags);
         return tags;
+    },
+
+    initSongs: function() {
+        _.each(this.models, function(model) {
+            model.initSong();
+        });
     }
 
 });
