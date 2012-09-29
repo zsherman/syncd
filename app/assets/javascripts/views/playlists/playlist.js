@@ -74,6 +74,8 @@ Syncd.Views.Playlist = Backbone.View.extend({
       Syncd.centerRegion.show(songsView);
       var subscriberView = new Syncd.Views.SubscribersIndex({collection: self.model.get("subscribers")});
       Syncd.right_layout.subscribers.show(subscriberView);
+      var tagsView = new Syncd.Views.TagsIndex({collection: self.model.get("tags")});
+      Syncd.right_layout.tags.show(tagsView);
     });
 
   }

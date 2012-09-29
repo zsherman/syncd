@@ -10,9 +10,12 @@ Syncd.Models.Playlist = Backbone.Model.extend({
         songs.parent = this; 
     var subscribers = new Syncd.Collections.Subscribers({}); 
         subscribers.parent = this;
+    var tags = new Syncd.Collections.Tags({});
+        tags.parent = this;
     this.set ({ 
       "songs" : songs,
       "subscribers" : subscribers,
+      "tags" : tags,
       "fetched" : false,
     });
 
@@ -42,7 +45,7 @@ Syncd.Models.Playlist = Backbone.Model.extend({
 
     if (!this.isNew()) {
     	_.each(response, function(value, key) {
-        if ((key != "songs") && (key != "pending") && (key != "subscribed")) {
+        if ((key != "songs") && (key != "pending") && (key != "subscribed") && (key != "tags")) {
     	 	  attrs[key] = value;
         } else if ((key == 'pending') || (key == "subscribed")) {
           // Iterate through json and construct array of subscriber objects
@@ -54,6 +57,7 @@ Syncd.Models.Playlist = Backbone.Model.extend({
     	});
       this.get("subscribers").reset(subscribers);
       this.get("songs").reset(response.songs).initSongs(); // Repopulate songs collection
+      this.get("tags").reset(response.tags);
       this.get("fetched") ? "donothing" : this.set("fetched", true);
     } else {
       _.each(response, function(value, key) {

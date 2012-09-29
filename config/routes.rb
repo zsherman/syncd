@@ -16,6 +16,7 @@ Syncd::Application.routes.draw do
     resources :subscribers
   end
 
+  resources :tags
 
   #get "playlists/index"
 
