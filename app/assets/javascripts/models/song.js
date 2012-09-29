@@ -2,26 +2,29 @@ Syncd.Models.Song = Backbone.Model.extend({
 
   initialize: function() {
     _.bindAll(this);
+    this.uuid = "id-"+this.createuuid();
    },
 
   initSong: function() {
     //filter out where playlist doesn't exist
   	var self = this;
-    if(this.get("image") == null) {
+
+    // Check to see if audio url is not null
+    if(!this.get("audio")) {
+      return false;
+    }
+
+    // Check to see if image exists
+    if(!this.get("image")) {
       this.set("image", 'http://25.media.tumblr.com/tumblr_m704va32Qw1qzo6tso1_500.jpg');
     }
-    if(typeof this.collection.parent != "undefined") {
-      var p_id = this.collection.parent.id.toString();
-    } else {
-      var p_id = "search";
-    }
-  	var m_id = this.id.toString();
-    var id = "id-" + p_id + "-" + m_id;
 
-    // If object is from soundcloud
-    sc_track = this.get("audio").match(/tracks.\d+/);
+    // Check to see f object is from soundcloud
+    sc_track = this.get("audio") ? this.get("audio").match(/tracks.\d+/) : false;
+    
     if (sc_track) {
       SC.stream("/"+sc_track, {
+        id: this.uuid,
         url: this.get("audio"),
         autoLoad: false,
         autoPlay: false,
@@ -60,13 +63,12 @@ Syncd.Models.Song = Backbone.Model.extend({
         autoPlay: false
       },
       function(soundobject) {
-        self.soundObject_id = soundobject.id;
+        self.uuid = soundobject.id;
       });
     } else {
       // If object is not from soundcloud
-      this.soundObject_id = id;
       soundManager.createSound({
-        id: id,
+        id: this.uuid,
         url: this.get("audio"),
         autoLoad: false,
         autoPlay: false,
@@ -114,7 +116,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     var nextModel = this.collection.at(index+1);
 
     // Play upcoming song
-    soundManager.getSoundById(nextModel.soundObject_id).play();
+    soundManager.getSoundById(nextModel.uuid).play();
 
     // Remove play view for previous song
     this.trigger("stop");
@@ -133,7 +135,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     var prev = this.collection.at(index-1);
 
     // Play previous song
-    soundManager.getSoundById(prev.soundObject_id).play();
+    soundManager.getSoundById(prev.uuid).play();
 
     // Remove play view for previous song
     this.trigger("stop");
@@ -148,7 +150,7 @@ Syncd.Models.Song = Backbone.Model.extend({
 
   play: function() {
     soundManager.pauseAll();
-    soundManager.play(this.soundObject_id);
+    soundManager.play(this.uuid);
 
     if (this.get("failed")) {
       this.nextSong();
@@ -158,12 +160,21 @@ Syncd.Models.Song = Backbone.Model.extend({
   },
 
   stop: function() {
-    soundManager.pause(this.soundObject_id);
+    soundManager.pause(this.uuid);
   },
 
   delete: function() {
-    soundManager.destroySound(this.soundObject_id);
+    soundManager.destroySound(this.uuid);
     this.destroy();
+  },
+
+  createuuid: function() {
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    });
+
+    return uuid;
   }
 
 
