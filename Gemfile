@@ -23,6 +23,8 @@ gem 'thin'
 gem 'rbrainz'
 gem "squeel"
 gem 'typhoeus'
+gem 'tire'
+gem 'will_paginate', '~> 3.0'
 
 # Gems used only for assets and not required
 # in production environments by default.

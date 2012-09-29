@@ -5,16 +5,16 @@ Syncd::Application.routes.draw do
   devise_for :users, :only => :omniauth_callbacks
   match 'users/auth/:provider/callback' => 'authentications#create'
   match '/auth/:provider/signout' => 'authentications#signout'
-  match '/search/:artist/:song' => 'search#find_song_with_artist'
-  #match '/search/song/:song' => 'search#find_with_song'
-  #match '/search/artist/:artist' => 'search#find_with_artist'
-  match '/search/:input' => 'search#find_with_input'
+
+  match '/search' => "playlists#index"
+
+  match '/search/artist/:input' => 'search#find_with_input'
+  match '/search/:input' => 'search#find_everything'
 
   resources :playlists do
     resources :songs
     resources :subscribers
   end
-
 
 
   #get "playlists/index"

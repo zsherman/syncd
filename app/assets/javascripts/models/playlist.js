@@ -4,16 +4,16 @@ Syncd.Models.Playlist = Backbone.Model.extend({
     _.bindAll(this);
     var _self = this;
 
-    // Note: most of this logic *CAN NOT* be put in catch block of the parse method
-    // because new models when instantiated will not run through the code
-
+    // Set the defaults when initialized
     var songs = new Syncd.Collections.Songs({});
-    songs.length = 0;
-    songs.parent = this;  
-
-    this.set({
-      songs: songs,
-      fetched: false
+        songs.length = 0;
+        songs.parent = this; 
+    var subscribers = new Syncd.Collections.Subscribers({}); 
+        subscribers.parent = this;
+    this.set ({ 
+      "songs" : songs,
+      "subscribers" : subscribers,
+      "fetched" : false,
     });
 
     // Initialize faye subscriber
@@ -26,12 +26,9 @@ Syncd.Models.Playlist = Backbone.Model.extend({
     this.get("songs").on("add", function(model) {
       // When a song is added to a playlist through faye, make sure that the playlist collection
       // has been fetched. If the playlist is not fetched, a song will be added to an empty collection
-      if (!_self.get("fetched")) {
-        _self.fetch();
-      }
-      // If a soundObject_id does not exist on the model, then run initSongs
+      _self.assureFetched();
       if (!model.soundObject_id) {
-        model.initSongs();
+        model.initSong();
       }
     });
   },
@@ -41,42 +38,28 @@ Syncd.Models.Playlist = Backbone.Model.extend({
   parse: function(response) {
     var _self = this;
     var attrs = {};
-    var subscriber = [];
+    var subscribers = [];
 
-    // If playlist is not new, then update it
     if (!this.isNew()) {
-      this.get("songs").reset(response.songs); // Repopulate songs collection
-      this.get("fetched") ? "donothing" : this.set("fetched", true);
     	_.each(response, function(value, key) {
         if ((key != "songs") && (key != "pending") && (key != "subscribed")) {
     	 	  attrs[key] = value;
         } else if ((key == 'pending') || (key == "subscribed")) {
-          // Iterate through json and construct array of subscriber models
+          // Iterate through json and construct array of subscriber objects
           var status = (key == "subscribed") ? "accepted" : "pending";
           _.each(value, function(value, key) {
-            subscriber.push(new Syncd.Models.Subscriber({uid: value.uid, name: value.name, status: status}));     
+            subscribers.push({uid: value.uid, name: value.name, status: status});     
           });
         }
     	});
+      this.get("subscribers").reset(subscribers);
+      this.get("songs").reset(response.songs).initSongs(); // Repopulate songs collection
+      this.get("fetched") ? "donothing" : this.set("fetched", true);
     } else {
-      // Do not load in song info, just set it to null
-      // Load in subscriber info and create a nested collection
       _.each(response, function(value, key) {
-        if (key == "subscribers") {
-          // var status = (key == "subscribers") ? "accepted" : "pending";
-          // _.each(value, function(value, key) {
-          //   subscriber.push(new Syncd.Models.Subscriber({uid: value.uid, status: status}));     
-          // });
-        } else {
           attrs[key] = value;
-        }
       });
     }
-
-    // Initialize new subscriber collection with subscriber model array
-    subscribers = new Syncd.Collections.Subscribers(subscriber); 
-    subscribers.parent = this;
-    attrs['subscribers'] = subscribers;
     return attrs;
   },
 
@@ -88,26 +71,28 @@ Syncd.Models.Playlist = Backbone.Model.extend({
     // Create a new instance of the song model to be inserted into the desired playlist
     var songModel = this.collection.get(old_pid).get("songs").get(s_id).clone();
 
-    // If the contents of the target playlist have not been fetched yet,
-    // fetch them, add the new song model to the song collection, and save
-    // it
-    var addAndSave = function() { 
+    // Assure that the playlist has been fetched and add + save the model
+    this.assureFetched(function() { 
       _self.get("songs").add(songModel);
-      songModel.save({}, {
-        success: function(model, response){
-          songModel.initSongs();
-        }
-      });
+      songModel.save();
+    });
+  },
 
-    }
-
-    if (this.get("songs").length === 0) {
+  // % Params: (function)
+  // % If the playlist has not been fetched, then do so and run the function (if provided). 
+  //   If the playlist has already been fetched, still run the function. 
+  assureFetched: function(func) {
+    if (this.get("fetched") == false) {
       this.fetch({success: function(model) {
-          addAndSave();
+          if (typeof func == "function") { 
+            func(); 
+          }
         }
       });
     } else {
-      addAndSave();
+      if (typeof func == "function") {
+        func(); 
+      } 
     }
   }
 });

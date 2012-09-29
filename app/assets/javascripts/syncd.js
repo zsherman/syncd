@@ -20,7 +20,6 @@ Syncd.addInitializer(function(options){
   // Need to grab data from the options [options are passed in when Syncd.start(options) is called]
   this.Instances.PlaylistCollection = new Syncd.Collections.Playlists(options.playlist_collection, {parse: true});
   this.Instances.InvitationCollection = new Syncd.Collections.Invites(options.invitation_collection);
-  this.Instances.SearchCollection = new Syncd.Collections.Searches();
 
   // Create a state object
   this.state = { 
@@ -37,29 +36,8 @@ Syncd.addInitializer(function(options){
     centerRegion: "#center"
   });
 
-  // Set up layouts
-  Syncd.Layouts.Bottom = Backbone.Marionette.Layout.extend({
-  	template: "player/layout",
-  	el: "#bottom",
-    regions: {
-      nowplaying: ".now-playing",
-      buttons: ".controls .buttons",
-      progressbar: ".controls .progress-bar",
-      volume: ".controls .audio"
-    }
-  });
-
-  Syncd.Layouts.Right = Backbone.Marionette.Layout.extend({
-    template: "right/layout",
-    el: "#right",
-    regions: {
-      subscribers: ".subscriptions .subscribers",
-      tags: ".tags"
-    }
-  });
-
-  // Instantiate bottom layout and pass in views
-  bottom_layout = new Syncd.Layouts.Bottom();
+  // Instantiate the player layout and pass in views
+  bottom_layout = new Syncd.Layouts.Player();
   bottom_layout.render();
   
   bottom_layout.nowplaying.show(new Syncd.Views.NowPlaying());
@@ -73,12 +51,10 @@ Syncd.addInitializer(function(options){
   // Create new router
   router = new Syncd.Routers.Playlists({
     playlists: this.Instances.PlaylistCollection, 
-    invitations: this.Instances.InvitationCollection,
-    searches: this.Instances.SearchCollection
+    invitations: this.Instances.InvitationCollection
   });
 
   // Start the router and navigate to "/playlists"
   Backbone.history.start({pushState: true});
-  router.navigate("/playlists");
 
 });
