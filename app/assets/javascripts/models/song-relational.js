@@ -126,7 +126,7 @@ Syncd.Models.SongRelational = Backbone.RelationalModel.extend({
     var prev = this.collection.at(index-1);
 
     // Play previous song
-    soundManager.getSoundById(prev.soundObject_id).play();
+    soundManager.getSoundById(prev.uuid).play();
 
     // Remove play view for previous song
     this.trigger("stop");
@@ -141,7 +141,7 @@ Syncd.Models.SongRelational = Backbone.RelationalModel.extend({
 
   play: function() {
     soundManager.pauseAll();
-    soundManager.play(this.soundObject_id);
+    soundManager.play(this.uuid);
 
     if (this.get("failed")) {
       this.nextSong();
@@ -151,11 +151,11 @@ Syncd.Models.SongRelational = Backbone.RelationalModel.extend({
   },
 
   stop: function() {
-    soundManager.pause(this.soundObject_id);
+    soundManager.pause(this.uuid);
   },
 
   delete: function() {
-    soundManager.destroySound(this.soundObject_id);
+    soundManager.destroySound(this.uuid);
     this.destroy();
   }
 

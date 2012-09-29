@@ -7,7 +7,7 @@ Syncd.Collections.Searches = Backbone.Paginator.requestPager.extend({
     	this.playlists = new Syncd.Collections.Playlists({});
 	},
 
-	model: Syncd.Models.SongRelational,
+	model: Syncd.Models.Song,
 
 	paginator_core: {
         // the type of the request (GET by default)

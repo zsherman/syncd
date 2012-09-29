@@ -33,7 +33,7 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
 
     // Get the model's sound object and create a partial function
     // If pos (position) is set, then update the position of the sound object
-    var sound = soundManager.getSoundById(model.soundObject_id);
+    var sound = soundManager.getSoundById(model.uuid);
     var updateDOM = partial(this.parseTime, sound);
     if (typeof pos != "undefined") { sound.setPosition(Math.floor(pos/100*sound.durationEstimate)) }
 
@@ -79,7 +79,7 @@ Syncd.Views.ProgressBar = Backbone.View.extend({
 
   slide: function(ui) {
     // Get sound object
-    var sound = soundManager.getSoundById(this.model.soundObject_id);
+    var sound = soundManager.getSoundById(this.model.uuid);
 
     // Update to the position you seek
     $(".current", this.el).html(this.calcTime(ui.value/100*sound.durationEstimate));
