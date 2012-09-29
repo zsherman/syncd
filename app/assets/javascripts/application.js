@@ -27,6 +27,7 @@
 //= require_tree ../templates
 //= require extensions/backbone.collection.idempotent
 //= require backbone_sync-rails/rails_faye_subscriber
+//= require bootstrap
 //= require_tree .
 
 

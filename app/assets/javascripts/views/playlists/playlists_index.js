@@ -106,8 +106,7 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     var model = this.collection.get(id);
     console.log(model.get("songs"));
     if (model.get("songs").length === 0) {
-      model.fetch({success: function(model) {
-        
+      model.fetch({success: function(model) {   
         self.renderRegions(model);
         }
       });
@@ -139,6 +138,8 @@ Syncd.Views.PlaylistsIndex = Backbone.View.extend({
     Syncd.centerRegion.show(songsView);
     var subscriberView = new Syncd.Views.SubscribersIndex({collection: model.get("subscribers")});
     Syncd.right_layout.subscribers.show(subscriberView);
+    var tagsView = new Syncd.Views.TagsIndex({collection: model.get("tags")});
+    Syncd.right_layout.tags.show(tagsView);
   },
 
   updateName: function(model) {

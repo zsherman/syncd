@@ -15,4 +15,8 @@ child @pending_invitations => :pending do
 	attributes :uid, :name
 end
 
+child @playlist.tags do |tag|
+	attributes :id, :name
+end
+
 node (:count) { |playlist| @playlist.songs.count }

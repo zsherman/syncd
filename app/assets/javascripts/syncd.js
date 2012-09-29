@@ -21,6 +21,7 @@ Syncd.addInitializer(function(options){
   this.Instances.PlaylistCollection = new Syncd.Collections.Playlists(options.playlist_collection, {parse: true});
   this.Instances.InvitationCollection = new Syncd.Collections.Invites(options.invitation_collection);
   this.Instances.SearchCollection = new Syncd.Collections.Searches();
+  this.Instances.StreamItemCollection = new Syncd.Collections.StreamItems();
 
   // Create a state object
   this.state = { 
@@ -74,7 +75,8 @@ Syncd.addInitializer(function(options){
   router = new Syncd.Routers.Playlists({
     playlists: this.Instances.PlaylistCollection, 
     invitations: this.Instances.InvitationCollection,
-    searches: this.Instances.SearchCollection
+    searches: this.Instances.SearchCollection,
+    stream_items: this.Instances.StreamItemCollection
   });
 
   // Start the router and navigate to "/playlists"

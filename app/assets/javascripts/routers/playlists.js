@@ -51,8 +51,16 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
       }
     }
 
+    var streamCallback = function(e) {
+      // Instantiate StreamItemsIndex
+      // Show the view in the center region
+    }
+
     // Attach event handler to search input
     $("#top .search").on("keypress", keypressCallback);
+
+    // Attach click event to stream menu item
+    // $('#stream').on("click", streamCallback);
 
     // Toggle list view and album view
     $("#top .toggle").toggle (function() {
