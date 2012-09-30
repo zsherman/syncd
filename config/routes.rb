@@ -18,6 +18,7 @@ Syncd::Application.routes.draw do
   end
 
   resources :tags
+  resources :plays
 
   #get "playlists/index"
 

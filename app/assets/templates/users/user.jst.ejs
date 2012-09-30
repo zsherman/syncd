@@ -1,6 +1,6 @@
 <div class="profile-image"><img src="http://graph.facebook.com/<%= 255 %>/picture?type=square" \>​​​​​​​​​​​​​​​​​​</div>
 <div id="user-profile">
-	<%= user.first_name + " " + user.last_name %>
+	<%= user.first_name + " " + user.last_name + user.email %>
 	<ul id="user-playlists">
 		<% for (var i = 0; i < user.playlists.length; i++) {%>
 			<li><%=user.playlists[i].name%><li>

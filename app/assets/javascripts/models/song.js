@@ -155,6 +155,13 @@ Syncd.Models.Song = Backbone.Model.extend({
     if (this.get("failed")) {
       this.nextSong();
     } else {
+      console.log('song playing');
+      console.log(this.id);
+    $.ajax({
+      url: 'http://localhost:3000/plays',
+      type: 'post',
+      data: this.id,
+    });
       this.trigger("play");
     }
   },

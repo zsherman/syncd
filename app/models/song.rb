@@ -5,6 +5,8 @@ class Song < ActiveRecord::Base
 	has_and_belongs_to_many :playlists
 	has_and_belongs_to_many :artists
 	has_and_belongs_to_many :albums
+	has_many :plays, :dependent => :destroy
+    has_many :users, :through => :plays
 
 	mapping do
         indexes :id,           :index    => :not_analyzed
