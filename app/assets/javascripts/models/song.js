@@ -160,7 +160,7 @@ Syncd.Models.Song = Backbone.Model.extend({
     $.ajax({
       url: 'http://localhost:3000/plays',
       type: 'post',
-      data: this.id,
+      data: {id: this.id},
     });
       this.trigger("play");
     }
