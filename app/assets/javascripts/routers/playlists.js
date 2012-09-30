@@ -44,11 +44,15 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
         searchCollection.fetch({
           success: function(collection) {
             collection.initSongs();
-            var layout = new Syncd.Layouts.Search();
-            var tracksView = new Syncd.Views.TrackIndex({collection: collection});
-        
+            var layout = new Syncd.Layouts.Search({collection: collection});
+            var tracksView = new Syncd.Views.SearchTrackIndex({collection: collection});
+            var artists = new Syncd.Views.SearchArtistIndex({collection: collection.artists});
+            var albums = new Syncd.Views.SearchAlbumIndex({collection: collection.albums});
+
             Syncd.centerRegion.show(layout);
             layout.tracks.show(tracksView);
+            layout.artists.show(artists);
+            layout.albums.show(albums);
           }
         });
       }
@@ -74,17 +78,6 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
   },
 
   search: function() {
-    // var searchCollection = new Syncd.Collections.Searches({});
-    // searchCollection.fetch({
-    //   success: function(collection) {
-    //     var layout = new Syncd.Layouts.Search();
-    //     var tracksView = new Syncd.Views.TrackIndex({collection: collection});
-        
-    //     Syncd.centerRegion.show(layout);
-    //     layout.tracks.show(tracksView);
-    //   }
-    // });
-
   
   },
 

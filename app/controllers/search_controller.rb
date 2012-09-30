@@ -26,11 +26,31 @@ class SearchController < ApplicationController
 	def find_everything
 		input = params[:input]
 
-		@artists = Artist.search input
-		@albums = Album.search input
-		@songs = Song.search input
+		@artists = Artist.search input, :per_page => 4
+		@albums = Album.search input, :per_page => 4
+		@songs = Song.search input, :per_page => 25
 
-		render :json => { 'artists' => @artists.as_json, 'albums' => @albums.as_json, 'songs' => @songs.as_json }
+		json = { 'artists' => { 'items'      => @artists.as_json,
+								'pagination' => { 'total_entries' => @artists.total_entries,
+												  'total_pages'   => @artists.total_pages,
+												  'current_page'  => @artists.current_page													
+											}
+								},
+				 'albums'  => { 'items'      => @albums.as_json,
+								'pagination' => { 'total_entries' => @albums.total_entries,
+												  'total_pages'   => @albums.total_pages,
+												  'current_page'  => @albums.current_page													
+											}
+								},
+				 'songs'  => { 'items'      => @songs.as_json,
+								'pagination' => { 'total_entries' => @songs.total_entries,
+												  'total_pages'   => @songs.total_pages,
+												  'current_page'  => @songs.current_page													
+											}
+								}
+			    }
+
+		render :json => json
 
 	end
 

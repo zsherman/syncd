@@ -64,18 +64,17 @@ Syncd.Collections.Searches = Backbone.Paginator.requestPager.extend({
     },
 
     parse: function (response) {
-        var tags = response.songs;
+        // Reset tags, artists, and albums collection with items
+        var songs = response.songs.items;
+        this.artists.reset(response.artists.items);
+        this.albums.reset(response.albums.items);
 
-        this.artists.reset(response.artists);
-        this.albums.reset(response.albums);
+        // Insert pagination information
+        songs.pagination = response.songs.pagination;
+        this.artists.pagination = response.artists.pagination;
+        this.albums.pagination = response.albums.pagination
 
-        //Normally this.totalPages would equal response.d.__count
-        //but as this particular NetFlix request only returns a
-        //total count of items for the search, we divide.
-        //this.totalPages = Math.ceil(response.d.__count / this.perPage);
-        
-        //console.log(tags);
-        return tags;
+        return songs;
     },
 
     initSongs: function() {
@@ -85,13 +84,3 @@ Syncd.Collections.Searches = Backbone.Paginator.requestPager.extend({
     }
 
 });
-
-// Syncd.Collections.Searches = Backbone.Collection.extend({ 
-// 	model: Syncd.Models.Song, 
-// 	url: function() {
-// 		var search_term = $('#top .search').val();
-// 		var search_encoded = encodeURIComponent(search_term);
-// 		return '/search/' + search_encoded;
-// 		//dynamically construct to take in search params
-// 	}
-// });

@@ -1,9 +1,9 @@
-Syncd.Views.Track = Backbone.Marionette.ItemView.extend({
-	template: "searches/song",
+Syncd.Views.SearchTrack = Backbone.Marionette.ItemView.extend({
+	template: "searches/index/song",
 	className: "track",
 
 	events: {
-		"click": "play"
+		"dblclick": "play"
 	},
 
 	play: function() {
