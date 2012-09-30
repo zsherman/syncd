@@ -4,7 +4,8 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
     'playlists': 'index',
     '': 'index',
     'playlists/:name': 'viewPlaylist',
-    'search': 'search'
+    'search': 'search',
+    "users/:id": "userProfile",
   },
   
   initialize: function(options) {
@@ -89,7 +90,19 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
 
   viewPlaylist: function(num) {
     this.playlists.get(num).trigger("setActive");
-  }
+  },
+
+  userProfile: function(id) {
+    //navigate with Syncd.Routers.Playlists.prototype.__proto__.navigate('/users/2', true);
+    console.log("got it mofucker");
+    var user = new Syncd.Models.User({id: id});
+    user.fetch({
+      success: function(data) {
+        var userProfile = new Syncd.Views.User({model: user});
+        Syncd.centerRegion.show(userProfile);
+      }
+    });
+  },
 
 
 }); 

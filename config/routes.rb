@@ -5,6 +5,7 @@ Syncd::Application.routes.draw do
   devise_for :users, :only => :omniauth_callbacks
   match 'users/auth/:provider/callback' => 'authentications#create'
   match '/auth/:provider/signout' => 'authentications#signout'
+  match '/users/:id' => 'users#show'
 
   match '/search' => "playlists#index"
 
