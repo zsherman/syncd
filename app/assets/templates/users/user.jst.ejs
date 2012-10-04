@@ -1,9 +1,30 @@
-<div class="profile-image"><img src="http://graph.facebook.com/<%= JSON.parse(localStorage.getItem("uid")) %>/picture?type=square" \>​​​​​​​​​​​​​​​​​​</div>
 <div id="user-profile">
-	<%= user.first_name + " " + user.last_name + " " + user.email %>
-	<ul id="user-playlists">
-		<% for (var i = 0; i < user.playlists.length; i++) {%>
-			<li><%=user.playlists[i].name%><li>
-		<%};%>
-	</ul>
+	<div id="user-info">
+		<h1 class="user-name"><%= user.first_name + " " + user.last_name %></h1>
+		<p class="user-location">Manchester, UK</p>
+		<p class="user-website">alexmccaw.me</p>
+		<div class="profile-image"><img src="http://graph.facebook.com/<%= JSON.parse(localStorage.getItem("uid")) %>/picture?type=square" \>​​​​​​​​​​​​​​​​​​</div>
+		<div id="user-stats">
+			<li id="playlist-count">
+				<p>9</p>
+				<p class="small-text">Playlists</p>
+			</li>
+			<li id="following-count">
+				<p>16</p>
+				<p class="small-text">Following</p>
+			</li>
+			<li id="follower-count">
+				<p>20</p>
+				<p class="small-text">Followers</p>
+			</li>
+		</div>
+	</div>
+	<a href="index.html" class="button green">Following</a>
+	<div id="user-stream">
+		<ul id="user-playlists">
+			<% for (var i = 0; i < user.playlists.length; i++) {%>
+				<li><%=user.playlists[i].name%><li>
+			<%};%>
+		</ul>
+	</div>
 </div>

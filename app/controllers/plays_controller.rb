@@ -7,7 +7,7 @@ class PlaysController < ApplicationController
 		@song = Song.find(params[:id])
 		logger.info @song
 		Play.create(:user_id => @user.id, :song_id => @song.id)
-		render :nothing
+		render :nothing => true
 	end
 
 end
