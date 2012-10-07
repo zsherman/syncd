@@ -87,7 +87,6 @@ Syncd.Routers.Playlists = Backbone.Router.extend({
 
   userProfile: function(id) {
     //navigate with Syncd.Routers.Playlists.prototype.__proto__.navigate('/users/2', true);
-    console.log("got it mofucker");
     var user = new Syncd.Models.User({id: id});
     user.fetch({
       success: function(data) {
