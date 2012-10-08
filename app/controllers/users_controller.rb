@@ -15,6 +15,15 @@ class UsersController < ApplicationController
 
 	def show
 		@user = User.find(params[:id])
+		@playlists = @user.playlists
+		@followers = Relationship.where(:followed_id => @user.id)
+		@following = Relationship.where(:follower_id => @user.id)
+		@plays = @user.plays
+		@play_songs = []
+		@plays.each do |play|
+			@play_songs << play.song
+		end
+		#do users the exact same way
 	end
 
 end
