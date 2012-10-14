@@ -6,6 +6,8 @@ Syncd::Application.routes.draw do
   match 'users/auth/:provider/callback' => 'authentications#create'
   match '/auth/:provider/signout' => 'authentications#signout'
   match '/users/:id' => 'users#show'
+  match '/users/:id/following' => 'users#following'
+  match '/users/:id/followers' => 'users#followers'
 
   match '/search' => "playlists#index"
 

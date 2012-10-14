@@ -19,11 +19,21 @@ class UsersController < ApplicationController
 		@followers = Relationship.where(:followed_id => @user.id)
 		@following = Relationship.where(:follower_id => @user.id)
 		@plays = @user.plays
-		@play_songs = []
-		@plays.each do |play|
-			@play_songs << play.song
-		end
+		# @play_songs = []
+		# @plays.each do |play|
+		# 	@play_songs << play.song
+		# end
 		#do users the exact same way
+	end
+
+	def following
+		@user = User.find(params[:id])
+		@following = Relationship.where(:follower_id => @user.id)
+	end
+
+	def followers
+		@user = User.find(params[:id])
+		@followers = Relationship.where(:followed_id => @user.id)
 	end
 
 end
