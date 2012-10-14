@@ -15,12 +15,13 @@ child @user => :user do
 		attributes :id, :first_name, :last_name
 	end
 
-	child @plays => :plays do
+	child @plays => :plays do |play|
 		attributes :created_at
 
-		child @play_songs => :songs do
-			attributes :title
+		node do |u|
+		  { :title => u.song.title }
 		end
+
 	end
 end
 
