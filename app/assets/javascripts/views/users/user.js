@@ -6,8 +6,8 @@ Syncd.Views.User = Backbone.Marionette.ItemView.extend({
   	//$('.follow-button').click(this.model.follow());
   	self = this;
     this.model.assureFetched(function() {
-      var playlistsView = new Syncd.Views.UserPlaylistsIndex({collection: self.model.get("playlists")});
-      Syncd.centerRegion.show(playlistsView);
+      //var playlistsView = new Syncd.Views.UserPlaylistsIndex({collection: self.model.get("playlists")});
+      //Syncd.centerRegion.show(playlistsView);
       // var followingView = new Syncd.Views.FollowingIndex({collection: self.model.get("following")});
       // Syncd.right_layout.subscribers.show(followingView);
       // var followersView = new Syncd.Views.FollowersIndex({collection: self.model.get("followers")});

@@ -23,7 +23,7 @@ Syncd.Models.User = Backbone.Model.extend({
 		var _self = this;
 	    var attrs = {};
 
-	    if (true /*!this.isNew()*/) {
+	    if (true /*!this.isNew() The user is never new */) {
 	    	_.each(response, function(value, key) {
 		        if ((key != "playlists") && (key != "plays")) {
 		    	 	  attrs[key] = value;
